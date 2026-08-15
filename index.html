@@ -72,6 +72,28 @@ body{
 
 
 /* =========================================================
+   CSV STATUS
+========================================================= */
+
+.csv-status{
+    background:#fff;
+    border:1px solid #064e4e;
+    border-radius:7px;
+    padding:8px 10px;
+    margin-bottom:12px;
+    font-size:12px;
+    text-align:center;
+    color:#064e4e;
+    font-weight:bold;
+}
+
+.csv-status.error{
+    color:#b00020;
+    border-color:#b00020;
+}
+
+
+/* =========================================================
    GST
 ========================================================= */
 
@@ -235,6 +257,14 @@ select:focus{
     max-width:100%;
 }
 
+.note{
+    background:#fff8dc;
+    border-left:4px solid #c59b00;
+    padding:7px 9px;
+    margin-bottom:10px;
+    font-size:12px;
+}
+
 
 /* =========================================================
    SECTION 3
@@ -254,31 +284,9 @@ select:focus{
     margin-bottom:5px;
 }
 
-
-/* =========================================================
-   RECOMMENDED NLEM MRP
-========================================================= */
-
-.nlem-recommended{
-    margin-top:12px;
-    background:#e8f7e8;
-    border:3px solid #008000;
-    border-radius:10px;
-    padding:12px;
-    box-shadow:0 2px 8px rgba(0,128,0,.18);
-}
-
-.nlem-recommended .result-label{
-    color:#006400;
-    font-size:15px;
-    font-weight:bold;
-}
-
-.nlem-recommended .result-value{
-    color:#006400;
-    font-size:23px;
-    font-weight:bold;
-    margin-top:5px;
+.proposed-result{
+    width:260px;
+    max-width:100%;
 }
 
 
@@ -447,10 +455,6 @@ select:focus{
         font-size:15px;
     }
 
-    .nlem-recommended .result-value{
-        font-size:20px;
-    }
-
     input,
     select{
         height:41px;
@@ -465,6 +469,7 @@ select:focus{
 
 @media print{
 
+    .csv-status,
     .gst-box,
     .button-row{
         display:none !important;
@@ -498,6 +503,18 @@ select:focus{
 <div class="main-header">
 
 <h1>PRICE ANALYSIS</h1>
+
+</div>
+
+
+<!-- =====================================================
+     CSV STATUS
+===================================================== -->
+
+<div id="csvStatus"
+     class="csv-status">
+
+Connecting to Repository CSV files...
 
 </div>
 
@@ -713,6 +730,15 @@ WPI%
 </div>
 
 
+<div class="note">
+
+WPI% is automatically picked from
+<b>year-wpi.csv</b> according to the selected Year.
+WPI is displayed up to <b>4 decimal places</b>.
+
+</div>
+
+
 <div class="result-box wpi-result">
 
 <div class="result-label">
@@ -786,26 +812,18 @@ DPCO Permissible Limit
 
 
 <div class="proposed-heading">
-
 Proposed Revised MRP
-
 </div>
 
 
-<!-- =====================================================
-     NEW FIELD
-===================================================== -->
-
-<div class="nlem-recommended">
+<div class="result-box proposed-result">
 
 <div class="result-label">
-
-Recommended MRP of NLEM Product
-
+MRP
 </div>
 
 <div class="result-value"
-     id="recommendedNLEMResult">
+     id="revisedMRPResult">
 
 ₹ 0.00
 
@@ -1087,8 +1105,26 @@ let wpiCSVLoaded = false;
 
 
 /* =========================================================
-   CSV FILES IN SAME REPOSITORY FOLDER
+   REPOSITORY CSV PATH
 ========================================================= */
+
+/*
+   IMPORTANT:
+
+   These files must be in the SAME folder
+   as index.html in your Repository.
+
+   Example:
+
+   Repository
+   |
+   |-- index.html
+   |-- pack-size.csv
+   |-- year-wpi.csv
+   |-- manifest.json
+   |-- sw.js
+
+*/
 
 const PACK_SIZE_CSV =
     "./pack-size.csv";
@@ -1114,10 +1150,15 @@ document.addEventListener(
 
 
 /* =========================================================
-   LOAD CSV
+   LOAD ALL CSV
 ========================================================= */
 
 async function loadAllCSV(){
+
+    setStatus(
+        "Connecting to Repository CSV files..."
+    );
+
 
     try{
 
@@ -1148,11 +1189,14 @@ async function loadAllCSV(){
 
     }
 
+
+    updateCSVStatus();
+
 }
 
 
 /* =========================================================
-   FETCH CSV
+   FETCH REPOSITORY CSV
 ========================================================= */
 
 async function fetchCSV(
@@ -1189,7 +1233,7 @@ async function fetchCSV(
 
 
 /* =========================================================
-   PACK SIZE
+   PACK SIZE CSV
 ========================================================= */
 
 async function loadPackSizeCSV(){
@@ -1211,6 +1255,213 @@ async function loadPackSizeCSV(){
 
 }
 
+
+/* =========================================================
+   YEAR WPI CSV
+========================================================= */
+
+async function loadYearWPICSV(){
+
+    const text =
+        await fetchCSV(
+            YEAR_WPI_CSV
+        );
+
+
+    parseYearWPICSV(
+        text
+    );
+
+
+    wpiCSVLoaded = true;
+
+    populateYears();
+
+}
+
+
+/* =========================================================
+   CSV LINE PARSER
+========================================================= */
+
+function parseCSVLine(
+    line
+){
+
+    const result = [];
+
+    let value = "";
+
+    let quoted = false;
+
+
+    for(
+        let i = 0;
+        i < line.length;
+        i++
+    ){
+
+        const char =
+            line[i];
+
+
+        if(char === '"'){
+
+            if(
+                quoted &&
+                line[i + 1] === '"'
+            ){
+
+                value += '"';
+
+                i++;
+
+            }
+            else{
+
+                quoted =
+                    !quoted;
+
+            }
+
+        }
+        else if(
+            char === "," &&
+            !quoted
+        ){
+
+            result.push(
+                cleanCSVValue(
+                    value
+                )
+            );
+
+            value = "";
+
+        }
+        else{
+
+            value += char;
+
+        }
+
+    }
+
+
+    result.push(
+        cleanCSVValue(
+            value
+        )
+    );
+
+
+    return result;
+
+}
+
+
+/* =========================================================
+   CLEAN CSV VALUE
+========================================================= */
+
+function cleanCSVValue(
+    value
+){
+
+    return String(
+        value || ""
+    )
+    .replace(
+        /^\uFEFF/,
+        ""
+    )
+    .trim()
+    .replace(
+        /^"(.*)"$/,
+        "$1"
+    )
+    .trim();
+
+}
+
+
+/* =========================================================
+   NORMALIZE HEADER
+========================================================= */
+
+function normalizeHeader(
+    value
+){
+
+    return String(
+        value || ""
+    )
+    .replace(
+        /^\uFEFF/,
+        ""
+    )
+    .trim()
+    .toLowerCase()
+    .replace(
+        /[\s_\-]+/g,
+        ""
+    )
+    .replace(
+        /%/g,
+        ""
+    );
+
+}
+
+
+/* =========================================================
+   FIND COLUMN
+========================================================= */
+
+function findColumn(
+    headers,
+    possibleNames
+){
+
+    const normalized =
+        headers.map(
+            normalizeHeader
+        );
+
+
+    for(
+        const name of possibleNames
+    ){
+
+        const target =
+            normalizeHeader(
+                name
+            );
+
+
+        const index =
+            normalized.indexOf(
+                target
+            );
+
+
+        if(index !== -1){
+
+            return index;
+
+        }
+
+    }
+
+
+    return -1;
+
+}
+
+
+/* =========================================================
+   PACK SIZE PARSER
+========================================================= */
 
 function parsePackSizeCSV(
     text
@@ -1293,7 +1544,9 @@ function parsePackSizeCSV(
 
         if(
             pack &&
-            !packSizes.includes(pack)
+            !packSizes.includes(
+                pack
+            )
         ){
 
             packSizes.push(
@@ -1317,6 +1570,10 @@ function parsePackSizeCSV(
 
 }
 
+
+/* =========================================================
+   POPULATE PACK SIZE
+========================================================= */
 
 function populatePackSizes(){
 
@@ -1373,28 +1630,8 @@ function populatePackSizes(){
 
 
 /* =========================================================
-   YEAR / WPI
+   YEAR WPI PARSER
 ========================================================= */
-
-async function loadYearWPICSV(){
-
-    const text =
-        await fetchCSV(
-            YEAR_WPI_CSV
-        );
-
-
-    parseYearWPICSV(
-        text
-    );
-
-
-    wpiCSVLoaded = true;
-
-    populateYears();
-
-}
-
 
 function parseYearWPICSV(
     text
@@ -1459,12 +1696,22 @@ function parseYearWPICSV(
 
 
     if(
-        yearIndex === -1 ||
+        yearIndex === -1
+    ){
+
+        throw new Error(
+            "Year column not found."
+        );
+
+    }
+
+
+    if(
         wpiIndex === -1
     ){
 
         throw new Error(
-            "Year or WPI column not found."
+            "WPI column not found."
         );
 
     }
@@ -1537,6 +1784,10 @@ function parseYearWPICSV(
 
 }
 
+
+/* =========================================================
+   POPULATE YEAR
+========================================================= */
 
 function populateYears(){
 
@@ -1627,6 +1878,10 @@ function populateYears(){
 }
 
 
+/* =========================================================
+   YEAR CHANGE
+========================================================= */
+
 function yearChanged(){
 
     const year =
@@ -1676,170 +1931,83 @@ function yearChanged(){
 
 
 /* =========================================================
-   CSV HELPERS
+   CSV STATUS
 ========================================================= */
 
-function parseCSVLine(
-    line
+function setStatus(
+    message,
+    isError = false
 ){
 
-    const result = [];
-
-    let value = "";
-
-    let quoted = false;
-
-
-    for(
-        let i = 0;
-        i < line.length;
-        i++
-    ){
-
-        const char =
-            line[i];
-
-
-        if(char === '"'){
-
-            if(
-                quoted &&
-                line[i + 1] === '"'
-            ){
-
-                value += '"';
-
-                i++;
-
-            }
-            else{
-
-                quoted =
-                    !quoted;
-
-            }
-
-        }
-        else if(
-            char === "," &&
-            !quoted
-        ){
-
-            result.push(
-                cleanCSVValue(
-                    value
-                )
-            );
-
-            value = "";
-
-        }
-        else{
-
-            value += char;
-
-        }
-
-    }
-
-
-    result.push(
-        cleanCSVValue(
-            value
-        )
-    );
-
-
-    return result;
-
-}
-
-
-function cleanCSVValue(
-    value
-){
-
-    return String(
-        value || ""
-    )
-    .replace(
-        /^\uFEFF/,
-        ""
-    )
-    .trim()
-    .replace(
-        /^"(.*)"$/,
-        "$1"
-    )
-    .trim();
-
-}
-
-
-function normalizeHeader(
-    value
-){
-
-    return String(
-        value || ""
-    )
-    .replace(
-        /^\uFEFF/,
-        ""
-    )
-    .trim()
-    .toLowerCase()
-    .replace(
-        /[\s_\-]+/g,
-        ""
-    )
-    .replace(
-        /%/g,
-        ""
-    );
-
-}
-
-
-function findColumn(
-    headers,
-    possibleNames
-){
-
-    const normalized =
-        headers.map(
-            normalizeHeader
+    const status =
+        document.getElementById(
+            "csvStatus"
         );
 
 
-    for(
-        const name of possibleNames
-    ){
-
-        const target =
-            normalizeHeader(
-                name
-            );
+    status.textContent =
+        message;
 
 
-        const index =
-            normalized.indexOf(
-                target
-            );
+    if(isError){
 
+        status.classList.add(
+            "error"
+        );
 
-        if(
-            index !== -1
-        ){
+    }
+    else{
 
-            return index;
-
-        }
+        status.classList.remove(
+            "error"
+        );
 
     }
 
+}
 
-    return -1;
+
+function updateCSVStatus(){
+
+    if(
+        packCSVLoaded &&
+        wpiCSVLoaded
+    ){
+
+        setStatus(
+            "✓ Pack Size and Year-WPI CSV connected successfully from Repository."
+        );
+
+    }
+    else if(
+        !packCSVLoaded &&
+        !wpiCSVLoaded
+    ){
+
+        setStatus(
+            "✕ Repository CSV files could not be loaded. Check file names and Repository location.",
+            true
+        );
+
+    }
+    else if(
+        !packCSVLoaded
+    ){
+
+        setStatus(
+            "✕ pack-size.csv could not be loaded from Repository.",
+            true
+        );
+
+    }
+    else{
+
+        setStatus(
+            "✕ year-wpi.csv could not be loaded from Repository.",
+            true
+        );
+
+    }
 
 }
 
@@ -1893,16 +2061,9 @@ function selectGST(
 
 
 /* =========================================================
-   DECIMAL FUNCTIONS
+   TRUNCATE TO 2 DECIMALS
+   USED FOR MRP
 ========================================================= */
-
-/*
-   MRP:
-   Truncate to 2 decimals.
-
-   Example:
-   10.24569 → 10.24
-*/
 
 function truncate2(
     value
@@ -1924,13 +2085,10 @@ function truncate2(
 }
 
 
-/*
-   PTR / PTS:
-   Round to 2 decimals.
-
-   Example:
-   14.2171 → 14.22
-*/
+/* =========================================================
+   ROUND TO 2 DECIMALS
+   USED FOR PTR / PTS
+========================================================= */
 
 function round2(
     value
@@ -1955,6 +2113,11 @@ function round2(
 }
 
 
+/* =========================================================
+   MRP DISPLAY
+   TRUNCATE
+========================================================= */
+
 function money(
     value
 ){
@@ -1966,6 +2129,11 @@ function money(
 
 }
 
+
+/* =========================================================
+   TRADE PRICE DISPLAY
+   ROUND
+========================================================= */
 
 function tradeMoney(
     value
@@ -2079,14 +2247,6 @@ function calculateSection1(){
             mrp
         );
 
-
-    /*
-       Update Recommended NLEM MRP
-       whenever Section-1 changes.
-    */
-
-    calculateRecommendedNLEM();
-
 }
 
 
@@ -2156,106 +2316,6 @@ function calculateSection2(){
             result
         );
 
-
-    /*
-       Update Recommended NLEM MRP
-       whenever Section-2 changes.
-    */
-
-    calculateRecommendedNLEM();
-
-}
-
-
-/* =========================================================
-   RECOMMENDED MRP OF NLEM PRODUCT
-========================================================= */
-
-function calculateRecommendedNLEM(){
-
-    const ceilingText =
-        document.getElementById(
-            "mrpCPResult"
-        ).textContent
-        .replace(
-            "₹",
-            ""
-        )
-        .trim();
-
-
-    const wpiText =
-        document.getElementById(
-            "mrpWPIResult"
-        ).textContent
-        .replace(
-            "₹",
-            ""
-        )
-        .trim();
-
-
-    const ceilingMRP =
-        parseFloat(
-            ceilingText
-        ) || 0;
-
-
-    const wpiMRP =
-        parseFloat(
-            wpiText
-        ) || 0;
-
-
-    /*
-       Do not recommend ₹0 if
-       one of the calculations has
-       not yet been entered.
-
-       If both values are available,
-       select the LOWEST.
-    */
-
-    let recommended = 0;
-
-
-    if(
-        ceilingMRP > 0 &&
-        wpiMRP > 0
-    ){
-
-        recommended =
-            Math.min(
-                ceilingMRP,
-                wpiMRP
-            );
-
-    }
-    else if(
-        ceilingMRP > 0
-    ){
-
-        recommended =
-            ceilingMRP;
-
-    }
-    else if(
-        wpiMRP > 0
-    ){
-
-        recommended =
-            wpiMRP;
-
-    }
-
-
-    document.getElementById(
-        "recommendedNLEMResult"
-    ).textContent =
-        money(
-            recommended
-        );
-
 }
 
 
@@ -2265,13 +2325,46 @@ function calculateRecommendedNLEM(){
 
 function calculateSection3(){
 
-    /*
-       Existing Section-3 fields
-       and previous logic are retained.
+    const perRevisedMRP =
+        parseFloat(
+            document.getElementById(
+                "perRevisedMRP"
+            ).value
+        ) || 0;
 
-       The calculated MRP result itself
-       is no longer displayed.
-    */
+
+    const dpcoLimit =
+        parseFloat(
+            document.getElementById(
+                "dpcoLimit"
+            ).value
+        );
+
+
+    let revisedMRP =
+        perRevisedMRP;
+
+
+    if(
+        !isNaN(dpcoLimit)
+    ){
+
+        revisedMRP =
+            perRevisedMRP *
+            (
+                1 +
+                dpcoLimit / 100
+            );
+
+    }
+
+
+    document.getElementById(
+        "revisedMRPResult"
+    ).textContent =
+        money(
+            revisedMRP
+        );
 
 }
 
@@ -2295,6 +2388,7 @@ function calculateTradeMargin(){
 
 
     /*
+       STEP 1
        Remove GST from MRP
     */
 
@@ -2306,7 +2400,8 @@ function calculateTradeMargin(){
 
 
     /*
-       Calculate raw PTR
+       STEP 2
+       Calculate RAW PTR
     */
 
     const rawPTR =
@@ -2315,7 +2410,14 @@ function calculateTradeMargin(){
 
 
     /*
-       PTR ROUND FIRST
+       STEP 3
+       ROUND PTR FIRST
+
+       Example:
+
+       Raw PTR = 14.2171
+
+       Rounded PTR = 14.22
     */
 
     const roundedPTR =
@@ -2325,8 +2427,16 @@ function calculateTradeMargin(){
 
 
     /*
-       PTS calculated AFTER
-       PTR has been rounded.
+       STEP 4
+       Calculate PTS using
+       ALREADY ROUNDED PTR
+
+       Example:
+
+       PTR = 14.22
+
+       14.22 × 90%
+       = 12.798
     */
 
     const rawPTS =
@@ -2334,11 +2444,23 @@ function calculateTradeMargin(){
         0.90;
 
 
+    /*
+       STEP 5
+       ROUND PTS
+
+       12.798 → 12.80
+    */
+
     const roundedPTS =
         round2(
             rawPTS
         );
 
+
+    /*
+       MRP continues to use
+       TRUNCATION rule
+    */
 
     document.getElementById(
         "tradeMRPResult"
@@ -2348,6 +2470,10 @@ function calculateTradeMargin(){
         );
 
 
+    /*
+       PTR = rounded
+    */
+
     document.getElementById(
         "ptrResult"
     ).textContent =
@@ -2355,6 +2481,11 @@ function calculateTradeMargin(){
             roundedPTR
         );
 
+
+    /*
+       PTS = calculated AFTER
+       PTR has been rounded
+    */
 
     document.getElementById(
         "ptsResult"
@@ -2418,6 +2549,10 @@ function calculateSection5(){
     }
 
 
+    /*
+       Remove OLD GST
+    */
+
     const withoutGST =
         preGSTMRP /
         (
@@ -2433,6 +2568,10 @@ function calculateSection5(){
             withoutGST
         );
 
+
+    /*
+       Apply NEW GST
+    */
 
     const postGSTMRP =
         withoutGST *
@@ -2539,7 +2678,7 @@ function resetCalculator(){
 
 
     document.getElementById(
-        "recommendedNLEMResult"
+        "revisedMRPResult"
     ).textContent =
         "₹ 0.00";
 
@@ -2647,9 +2786,9 @@ async function shareScreen(){
         ).value +
         "%" +
 
-        "\nRecommended MRP of NLEM Product: " +
+        "\nProposed Revised MRP: " +
         document.getElementById(
-            "recommendedNLEMResult"
+            "revisedMRPResult"
         ).textContent +
 
         "\n\nSECTION-4 — TRADE MARGIN\n" +
