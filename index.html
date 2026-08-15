@@ -92,6 +92,8 @@ body{
     border-color:#b00020;
 }
 
+.csv-status{display:none !important;} 
+
 
 /* =========================================================
    GST
@@ -265,6 +267,32 @@ select:focus{
     font-size:12px;
 }
 
+
+/* =========================================================
+   RECOMMENDED MRP OF NLEM PRODUCT — NEW ADDITION
+========================================================= */
+
+.recommended-nlem{
+    background:#ecfdf5;
+    border:3px solid #008000;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:12px;
+    box-shadow:0 3px 10px rgba(0,128,0,.15);
+}
+
+.recommended-nlem-title{
+    color:#006400;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.recommended-nlem-value{
+    color:#006400;
+    font-size:24px;
+    font-weight:bold;
+    margin-top:5px;
+}
 
 /* =========================================================
    SECTION 3
@@ -730,13 +758,7 @@ WPI%
 </div>
 
 
-<div class="note">
 
-WPI% is automatically picked from
-<b>year-wpi.csv</b> according to the selected Year.
-WPI is displayed up to <b>4 decimal places</b>.
-
-</div>
 
 
 <div class="result-box wpi-result">
@@ -755,6 +777,25 @@ MRP as per WPI
 </div>
 
 
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     NEW — RECOMMENDED MRP OF NLEM PRODUCT
+     Added before Section-3. Section-3 remains unchanged.
+===================================================== -->
+
+<div class="recommended-nlem">
+
+<div class="recommended-nlem-title">
+Recommended MRP of NLEM Product
+</div>
+
+<div class="recommended-nlem-value"
+     id="recommendedNLEMResult">
+₹ 0.00
 </div>
 
 </div>
@@ -1126,11 +1167,33 @@ let wpiCSVLoaded = false;
 
 */
 
-const PACK_SIZE_CSV =
-    "./pack-size.csv";
+/*
+   Repository CSV names.
+   The loader will automatically try the repository root first,
+   followed by common CSV/data folders and filename case variants.
+*/
+const PACK_SIZE_CSV_FILES = [
+    "./pack-size.csv",
+    "./Pack-Size.csv",
+    "./pack_size.csv",
+    "./pack size.csv",
+    "./CSV/pack-size.csv",
+    "./csv/pack-size.csv",
+    "./data/pack-size.csv",
+    "./Data/pack-size.csv"
+];
 
-const YEAR_WPI_CSV =
-    "./year-wpi.csv";
+const YEAR_WPI_CSV_FILES = [
+    "./year-wpi.csv",
+    "./Year-WPI.csv",
+    "./year_wpi.csv",
+    "./Year WPI.csv",
+    "./year wpi.csv",
+    "./CSV/year-wpi.csv",
+    "./csv/year-wpi.csv",
+    "./data/year-wpi.csv",
+    "./Data/year-wpi.csv"
+];
 
 
 /* =========================================================
@@ -1155,41 +1218,28 @@ document.addEventListener(
 
 async function loadAllCSV(){
 
-    setStatus(
-        "Connecting to Repository CSV files..."
-    );
+    /* Load both repository files independently.
+       One failure must not stop the other file. */
 
+    const results = await Promise.allSettled([
+        loadPackSizeCSV(),
+        loadYearWPICSV()
+    ]);
 
-    try{
+    results.forEach(function(result, index){
 
-        await loadPackSizeCSV();
+        if(result.status === "rejected"){
 
-    }
-    catch(error){
+            console.error(
+                index === 0 ? "Pack Size CSV:" : "Year-WPI CSV:",
+                result.reason
+            );
 
-        console.error(
-            "Pack Size CSV:",
-            error
-        );
+        }
 
-    }
+    });
 
-
-    try{
-
-        await loadYearWPICSV();
-
-    }
-    catch(error){
-
-        console.error(
-            "Year-WPI CSV:",
-            error
-        );
-
-    }
-
-
+    /* Status remains hidden on the calculator screen. */
     updateCSVStatus();
 
 }
@@ -1200,34 +1250,81 @@ async function loadAllCSV(){
 ========================================================= */
 
 async function fetchCSV(
-    fileName
+    fileNames
 ){
 
-    const response =
-        await fetch(
-            fileName +
-            "?v=" +
-            Date.now(),
-            {
-                cache:"no-store"
+    let lastError = null;
+
+    for(const fileName of fileNames){
+
+        try{
+
+            /* Resolve relative to the actual page URL.
+               This works correctly on GitHub Pages project sites. */
+            const url = new URL(
+                fileName,
+                document.baseURI
+            );
+
+            url.searchParams.set(
+                "v",
+                Date.now().toString()
+            );
+
+            const response = await fetch(
+                url.href,
+                {
+                    method: "GET",
+                    cache: "no-store",
+                    credentials: "same-origin"
+                }
+            );
+
+            if(!response.ok){
+                throw new Error(
+                    response.status + " " + response.statusText
+                );
             }
-        );
 
+            const text = await response.text();
 
-    if(!response.ok){
+            if(!text || !text.trim()){
+                throw new Error("CSV file is empty");
+            }
 
-        throw new Error(
-            "Unable to load " +
-            fileName +
-            " (" +
-            response.status +
-            ")"
-        );
+            /* A missing file on some static hosts can return HTML
+               with status 200. Reject that instead of parsing it. */
+            const firstLine = text.trim().split(/\r?\n/)[0].toLowerCase();
+
+            if(
+                firstLine.indexOf("<!doctype html") === 0 ||
+                firstLine.indexOf("<html") === 0
+            ){
+                throw new Error("Received HTML instead of CSV");
+            }
+
+            return text;
+
+        }
+        catch(error){
+
+            lastError = error;
+            console.warn(
+                "CSV path failed:",
+                fileName,
+                error
+            );
+
+        }
 
     }
 
-
-    return await response.text();
+    throw new Error(
+        "CSV file could not be found. Tried: " +
+        fileNames.join(", ") +
+        ". Last error: " +
+        (lastError ? lastError.message : "Unknown error")
+    );
 
 }
 
@@ -1240,7 +1337,7 @@ async function loadPackSizeCSV(){
 
     const text =
         await fetchCSV(
-            PACK_SIZE_CSV
+            PACK_SIZE_CSV_FILES
         );
 
 
@@ -1264,7 +1361,7 @@ async function loadYearWPICSV(){
 
     const text =
         await fetchCSV(
-            YEAR_WPI_CSV
+            YEAR_WPI_CSV_FILES
         );
 
 
@@ -2246,8 +2343,10 @@ function calculateSection1(){
         money(
             mrp
         );
+    calculateRecommendedNLEM();
 
 }
+
 
 
 /* =========================================================
@@ -2315,6 +2414,69 @@ function calculateSection2(){
         money(
             result
         );
+    calculateRecommendedNLEM();
+
+}
+
+
+
+/* =========================================================
+   RECOMMENDED MRP OF NLEM PRODUCT — NEW FUNCTION
+========================================================= */
+
+function calculateRecommendedNLEM(){
+
+    const ceilingElement =
+        document.getElementById(
+            "mrpCPResult"
+        );
+
+    const wpiElement =
+        document.getElementById(
+            "mrpWPIResult"
+        );
+
+    const recommendedElement =
+        document.getElementById(
+            "recommendedNLEMResult"
+        );
+
+    if(
+        !ceilingElement ||
+        !wpiElement ||
+        !recommendedElement
+    ){
+        return;
+    }
+
+    const ceilingMRP =
+        parseFloat(
+            ceilingElement.textContent
+                .replace(/[₹,\s]/g, "")
+        ) || 0;
+
+    const wpiMRP =
+        parseFloat(
+            wpiElement.textContent
+                .replace(/[₹,\s]/g, "")
+        ) || 0;
+
+    let recommendedMRP = 0;
+
+    if(ceilingMRP > 0 && wpiMRP > 0){
+        recommendedMRP = Math.min(ceilingMRP,wpiMRP);
+    }
+    else if(ceilingMRP > 0){
+        recommendedMRP = ceilingMRP;
+    }
+    else if(wpiMRP > 0){
+        recommendedMRP = wpiMRP;
+    }
+
+    recommendedMRP = Math.trunc(recommendedMRP * 100) / 100;
+
+    recommendedElement.textContent =
+        "₹ " + recommendedMRP.toFixed(2);
 
 }
 
@@ -2341,22 +2503,29 @@ function calculateSection3(){
         );
 
 
-    let revisedMRP =
-        perRevisedMRP;
-
-
+    /* Proposed Revised MRP is calculated/displayed only after
+       DPCO Permissible Limit is entered. */
     if(
-        !isNaN(dpcoLimit)
+        isNaN(dpcoLimit) ||
+        document.getElementById("dpcoLimit").value.trim() === ""
     ){
 
-        revisedMRP =
-            perRevisedMRP *
-            (
-                1 +
-                dpcoLimit / 100
-            );
+        document.getElementById(
+            "revisedMRPResult"
+        ).textContent =
+            "₹ 0.00";
+
+        return;
 
     }
+
+
+    const revisedMRP =
+        perRevisedMRP *
+        (
+            1 +
+            dpcoLimit / 100
+        );
 
 
     document.getElementById(
@@ -2678,6 +2847,12 @@ function resetCalculator(){
 
 
     document.getElementById(
+        "recommendedNLEMResult"
+    ).textContent =
+        "₹ 0.00";
+
+
+    document.getElementById(
         "revisedMRPResult"
     ).textContent =
         "₹ 0.00";
@@ -2771,6 +2946,11 @@ async function shareScreen(){
         "\nMRP as per WPI: " +
         document.getElementById(
             "mrpWPIResult"
+        ).textContent +
+
+        "\nRecommended MRP of NLEM Product: " +
+        document.getElementById(
+            "recommendedNLEMResult"
         ).textContent +
 
         "\n\nSECTION-3\n" +
