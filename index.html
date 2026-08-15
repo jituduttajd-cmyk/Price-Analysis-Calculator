@@ -200,9 +200,33 @@ select:focus{
 
 .section1-inputs{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr 1fr 1fr;
     gap:10px;
     margin-bottom:10px;
+}
+
+.section1-inputs .result-box{
+    height:100%;
+    padding:0;
+    background:transparent;
+    border:0;
+    border-radius:0;
+}
+
+.section1-inputs .result-box .result-label{
+    margin-bottom:4px;
+}
+
+.section1-inputs .result-box .result-value{
+    height:39px;
+    padding:8px;
+    background:#fff;
+    border:1px solid #999;
+    border-radius:6px;
+    margin-top:0;
+    font-size:14px;
+    font-weight:normal;
+    color:#000;
 }
 
 .section1-results{
@@ -273,25 +297,23 @@ select:focus{
 ========================================================= */
 
 .recommended-nlem{
+    width:150px;
+    max-width:100%;
     background:#ecfdf5;
-    border:3px solid #008000;
-    border-radius:10px;
-    padding:12px;
-    margin-bottom:12px;
-    box-shadow:0 3px 10px rgba(0,128,0,.15);
+    border:2px solid #008000;
+    border-radius:7px;
+    padding:7px 10px;
+    margin:0;
+    box-shadow:0 2px 6px rgba(0,128,0,.12);
 }
 
-.recommended-nlem-title{
-    color:#006400;
-    font-size:15px;
-    font-weight:bold;
-}
 
 .recommended-nlem-value{
     color:#006400;
-    font-size:24px;
+    font-size:20px;
     font-weight:bold;
-    margin-top:5px;
+    margin-top:0;
+    line-height:1.2;
 }
 
 /* =========================================================
@@ -444,7 +466,27 @@ select:focus{
     }
 
     .section1-inputs{
-        gap:7px;
+        grid-template-columns:1fr 1fr 1fr;
+        gap:5px;
+    }
+
+    .section1-inputs input,
+    .section1-inputs select{
+        padding-left:5px;
+        padding-right:5px;
+        font-size:12px;
+    }
+
+    .section1-inputs label{
+        font-size:12px;
+    }
+
+    .section1-inputs .result-label{
+        font-size:11px;
+    }
+
+    .section1-inputs .result-value{
+        font-size:14px;
     }
 
     .section1-results{
@@ -610,7 +652,6 @@ SECTION-1 — MRP Calculation as per Ceiling Price
 
 <div class="section1-inputs">
 
-
 <div>
 
 <label>
@@ -624,7 +665,6 @@ Ceiling Price/Unit
        oninput="calculateSection1()">
 
 </div>
-
 
 <div>
 
@@ -643,13 +683,6 @@ Choose Pack Size
 
 </div>
 
-
-</div>
-
-
-<div class="section1-results">
-
-
 <div class="result-box">
 
 <div class="result-label">
@@ -665,6 +698,9 @@ Ceiling Price/Pack
 
 </div>
 
+</div>
+
+<div class="section1-results">
 
 <div class="result-box">
 
@@ -680,7 +716,6 @@ MRP as per Ceiling Price
 </div>
 
 </div>
-
 
 </div>
 
@@ -783,19 +818,27 @@ MRP as per WPI
 
 
 <!-- =====================================================
-     NEW — RECOMMENDED MRP OF NLEM PRODUCT
-     Added before Section-3. Section-3 remains unchanged.
+     SECTION-(1+2) — RECOMMENDED MRP OF NLEM PRODUCT
+     Lowest of MRP as per Ceiling Price and MRP as per WPI
 ===================================================== -->
 
-<div class="recommended-nlem">
+<div class="section">
 
-<div class="recommended-nlem-title">
-Recommended MRP of NLEM Product
+<div class="section-title">
+SECTION-(1+2) — Recommended MRP of NLEM Product
 </div>
+
+<div class="section-body">
+
+<div class="recommended-nlem">
 
 <div class="recommended-nlem-value"
      id="recommendedNLEMResult">
 ₹ 0.00
+</div>
+
+</div>
+
 </div>
 
 </div>
