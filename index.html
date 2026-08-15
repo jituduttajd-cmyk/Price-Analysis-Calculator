@@ -2356,6 +2356,10 @@ function calculateSection1(){
         );
 
 
+    const gst =
+        selectedGST / 100;
+
+
     const ceilingPack =
         ceilingPrice *
         quantity;
@@ -2374,14 +2378,6 @@ function calculateSection1(){
         money(
             ceilingPack
         );
-
-    if(selectedGST === null || selectedGST === undefined){
-        document.getElementById("mrpCPResult").textContent = "—";
-        calculateRecommendedNLEM();
-        return;
-    }
-
-    const gst = selectedGST / 100;
 
 
     document.getElementById(
@@ -2424,18 +2420,8 @@ function calculateSection2(){
         );
 
 
-    if(
-        selectedGST === null ||
-        selectedGST === undefined ||
-        year === "" ||
-        !Object.prototype.hasOwnProperty.call(wpiMaster, year)
-    ){
-        document.getElementById("mrpWPIResult").textContent = "—";
-        calculateRecommendedNLEM();
-        return;
-    }
-
-    const gst = selectedGST / 100;
+    const gst =
+        selectedGST / 100;
 
 
     /*
@@ -2483,28 +2469,60 @@ function calculateSection2(){
 
 function calculateRecommendedNLEM(){
 
-    const recommendedElement = document.getElementById("recommendedNLEMResult");
-    if(!recommendedElement) return;
+    const ceilingElement =
+        document.getElementById(
+            "mrpCPResult"
+        );
 
-    const ceilingText = document.getElementById("mrpCPResult").textContent.trim();
-    const wpiText = document.getElementById("mrpWPIResult").textContent.trim();
+    const wpiElement =
+        document.getElementById(
+            "mrpWPIResult"
+        );
 
-    if(ceilingText === "—" || wpiText === "—"){
-        recommendedElement.textContent = "—";
+    const recommendedElement =
+        document.getElementById(
+            "recommendedNLEMResult"
+        );
+
+    if(
+        !ceilingElement ||
+        !wpiElement ||
+        !recommendedElement
+    ){
         return;
     }
 
-    const ceilingMRP = parseFloat(ceilingText.replace(/[₹,\s]/g, ""));
-    const wpiMRP = parseFloat(wpiText.replace(/[₹,\s]/g, ""));
+    const ceilingMRP =
+        parseFloat(
+            ceilingElement.textContent
+                .replace(/[₹,\s]/g, "")
+        ) || 0;
 
-    if(!Number.isFinite(ceilingMRP) || !Number.isFinite(wpiMRP)){
-        recommendedElement.textContent = "—";
-        return;
+    const wpiMRP =
+        parseFloat(
+            wpiElement.textContent
+                .replace(/[₹,\s]/g, "")
+        ) || 0;
+
+    let recommendedMRP = 0;
+
+    if(ceilingMRP > 0 && wpiMRP > 0){
+        recommendedMRP = Math.min(ceilingMRP,wpiMRP);
+    }
+    else if(ceilingMRP > 0){
+        recommendedMRP = ceilingMRP;
+    }
+    else if(wpiMRP > 0){
+        recommendedMRP = wpiMRP;
     }
 
-    const recommendedMRP = Math.trunc(Math.min(ceilingMRP,wpiMRP) * 100) / 100;
-    recommendedElement.textContent = "₹ " + recommendedMRP.toFixed(2);
+    recommendedMRP = Math.trunc(recommendedMRP * 100) / 100;
+
+    recommendedElement.textContent =
+        "₹ " + recommendedMRP.toFixed(2);
+
 }
+
 
 /* =========================================================
    SECTION 3
@@ -2568,12 +2586,6 @@ function calculateSection3(){
 ========================================================= */
 
 function calculateTradeMargin(){
-
-    if(selectedGST === null || selectedGST === undefined){
-        document.getElementById("ptrResult").textContent = "—";
-        document.getElementById("ptsResult").textContent = "—";
-        return;
-    }
 
     const mrp =
         parseFloat(
