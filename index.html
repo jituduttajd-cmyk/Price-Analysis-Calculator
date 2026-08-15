@@ -17,6 +17,11 @@
 <link rel="manifest" href="manifest.json">
 
 <style>
+
+/* =====================================================
+   GENERAL
+===================================================== */
+
 * {
     box-sizing: border-box;
 }
@@ -40,7 +45,11 @@ body {
     padding: 15px;
 }
 
-/* HEADER */
+
+/* =====================================================
+   HEADER
+===================================================== */
+
 .main-header {
     background: #064e4e;
     color: #fff;
@@ -57,7 +66,11 @@ body {
     letter-spacing: 1px;
 }
 
-/* CSV STATUS */
+
+/* =====================================================
+   CSV STATUS
+===================================================== */
+
 .csv-status {
     background: #fff;
     border: 1px solid #064e4e;
@@ -75,7 +88,11 @@ body {
     border-color: #b00020;
 }
 
-/* GST */
+
+/* =====================================================
+   GST SECTION
+===================================================== */
+
 .gst-box {
     background: #fff;
     border: 2px solid #064e4e;
@@ -116,7 +133,11 @@ body {
     border-color: #008000;
 }
 
-/* SECTION */
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+
 .section {
     background: #fff;
     border-radius: 10px;
@@ -137,7 +158,11 @@ body {
     padding: 14px;
 }
 
-/* FORM */
+
+/* =====================================================
+   FORM
+===================================================== */
+
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -174,7 +199,11 @@ select:focus {
     border: 2px solid #064e4e;
 }
 
-/* RESULT ROW */
+
+/* =====================================================
+   RESULT
+===================================================== */
+
 .result-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -205,12 +234,22 @@ select:focus {
     max-width: 100%;
 }
 
-/* SECTION 2 */
+
+/* =====================================================
+   SECTION 2
+===================================================== */
+
 .wpi-input-row {
     display: grid;
-    grid-template-columns: 1.2fr 0.9fr 0.7fr;
+    grid-template-columns: 1.2fr 0.8fr 0.7fr;
     gap: 12px;
     margin-bottom: 12px;
+}
+
+.wpi-input {
+    background: #f4fff4;
+    color: #008000;
+    font-weight: bold;
 }
 
 .wpi-note {
@@ -221,7 +260,11 @@ select:focus {
     font-size: 13px;
 }
 
-/* SECTION 3 */
+
+/* =====================================================
+   SECTION 3
+===================================================== */
+
 .dpco-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -237,7 +280,42 @@ select:focus {
     margin-bottom: 7px;
 }
 
-/* SECTION 4 */
+
+/* =====================================================
+   SECTION 4 - TRADE MARGIN
+===================================================== */
+
+.trade-margin-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+.trade-result {
+    background: #eef7f7;
+    border: 2px solid #064e4e;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+}
+
+.trade-result .trade-title {
+    color: #064e4e;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.trade-result .trade-value {
+    font-size: 19px;
+    font-weight: bold;
+    margin-top: 6px;
+}
+
+
+/* =====================================================
+   SECTION 5
+===================================================== */
+
 .pre-gst-field {
     width: 260px;
     max-width: 100%;
@@ -256,12 +334,11 @@ select:focus {
     max-width: 100%;
 }
 
-.green-selected {
-    color: #008000;
-    font-weight: bold;
-}
 
-/* BUTTONS */
+/* =====================================================
+   BUTTONS
+===================================================== */
+
 .button-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -288,7 +365,11 @@ select:focus {
     background: #064e4e;
 }
 
-/* FOOTER */
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
 .footer {
     text-align: center;
     color: #555;
@@ -296,7 +377,11 @@ select:focus {
     font-size: 12px;
 }
 
-/* MOBILE */
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
 @media (max-width: 600px) {
 
     .container {
@@ -307,13 +392,17 @@ select:focus {
         font-size: 20px;
     }
 
+    .section-title {
+        font-size: 15px;
+    }
+
     .result-row {
         grid-template-columns: 1fr 1fr;
         gap: 7px;
     }
 
     .wpi-input-row {
-        grid-template-columns: 1.2fr 0.9fr 0.7fr;
+        grid-template-columns: 1.1fr 0.8fr 0.65fr;
         gap: 6px;
     }
 
@@ -329,9 +418,31 @@ select:focus {
         gap: 7px;
     }
 
+    .trade-margin-row {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 6px;
+    }
+
+    .trade-result {
+        padding: 8px 4px;
+    }
+
+    .trade-result .trade-title {
+        font-size: 13px;
+    }
+
+    .trade-result .trade-value {
+        font-size: 15px;
+    }
+
     .gst-pair {
         grid-template-columns: 1fr 1fr;
         gap: 7px;
+    }
+
+    input,
+    select {
+        height: 42px;
     }
 
     .short-result,
@@ -339,16 +450,12 @@ select:focus {
     .post-gst-result {
         width: 220px;
     }
-
-    .section-title {
-        font-size: 15px;
-    }
-
-    input,
-    select {
-        height: 42px;
-    }
 }
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
 
 @media (max-width: 380px) {
 
@@ -361,32 +468,54 @@ select:focus {
         font-size: 12px;
     }
 
-    .result-row {
-        gap: 5px;
+    .trade-result .trade-title {
+        font-size: 12px;
+    }
+
+    .trade-result .trade-value {
+        font-size: 14px;
     }
 
     .result-value {
         font-size: 16px;
     }
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="container" id="calculatorScreen">
 
-<!-- HEADER -->
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
 <div class="main-header">
+
     <h1>PRICE ANALYSIS</h1>
+
 </div>
 
-<!-- CSV STATUS -->
+
+<!-- =====================================================
+     CSV STATUS
+===================================================== -->
+
 <div id="csvStatus" class="csv-status">
-    Loading CSV files...
+
+    Loading Pack Size and Year-WPI data...
+
 </div>
 
-<!-- GST -->
+
+<!-- =====================================================
+     GST
+===================================================== -->
+
 <div class="gst-box">
 
     <div class="gst-title">
@@ -395,51 +524,59 @@ select:focus {
 
     <div class="gst-options">
 
-        <button type="button"
-                class="gst-option"
-                onclick="selectGST(0,this)">
+        <button
+            type="button"
+            class="gst-option"
+            onclick="selectGST(0,this)">
             0%
         </button>
 
-        <button type="button"
-                class="gst-option"
-                onclick="selectGST(5,this)">
+        <button
+            type="button"
+            class="gst-option"
+            onclick="selectGST(5,this)">
             5%
         </button>
 
-        <button type="button"
-                class="gst-option"
-                onclick="selectGST(12,this)">
+        <button
+            type="button"
+            class="gst-option"
+            onclick="selectGST(12,this)">
             12%
         </button>
 
-        <button type="button"
-                class="gst-option"
-                onclick="selectGST(18,this)">
+        <button
+            type="button"
+            class="gst-option"
+            onclick="selectGST(18,this)">
             18%
         </button>
 
-        <button type="button"
-                class="gst-option"
-                onclick="selectGST(28,this)">
+        <button
+            type="button"
+            class="gst-option"
+            onclick="selectGST(28,this)">
             28%
         </button>
 
     </div>
 
-    <input type="hidden" id="gstRate" value="0">
+    <input
+        type="hidden"
+        id="gstRate"
+        value="0">
 
 </div>
 
 
-<!-- ==================================================
+<!-- =====================================================
      SECTION 1
-================================================== -->
+===================================================== -->
 
 <div class="section">
 
     <div class="section-title">
-        SECTION 1 — MRP Calculation as per Ceiling Price
+        SECTION-1 — MRP Calculation as per Ceiling Price
     </div>
 
     <div class="section-body">
@@ -460,6 +597,7 @@ select:focus {
                     oninput="calculateSection1()">
 
             </div>
+
 
             <div class="field">
 
@@ -516,22 +654,26 @@ select:focus {
         </div>
 
     </div>
+
 </div>
 
 
-<!-- ==================================================
+<!-- =====================================================
      SECTION 2
-================================================== -->
+===================================================== -->
 
 <div class="section">
 
     <div class="section-title">
-        SECTION 2 — MRP Calculation as per WPI
+        SECTION-2 — MRP Calculation as per WPI
     </div>
 
     <div class="section-body">
 
         <div class="wpi-input-row">
+
+
+            <!-- EXISTING MRP -->
 
             <div class="field">
 
@@ -549,6 +691,8 @@ select:focus {
             </div>
 
 
+            <!-- YEAR -->
+
             <div class="field">
 
                 <label>
@@ -557,16 +701,18 @@ select:focus {
 
                 <select
                     id="wpiYear"
-                    onchange="calculateSection2()">
+                    onchange="yearChanged()">
 
                     <option value="">
-                        Loading...
+                        Select Year
                     </option>
 
                 </select>
 
             </div>
 
+
+            <!-- WPI -->
 
             <div class="field">
 
@@ -579,7 +725,7 @@ select:focus {
                     id="wpiResultInput"
                     value="0.00%"
                     readonly
-                    class="green-selected">
+                    class="wpi-input">
 
             </div>
 
@@ -587,8 +733,10 @@ select:focus {
 
 
         <div class="wpi-note">
-            WPI % is automatically picked from
-            the Year-WPI CSV file.
+
+            WPI % will automatically be picked
+            from the selected Year.
+
         </div>
 
 
@@ -607,22 +755,25 @@ select:focus {
         </div>
 
     </div>
+
 </div>
 
 
-<!-- ==================================================
+<!-- =====================================================
      SECTION 3
-================================================== -->
+===================================================== -->
 
 <div class="section">
 
     <div class="section-title">
-        SECTION 3 — MRP Revision (Non-Scheduled Product)
+        SECTION-3 — MRP Revision (Non-Scheduled Product)
     </div>
 
     <div class="section-body">
 
+
         <div class="dpco-row">
+
 
             <div class="field">
 
@@ -674,7 +825,9 @@ select:focus {
 
 
         <div class="proposed-heading">
+
             Proposed Revised MRP
+
         </div>
 
 
@@ -693,24 +846,124 @@ select:focus {
         </div>
 
     </div>
+
 </div>
 
 
-<!-- ==================================================
-     SECTION 4
-================================================== -->
+<!-- =====================================================
+     SECTION 4 - TRADE MARGIN
+===================================================== -->
 
 <div class="section">
 
     <div class="section-title">
-        SECTION 4 — GST Implementation
+        SECTION-4 — Trade Margin
+    </div>
+
+    <div class="section-body">
+
+
+        <div class="field"
+             style="margin-bottom:12px;">
+
+            <label>
+                MRP
+            </label>
+
+            <input
+                type="number"
+                id="tradeMRP"
+                placeholder="Enter MRP"
+                step="0.01"
+                oninput="calculateTradeMargin()">
+
+        </div>
+
+
+        <div class="trade-margin-row">
+
+
+            <!-- MRP -->
+
+            <div class="trade-result">
+
+                <div class="trade-title">
+                    MRP
+                </div>
+
+                <div
+                    class="trade-value"
+                    id="tradeMRPResult">
+                    ₹ 0.00
+                </div>
+
+            </div>
+
+
+            <!-- PTR -->
+
+            <div class="trade-result">
+
+                <div class="trade-title">
+                    PTR
+                </div>
+
+                <div
+                    class="trade-value"
+                    id="ptrResult">
+                    ₹ 0.00
+                </div>
+
+            </div>
+
+
+            <!-- PTS -->
+
+            <div class="trade-result">
+
+                <div class="trade-title">
+                    PTS
+                </div>
+
+                <div
+                    class="trade-value"
+                    id="ptsResult">
+                    ₹ 0.00
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="wpi-note"
+             style="margin-top:12px;margin-bottom:0;">
+
+            PTR and PTS are calculated using the
+            GST % selected above.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     SECTION 5
+===================================================== -->
+
+<div class="section">
+
+    <div class="section-title">
+        SECTION-5 — GST Implementation
         (w.e.f. 22.11.2025)
     </div>
 
     <div class="section-body">
 
 
-        <!-- PRE GST MRP -->
+        <!-- PRE GST -->
 
         <div class="field pre-gst-field">
 
@@ -723,7 +976,7 @@ select:focus {
                 id="preGstMRP"
                 placeholder="Pre-GST MRP"
                 step="0.01"
-                oninput="calculateSection4()">
+                oninput="calculateSection5()">
 
         </div>
 
@@ -731,6 +984,7 @@ select:focus {
         <!-- OLD + NEW GST -->
 
         <div class="gst-pair">
+
 
             <div class="field">
 
@@ -740,17 +994,31 @@ select:focus {
 
                 <select
                     id="oldGST"
-                    onchange="calculateSection4()">
+                    onchange="calculateSection5()">
 
                     <option value="">
                         Choose Old GST
                     </option>
 
-                    <option value="0">0%</option>
-                    <option value="5">5%</option>
-                    <option value="12">12%</option>
-                    <option value="18">18%</option>
-                    <option value="28">28%</option>
+                    <option value="0">
+                        0%
+                    </option>
+
+                    <option value="5">
+                        5%
+                    </option>
+
+                    <option value="12">
+                        12%
+                    </option>
+
+                    <option value="18">
+                        18%
+                    </option>
+
+                    <option value="28">
+                        28%
+                    </option>
 
                 </select>
 
@@ -765,17 +1033,31 @@ select:focus {
 
                 <select
                     id="newGST"
-                    onchange="calculateSection4()">
+                    onchange="calculateSection5()">
 
                     <option value="">
                         Choose New GST
                     </option>
 
-                    <option value="0">0%</option>
-                    <option value="5">5%</option>
-                    <option value="12">12%</option>
-                    <option value="18">18%</option>
-                    <option value="28">28%</option>
+                    <option value="0">
+                        0%
+                    </option>
+
+                    <option value="5">
+                        5%
+                    </option>
+
+                    <option value="12">
+                        12%
+                    </option>
+
+                    <option value="18">
+                        18%
+                    </option>
+
+                    <option value="28">
+                        28%
+                    </option>
 
                 </select>
 
@@ -818,10 +1100,13 @@ select:focus {
         </div>
 
     </div>
+
 </div>
 
 
-<!-- BUTTONS -->
+<!-- =====================================================
+     BUTTONS
+===================================================== -->
 
 <div class="button-row">
 
@@ -851,14 +1136,15 @@ select:focus {
     Price Analysis Calculator
 </div>
 
+
 </div>
 
 
 <script>
 
-/* ==================================================
+/* =====================================================
    GLOBAL VARIABLES
-================================================== */
+===================================================== */
 
 let selectedGST = 0;
 
@@ -867,18 +1153,18 @@ let packSizes = [];
 let wpiMaster = {};
 
 
-/* ==================================================
-   TWO CSV FILES
-================================================== */
+/* =====================================================
+   CSV FILES
+===================================================== */
 
 const PACK_SIZE_CSV = "pack-size.csv";
 
 const YEAR_WPI_CSV = "year-wpi.csv";
 
 
-/* ==================================================
-   INITIAL LOAD
-================================================== */
+/* =====================================================
+   PAGE LOAD
+===================================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -894,9 +1180,9 @@ document.addEventListener(
 );
 
 
-/* ==================================================
-   GENERIC CSV PARSER
-================================================== */
+/* =====================================================
+   CSV LINE PARSER
+===================================================== */
 
 function parseCSVLine(line) {
 
@@ -967,9 +1253,9 @@ function parseCSVLine(line) {
 }
 
 
-/* ==================================================
-   PACK SIZE CSV
-================================================== */
+/* =====================================================
+   LOAD PACK SIZE CSV
+===================================================== */
 
 async function loadPackSizeCSV() {
 
@@ -998,7 +1284,6 @@ async function loadPackSizeCSV() {
 
         parsePackSizeCSV(text);
 
-
         updateCSVStatus();
 
     }
@@ -1016,9 +1301,9 @@ async function loadPackSizeCSV() {
 }
 
 
-/* ==================================================
-   PARSE PACK SIZE CSV
-================================================== */
+/* =====================================================
+   PARSE PACK SIZE
+===================================================== */
 
 function parsePackSizeCSV(text) {
 
@@ -1027,14 +1312,14 @@ function parsePackSizeCSV(text) {
 
     const lines =
         text
-            .trim()
-            .split(/\r?\n/);
+        .trim()
+        .split(/\r?\n/);
 
 
     if (lines.length < 2) {
 
         throw new Error(
-            "Pack Size CSV has no data."
+            "Pack Size CSV contains no data."
         );
 
     }
@@ -1042,14 +1327,14 @@ function parsePackSizeCSV(text) {
 
     const headers =
         parseCSVLine(lines[0])
-            .map(function(x) {
+        .map(function(x) {
 
-                return x
-                    .replace(/^\uFEFF/, "")
-                    .trim()
-                    .toLowerCase();
+            return x
+                .replace(/^\uFEFF/, "")
+                .trim()
+                .toLowerCase();
 
-            });
+        });
 
 
     const packIndex =
@@ -1059,7 +1344,7 @@ function parsePackSizeCSV(text) {
     if (packIndex === -1) {
 
         throw new Error(
-            "Pack Size column missing."
+            "Pack Size column not found."
         );
 
     }
@@ -1072,7 +1357,9 @@ function parsePackSizeCSV(text) {
     ) {
 
         if (!lines[i].trim()) {
+
             continue;
+
         }
 
 
@@ -1082,8 +1369,8 @@ function parsePackSizeCSV(text) {
 
         const pack =
             row[packIndex]
-                ? row[packIndex].trim()
-                : "";
+            ? row[packIndex].trim()
+            : "";
 
 
         if (
@@ -1103,9 +1390,9 @@ function parsePackSizeCSV(text) {
 }
 
 
-/* ==================================================
+/* =====================================================
    POPULATE PACK SIZE
-================================================== */
+===================================================== */
 
 function populatePackSizes() {
 
@@ -1155,9 +1442,9 @@ function populatePackSizes() {
 }
 
 
-/* ==================================================
-   YEAR + WPI CSV
-================================================== */
+/* =====================================================
+   LOAD YEAR-WPI CSV
+===================================================== */
 
 async function loadYearWPICSV() {
 
@@ -1186,7 +1473,6 @@ async function loadYearWPICSV() {
 
         parseYearWPICSV(text);
 
-
         updateCSVStatus();
 
     }
@@ -1204,25 +1490,30 @@ async function loadYearWPICSV() {
 }
 
 
-/* ==================================================
-   PARSE YEAR + WPI
-================================================== */
+/* =====================================================
+   PARSE YEAR-WPI CSV
+===================================================== */
 
 function parseYearWPICSV(text) {
 
     wpiMaster = {};
 
 
-    const lines =
+    const cleanText =
         text
-            .trim()
-            .split(/\r?\n/);
+        .replace(/^\uFEFF/, "")
+        .trim();
+
+
+    const lines =
+        cleanText
+        .split(/\r?\n/);
 
 
     if (lines.length < 2) {
 
         throw new Error(
-            "Year-WPI CSV has no data."
+            "Year-WPI CSV contains no data."
         );
 
     }
@@ -1230,31 +1521,56 @@ function parseYearWPICSV(text) {
 
     const headers =
         parseCSVLine(lines[0])
-            .map(function(x) {
+        .map(function(x) {
 
-                return x
-                    .replace(/^\uFEFF/, "")
-                    .trim()
-                    .toLowerCase();
+            return x
+                .replace(/^\uFEFF/, "")
+                .trim()
+                .toLowerCase();
 
-            });
+        });
 
 
     const yearIndex =
-        headers.indexOf("year");
+        headers.findIndex(
+            function(header) {
+
+                return (
+                    header === "year" ||
+                    header === "years"
+                );
+
+            }
+        );
 
 
     const wpiIndex =
-        headers.indexOf("wpi");
+        headers.findIndex(
+            function(header) {
+
+                return (
+                    header === "wpi" ||
+                    header === "wpi%" ||
+                    header === "wpi %"
+                );
+
+            }
+        );
 
 
-    if (
-        yearIndex === -1 ||
-        wpiIndex === -1
-    ) {
+    if (yearIndex === -1) {
 
         throw new Error(
-            "Year or WPI column missing."
+            "Year column not found in year-wpi.csv"
+        );
+
+    }
+
+
+    if (wpiIndex === -1) {
+
+        throw new Error(
+            "WPI column not found in year-wpi.csv"
         );
 
     }
@@ -1267,7 +1583,9 @@ function parseYearWPICSV(text) {
     ) {
 
         if (!lines[i].trim()) {
+
             continue;
+
         }
 
 
@@ -1275,21 +1593,40 @@ function parseYearWPICSV(text) {
             parseCSVLine(lines[i]);
 
 
+        if (
+            row.length <=
+            Math.max(yearIndex,wpiIndex)
+        ) {
+
+            continue;
+
+        }
+
+
         const year =
-            row[yearIndex]
-                ? row[yearIndex].trim()
-                : "";
+            String(
+                row[yearIndex]
+            )
+            .trim();
 
 
-        const wpiText =
-            row[wpiIndex]
-                ? row[wpiIndex].trim()
-                : "";
+        let wpiText =
+            String(
+                row[wpiIndex]
+            )
+            .trim();
+
+
+        wpiText =
+            wpiText.replace(
+                "%",
+                ""
+            );
 
 
         const wpi =
             parseFloat(
-                wpiText.replace("%", "")
+                wpiText
             );
 
 
@@ -1298,7 +1635,8 @@ function parseYearWPICSV(text) {
             !isNaN(wpi)
         ) {
 
-            wpiMaster[year] = wpi;
+            wpiMaster[year] =
+                wpi;
 
         }
 
@@ -1310,9 +1648,9 @@ function parseYearWPICSV(text) {
 }
 
 
-/* ==================================================
-   POPULATE YEARS
-================================================== */
+/* =====================================================
+   POPULATE YEAR DROPDOWN
+===================================================== */
 
 function populateYears() {
 
@@ -1334,22 +1672,26 @@ function populateYears() {
     first.value = "";
 
     first.textContent =
-        "Year";
+        "Select Year";
 
 
     select.appendChild(first);
 
 
     const years =
-        Object.keys(wpiMaster)
-            .sort(
-                function(a,b) {
+        Object.keys(
+            wpiMaster
+        )
+        .sort(
+            function(a,b) {
 
-                    return Number(a) -
-                           Number(b);
+                return (
+                    Number(a) -
+                    Number(b)
+                );
 
-                }
-            );
+            }
+        );
 
 
     years.forEach(
@@ -1371,12 +1713,65 @@ function populateYears() {
         }
     );
 
+
+    console.log(
+        "Years loaded:",
+        years
+    );
+
 }
 
 
-/* ==================================================
+/* =====================================================
+   YEAR CHANGE
+===================================================== */
+
+function yearChanged() {
+
+    const year =
+        document.getElementById(
+            "wpiYear"
+        ).value;
+
+
+    const wpi =
+        wpiMaster[year];
+
+
+    const wpiField =
+        document.getElementById(
+            "wpiResultInput"
+        );
+
+
+    if (
+        year !== "" &&
+        typeof wpi !== "undefined"
+    ) {
+
+        wpiField.value =
+            Number(wpi)
+            .toFixed(2) +
+            "%";
+
+    }
+
+    else {
+
+        wpiField.value =
+            "0.00%";
+
+    }
+
+
+    calculateSection2();
+
+}
+
+
+/* =====================================================
    CSV STATUS
-================================================== */
+===================================================== */
 
 function updateCSVStatus() {
 
@@ -1385,7 +1780,9 @@ function updateCSVStatus() {
 
 
     const yearsLoaded =
-        Object.keys(wpiMaster).length > 0;
+        Object.keys(
+            wpiMaster
+        ).length > 0;
 
 
     const status =
@@ -1430,11 +1827,14 @@ function showCSVError(message) {
 }
 
 
-/* ==================================================
-   GST
-================================================== */
+/* =====================================================
+   GST SELECTION
+===================================================== */
 
-function selectGST(rate, button) {
+function selectGST(
+    rate,
+    button
+) {
 
     selectedGST =
         Number(rate);
@@ -1442,20 +1842,23 @@ function selectGST(rate, button) {
 
     document.getElementById(
         "gstRate"
-    ).value = rate;
+    ).value =
+        rate;
 
 
-    document.querySelectorAll(
-        ".gst-option"
-    ).forEach(
-        function(btn) {
+    document
+        .querySelectorAll(
+            ".gst-option"
+        )
+        .forEach(
+            function(btn) {
 
-            btn.classList.remove(
-                "selected"
-            );
+                btn.classList.remove(
+                    "selected"
+                );
 
-        }
-    );
+            }
+        );
 
 
     button.classList.add(
@@ -1467,12 +1870,14 @@ function selectGST(rate, button) {
 
     calculateSection2();
 
+    calculateTradeMargin();
+
 }
 
 
-/* ==================================================
-   MONEY
-================================================== */
+/* =====================================================
+   MONEY FORMAT
+===================================================== */
 
 function money(value) {
 
@@ -1485,23 +1890,28 @@ function money(value) {
     }
 
 
-    return "₹ " +
-        value.toLocaleString(
+    return (
+        "₹ " +
+        Number(value)
+        .toLocaleString(
             "en-IN",
             {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }
-        );
+        )
+    );
 
 }
 
 
-/* ==================================================
-   EXTRACT PACK QUANTITY
-================================================== */
+/* =====================================================
+   PACK QUANTITY
+===================================================== */
 
-function getPackQuantity(packText) {
+function getPackQuantity(
+    packText
+) {
 
     if (!packText) {
 
@@ -1509,15 +1919,6 @@ function getPackQuantity(packText) {
 
     }
 
-
-    /*
-       Examples:
-
-       10 Tablet → 10
-       15 Capsule → 15
-       200 ml → 200
-       1 Vial → 1
-    */
 
     const match =
         packText.match(
@@ -1533,7 +1934,9 @@ function getPackQuantity(packText) {
 
 
     const quantity =
-        parseFloat(match[0]);
+        parseFloat(
+            match[0]
+        );
 
 
     return isNaN(quantity)
@@ -1543,9 +1946,9 @@ function getPackQuantity(packText) {
 }
 
 
-/* ==================================================
+/* =====================================================
    SECTION 1
-================================================== */
+===================================================== */
 
 function calculateSection1() {
 
@@ -1581,7 +1984,9 @@ function calculateSection1() {
     document.getElementById(
         "ceilingPackResult"
     ).textContent =
-        money(ceilingPack);
+        money(
+            ceilingPack
+        );
 
 
     const mrp =
@@ -1592,14 +1997,16 @@ function calculateSection1() {
     document.getElementById(
         "mrpCPResult"
     ).textContent =
-        money(mrp);
+        money(
+            mrp
+        );
 
 }
 
 
-/* ==================================================
+/* =====================================================
    SECTION 2
-================================================== */
+===================================================== */
 
 function calculateSection2() {
 
@@ -1627,48 +2034,44 @@ function calculateSection2() {
         selectedGST / 100;
 
 
-    document.getElementById(
-        "wpiResultInput"
-    ).value =
-        wpi.toFixed(2) + "%";
-
-
     /*
-       USER-SPECIFIED FORMULA:
+       Formula:
 
        Existing MRP
-       ÷ (1 + Selected GST%)
-       × (1 + WPI%)
-       × (1 + Selected GST%)
+       ÷ (1 + GST)
+       × (1 + WPI)
+       × (1 + GST)
     */
 
 
-    const mrpWithoutGST =
+    const preGST =
         existingMRP /
         (1 + gst);
 
 
-    const mrpAfterWPI =
-        mrpWithoutGST *
+    const afterWPI =
+        preGST *
         (1 + wpi / 100);
 
 
     const finalMRP =
-        mrpAfterWPI *
+        afterWPI *
         (1 + gst);
 
 
     document.getElementById(
         "mrpWPIResult"
     ).textContent =
-        money(finalMRP);
+        money(
+            finalMRP
+        );
 
 }
 
 
-/* ==================================================
+/* =====================================================
    SECTION 3
-================================================== */
+===================================================== */
 
 function calculateSection3() {
 
@@ -1704,22 +2107,100 @@ function calculateSection3() {
 
     const revisedMRP =
         perRevisedMRP *
-        (1 + dpcoLimit / 100);
+        (
+            1 +
+            dpcoLimit / 100
+        );
 
 
     document.getElementById(
         "revisedMRPResult"
     ).textContent =
-        money(revisedMRP);
+        money(
+            revisedMRP
+        );
 
 }
 
 
-/* ==================================================
-   SECTION 4
-================================================== */
+/* =====================================================
+   SECTION 4 - TRADE MARGIN
+===================================================== */
 
-function calculateSection4() {
+function calculateTradeMargin() {
+
+    const mrp =
+        parseFloat(
+            document.getElementById(
+                "tradeMRP"
+            ).value
+        ) || 0;
+
+
+    const gst =
+        selectedGST / 100;
+
+
+    /*
+       Trade Margin Formula:
+
+       GST-exclusive MRP
+       = MRP / (1 + GST)
+
+       PTR
+       = GST-exclusive MRP × 80%
+
+       PTS
+       = PTR × 90%
+    */
+
+
+    const mrpExGST =
+        mrp /
+        (1 + gst);
+
+
+    const ptr =
+        mrpExGST *
+        0.80;
+
+
+    const pts =
+        ptr *
+        0.90;
+
+
+    document.getElementById(
+        "tradeMRPResult"
+    ).textContent =
+        money(
+            mrp
+        );
+
+
+    document.getElementById(
+        "ptrResult"
+    ).textContent =
+        money(
+            ptr
+        );
+
+
+    document.getElementById(
+        "ptsResult"
+    ).textContent =
+        money(
+            pts
+        );
+
+}
+
+
+/* =====================================================
+   SECTION 5
+===================================================== */
+
+function calculateSection5() {
 
     const preGSTMRP =
         parseFloat(
@@ -1769,60 +2250,76 @@ function calculateSection4() {
 
     const mrpWithoutGST =
         preGSTMRP /
-        (1 + oldGST / 100);
+        (
+            1 +
+            oldGST / 100
+        );
 
 
     document.getElementById(
         "mrpWithoutGST"
     ).value =
-        money(mrpWithoutGST);
+        money(
+            mrpWithoutGST
+        );
 
 
     const postGSTMRP =
         mrpWithoutGST *
-        (1 + newGST / 100);
+        (
+            1 +
+            newGST / 100
+        );
 
 
     document.getElementById(
         "postGSTMRPResult"
     ).textContent =
-        money(postGSTMRP);
+        money(
+            postGSTMRP
+        );
 
 }
 
 
-/* ==================================================
+/* =====================================================
    RESET
-================================================== */
+===================================================== */
 
 function resetCalculator() {
 
-    document.querySelectorAll(
-        "input"
-    ).forEach(
-        function(input) {
+    document
+        .querySelectorAll(
+            "input"
+        )
+        .forEach(
+            function(input) {
 
-            if (
-                input.type !== "hidden"
-            ) {
+                if (
+                    input.type !==
+                    "hidden"
+                ) {
 
-                input.value = "";
+                    input.value = "";
+
+                }
 
             }
-
-        }
-    );
+        );
 
 
-    document.querySelectorAll(
-        "select"
-    ).forEach(
-        function(select) {
+    document
+        .querySelectorAll(
+            "select"
+        )
+        .forEach(
+            function(select) {
 
-            select.selectedIndex = 0;
+                select.selectedIndex =
+                    0;
 
-        }
-    );
+            }
+        );
 
 
     selectedGST = 0;
@@ -1833,17 +2330,19 @@ function resetCalculator() {
     ).value = 0;
 
 
-    document.querySelectorAll(
-        ".gst-option"
-    ).forEach(
-        function(btn) {
+    document
+        .querySelectorAll(
+            ".gst-option"
+        )
+        .forEach(
+            function(btn) {
 
-            btn.classList.remove(
-                "selected"
-            );
+                btn.classList.remove(
+                    "selected"
+                );
 
-        }
-    );
+            }
+        );
 
 
     document.getElementById(
@@ -1877,6 +2376,24 @@ function resetCalculator() {
 
 
     document.getElementById(
+        "tradeMRPResult"
+    ).textContent =
+        "₹ 0.00";
+
+
+    document.getElementById(
+        "ptrResult"
+    ).textContent =
+        "₹ 0.00";
+
+
+    document.getElementById(
+        "ptsResult"
+    ).textContent =
+        "₹ 0.00";
+
+
+    document.getElementById(
         "mrpWithoutGST"
     ).value =
         "₹ 0.00";
@@ -1890,84 +2407,15 @@ function resetCalculator() {
 }
 
 
-/* ==================================================
+/* =====================================================
    SHARE SCREEN
-================================================== */
+===================================================== */
 
 async function shareScreen() {
 
-    const screen =
-        document.getElementById(
-            "calculatorScreen"
-        );
-
-
-    /*
-       Use browser-native screenshot
-       where supported.
-    */
-
-    if (
-        navigator.share &&
-        navigator.canShare
-    ) {
-
-        try {
-
-            /*
-               Create SVG snapshot.
-               This gives a clean share image
-               without requiring an external library.
-            */
-
-            const width =
-                screen.offsetWidth;
-
-
-            const height =
-                screen.scrollHeight;
-
-
-            const data =
-                new XMLSerializer()
-                    .serializeToString(
-                        screen.cloneNode(true)
-                    );
-
-
-            /*
-               Fallback to browser print/share
-               if image generation is unavailable.
-            */
-
-            await shareUsingPrint();
-
-            return;
-
-        }
-
-        catch(error) {
-
-            console.log(error);
-
-        }
-
-    }
-
-
-    await shareUsingPrint();
-
-}
-
-
-/* ==================================================
-   SHARE / PRINT FALLBACK
-================================================== */
-
-async function shareUsingPrint() {
-
     const shareText =
-        "Price Analysis Calculator\n\n" +
+
+        "PRICE ANALYSIS\n\n" +
 
         "Ceiling Price / Pack: " +
         document.getElementById(
@@ -1989,6 +2437,23 @@ async function shareUsingPrint() {
             "revisedMRPResult"
         ).textContent +
 
+        "\nTrade Margin:" +
+
+        "\nMRP: " +
+        document.getElementById(
+            "tradeMRPResult"
+        ).textContent +
+
+        "\nPTR: " +
+        document.getElementById(
+            "ptrResult"
+        ).textContent +
+
+        "\nPTS: " +
+        document.getElementById(
+            "ptsResult"
+        ).textContent +
+
         "\nPost-GST MRP: " +
         document.getElementById(
             "postGSTMRPResult"
@@ -2002,11 +2467,13 @@ async function shareUsingPrint() {
         try {
 
             await navigator.share({
+
                 title:
                     "Price Analysis",
 
                 text:
                     shareText
+
             });
 
             return;
@@ -2029,10 +2496,6 @@ async function shareUsingPrint() {
     }
 
 
-    /*
-       Desktop fallback
-    */
-
     const popup =
         window.open(
             "",
@@ -2052,27 +2515,52 @@ async function shareUsingPrint() {
 
 
     popup.document.write(
+
         "<html>" +
+
         "<head>" +
+
         "<title>Price Analysis</title>" +
+
         "<style>" +
-        "body{font-family:Cambria,Georgia,serif;padding:30px;}" +
-        "h1{color:#064e4e;}" +
-        "p{font-size:16px;}" +
+
+        "body{" +
+        "font-family:Cambria,Georgia,serif;" +
+        "padding:30px;" +
+        "}" +
+
+        "h1{" +
+        "color:#064e4e;" +
+        "}" +
+
+        "pre{" +
+        "font-family:Cambria,Georgia,serif;" +
+        "font-size:15px;" +
+        "white-space:pre-wrap;" +
+        "}" +
+
         "</style>" +
+
         "</head>" +
+
         "<body>" +
+
         "<h1>PRICE ANALYSIS</h1>" +
-        "<pre style='font-family:Cambria,Georgia,serif;white-space:pre-wrap;'>" +
+
+        "<pre>" +
+
         shareText +
+
         "</pre>" +
+
         "</body>" +
+
         "</html>"
+
     );
 
 
     popup.document.close();
-
 
     popup.focus();
 
@@ -2089,9 +2577,9 @@ async function shareUsingPrint() {
 }
 
 
-/* ==================================================
+/* =====================================================
    SERVICE WORKER
-================================================== */
+===================================================== */
 
 function registerServiceWorker() {
 
@@ -2107,7 +2595,7 @@ function registerServiceWorker() {
                 function() {
 
                     console.log(
-                        "Service Worker registered."
+                        "Service Worker registered"
                     );
 
                 }
