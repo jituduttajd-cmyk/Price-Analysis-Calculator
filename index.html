@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      maximum-scale=1.0, user-scalable=no">
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no">
 
 <meta name="theme-color" content="#064e4e">
 
 <meta name="description"
-      content="Pharmaceutical Price Analysis Calculator">
+content="Pharmaceutical Price Analysis Calculator">
 
 <title>PRICE ANALYSIS</title>
 
@@ -18,1122 +22,1101 @@
 
 <style>
 
-/* =====================================================
-   GENERAL
-===================================================== */
+/* =========================================================
+   BASIC
+========================================================= */
 
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
 
-html {
-    font-size: 14px;
+html{
+    font-size:14px;
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    background: #f3f7f7;
-    color: #000;
-    font-family: Cambria, Georgia, serif;
+body{
+    margin:0;
+    padding:0;
+    background:#f3f7f7;
+    color:#000;
+    font-family:Cambria,Georgia,serif;
 }
 
-.container {
-    width: 100%;
-    max-width: 850px;
-    margin: auto;
-    padding: 15px;
+.container{
+    width:100%;
+    max-width:850px;
+    margin:auto;
+    padding:12px;
 }
 
 
-/* =====================================================
+/* =========================================================
    HEADER
-===================================================== */
+========================================================= */
 
-.main-header {
-    background: #064e4e;
-    color: #fff;
-    text-align: center;
-    padding: 14px 10px;
-    border-radius: 10px;
-    margin-bottom: 15px;
+.main-header{
+    background:#064e4e;
+    color:#fff;
+    text-align:center;
+    padding:14px 10px;
+    border-radius:10px;
+    margin-bottom:12px;
 }
 
-.main-header h1 {
-    margin: 0;
-    font-size: 24px;
-    font-weight: bold;
-    letter-spacing: 1px;
+.main-header h1{
+    margin:0;
+    font-size:24px;
+    font-weight:bold;
+    letter-spacing:1px;
 }
 
 
-/* =====================================================
+/* =========================================================
    CSV STATUS
-===================================================== */
+========================================================= */
 
-.csv-status {
-    background: #fff;
-    border: 1px solid #064e4e;
-    border-radius: 8px;
-    padding: 7px 10px;
-    margin-bottom: 12px;
-    font-size: 12px;
-    color: #064e4e;
-    text-align: center;
-    font-weight: bold;
+.csv-status{
+    background:#fff;
+    border:1px solid #064e4e;
+    border-radius:7px;
+    padding:7px 10px;
+    margin-bottom:12px;
+    font-size:12px;
+    text-align:center;
+    color:#064e4e;
+    font-weight:bold;
 }
 
-.csv-status.error {
-    color: #b00020;
-    border-color: #b00020;
-}
-
-
-/* =====================================================
-   GST SECTION
-===================================================== */
-
-.gst-box {
-    background: #fff;
-    border: 2px solid #064e4e;
-    border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 15px;
-}
-
-.gst-title {
-    color: #064e4e;
-    font-size: 15px;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.gst-options {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 7px;
-}
-
-.gst-option {
-    padding: 9px 4px;
-    border: 1px solid #999;
-    background: #fff;
-    color: #000;
-    border-radius: 6px;
-    text-align: center;
-    cursor: pointer;
-    font-family: Cambria, Georgia, serif;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.gst-option.selected {
-    background: #008000;
-    color: #fff;
-    border-color: #008000;
+.csv-status.error{
+    color:#b00020;
+    border-color:#b00020;
 }
 
 
-/* =====================================================
-   SECTIONS
-===================================================== */
+/* =========================================================
+   GST SELECTION
+========================================================= */
 
-.section {
-    background: #fff;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    overflow: hidden;
-    box-shadow: 0 2px 7px rgba(0,0,0,0.08);
+.gst-box{
+    background:#fff;
+    border:2px solid #064e4e;
+    border-radius:9px;
+    padding:10px;
+    margin-bottom:12px;
 }
 
-.section-title {
-    background: #064e4e;
-    color: #fff;
-    padding: 10px 12px;
-    font-size: 16px;
-    font-weight: bold;
+.gst-title{
+    color:#064e4e;
+    font-weight:bold;
+    font-size:15px;
+    margin-bottom:7px;
 }
 
-.section-body {
-    padding: 14px;
+.gst-options{
+    display:grid;
+    grid-template-columns:
+    repeat(5,1fr);
+    gap:6px;
+}
+
+.gst-option{
+    height:38px;
+    border:1px solid #999;
+    border-radius:6px;
+    background:#fff;
+    color:#000;
+    font-family:Cambria,Georgia,serif;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.gst-option.selected{
+    background:#008000;
+    color:#fff;
+    border-color:#008000;
 }
 
 
-/* =====================================================
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section{
+    background:#fff;
+    border-radius:9px;
+    margin-bottom:12px;
+    overflow:hidden;
+    box-shadow:
+    0 2px 7px rgba(0,0,0,.08);
+}
+
+.section-title{
+    background:#064e4e;
+    color:#fff;
+    padding:9px 12px;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.section-body{
+    padding:12px;
+}
+
+
+/* =========================================================
    FORM
-===================================================== */
+========================================================= */
 
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.field {
-    width: 100%;
-}
-
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
+label{
+    display:block;
+    margin-bottom:4px;
+    font-weight:bold;
 }
 
 input,
-select {
-    width: 100%;
-    height: 40px;
-    padding: 7px 9px;
-    border: 1px solid #999;
-    border-radius: 6px;
-    background: #fff;
-    color: #000;
-    font-family: Cambria, Georgia, serif;
-    font-size: 14px;
+select{
+    width:100%;
+    height:39px;
+    padding:6px 8px;
+    border:1px solid #999;
+    border-radius:6px;
+    background:#fff;
+    color:#000;
+    font-family:Cambria,Georgia,serif;
+    font-size:14px;
 }
 
 input:focus,
-select:focus {
-    outline: none;
-    border: 2px solid #064e4e;
+select:focus{
+    outline:none;
+    border:2px solid #064e4e;
+}
+
+.field{
+    min-width:0;
 }
 
 
-/* =====================================================
-   RESULT
-===================================================== */
+/* =========================================================
+   SECTION 1
+========================================================= */
 
-.result-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 8px;
+.section1-inputs{
+    display:grid;
+    grid-template-columns:
+    1fr 1fr;
+    gap:10px;
+    margin-bottom:10px;
 }
 
-.result-box {
-    background: #eef7f7;
-    border: 2px solid #064e4e;
-    border-radius: 7px;
-    padding: 10px;
+.section1-results{
+    display:grid;
+    grid-template-columns:
+    1fr 1fr;
+    gap:10px;
 }
 
-.result-label {
-    color: #064e4e;
-    font-weight: bold;
+.result-box{
+    background:#eef7f7;
+    border:2px solid #064e4e;
+    border-radius:7px;
+    padding:9px 10px;
+    min-width:0;
 }
 
-.result-value {
-    margin-top: 4px;
-    font-size: 18px;
-    font-weight: bold;
+.result-label{
+    color:#064e4e;
+    font-weight:bold;
+    font-size:13px;
 }
 
-.short-result {
-    width: 260px;
-    max-width: 100%;
+.result-value{
+    margin-top:4px;
+    font-size:17px;
+    font-weight:bold;
 }
 
 
-/* =====================================================
+/* =========================================================
    SECTION 2
-===================================================== */
+========================================================= */
 
-.wpi-input-row {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr 0.7fr;
-    gap: 12px;
-    margin-bottom: 12px;
+.section2-inputs{
+    display:grid;
+    grid-template-columns:
+    1.3fr .75fr .65fr;
+    gap:10px;
+    margin-bottom:10px;
 }
 
-.wpi-input {
-    background: #f4fff4;
-    color: #008000;
-    font-weight: bold;
+.wpi-input{
+    background:#f2fff2;
+    color:#008000;
+    font-weight:bold;
 }
 
-.wpi-note {
-    background: #fff8dc;
-    border-left: 4px solid #c59b00;
-    padding: 8px;
-    margin-bottom: 10px;
-    font-size: 13px;
+.wpi-result{
+    width:260px;
+    max-width:100%;
+}
+
+.note{
+    background:#fff8dc;
+    border-left:4px solid #c59b00;
+    padding:7px 9px;
+    margin-bottom:10px;
+    font-size:12px;
 }
 
 
-/* =====================================================
+/* =========================================================
    SECTION 3
-===================================================== */
+========================================================= */
 
-.dpco-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 12px;
+.section3-input{
+    width:100%;
+    margin-bottom:10px;
 }
 
-.proposed-heading {
-    color: #064e4e;
-    font-size: 15px;
-    font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 7px;
+.proposed-heading{
+    color:#064e4e;
+    font-size:14px;
+    font-weight:bold;
+    margin-bottom:5px;
 }
 
-
-/* =====================================================
-   SECTION 4 - TRADE MARGIN
-===================================================== */
-
-.trade-margin-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-}
-
-.trade-result {
-    background: #eef7f7;
-    border: 2px solid #064e4e;
-    border-radius: 8px;
-    padding: 12px;
-    text-align: center;
-}
-
-.trade-result .trade-title {
-    color: #064e4e;
-    font-weight: bold;
-    font-size: 15px;
-}
-
-.trade-result .trade-value {
-    font-size: 19px;
-    font-weight: bold;
-    margin-top: 6px;
+.proposed-result{
+    width:260px;
+    max-width:100%;
 }
 
 
-/* =====================================================
+/* =========================================================
+   SECTION 4 TRADE MARGIN
+========================================================= */
+
+.trade-input{
+    width:260px;
+    max-width:100%;
+    margin-bottom:10px;
+}
+
+.trade-results{
+    display:grid;
+    grid-template-columns:
+    repeat(3,1fr);
+    gap:8px;
+}
+
+.trade-box{
+    background:#eef7f7;
+    border:2px solid #064e4e;
+    border-radius:7px;
+    text-align:center;
+    padding:9px 5px;
+}
+
+.trade-title{
+    color:#064e4e;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.trade-value{
+    font-size:18px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+
+/* =========================================================
    SECTION 5
-===================================================== */
+========================================================= */
 
-.pre-gst-field {
-    width: 260px;
-    max-width: 100%;
-    margin-bottom: 12px;
+.short-field{
+    width:260px;
+    max-width:100%;
+    margin-bottom:10px;
 }
 
-.gst-pair {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 12px;
+.gst-pair{
+    display:grid;
+    grid-template-columns:
+    1fr 1fr;
+    gap:10px;
+    margin-bottom:10px;
 }
 
-.post-gst-result {
-    width: 260px;
-    max-width: 100%;
+.post-gst{
+    width:260px;
+    max-width:100%;
 }
 
 
-/* =====================================================
+/* =========================================================
    BUTTONS
-===================================================== */
+========================================================= */
 
-.button-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 12px;
+.button-row{
+    display:grid;
+    grid-template-columns:
+    1fr 1fr;
+    gap:9px;
+    margin-top:5px;
 }
 
-.action-btn {
-    height: 44px;
-    border: none;
-    border-radius: 7px;
-    color: #fff;
-    font-family: Cambria, Georgia, serif;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
+.action-btn{
+    height:42px;
+    border:none;
+    border-radius:7px;
+    color:#fff;
+    font-family:Cambria,Georgia,serif;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.reset-btn {
-    background: #777;
+.reset-btn{
+    background:#777;
 }
 
-.share-btn {
-    background: #064e4e;
+.share-btn{
+    background:#064e4e;
 }
 
 
-/* =====================================================
+/* =========================================================
    FOOTER
-===================================================== */
+========================================================= */
 
-.footer {
-    text-align: center;
-    color: #555;
-    padding: 12px;
-    font-size: 12px;
+.footer{
+    text-align:center;
+    color:#555;
+    padding:10px;
+    font-size:11px;
 }
 
 
-/* =====================================================
+/* =========================================================
    MOBILE
-===================================================== */
+========================================================= */
 
-@media (max-width: 600px) {
+@media(max-width:600px){
 
-    .container {
-        padding: 9px;
+    .container{
+        padding:8px;
     }
 
-    .main-header h1 {
-        font-size: 20px;
+    .main-header h1{
+        font-size:20px;
     }
 
-    .section-title {
-        font-size: 15px;
+    .section-title{
+        font-size:14px;
     }
 
-    .result-row {
-        grid-template-columns: 1fr 1fr;
-        gap: 7px;
+    .section-body{
+        padding:10px;
     }
 
-    .wpi-input-row {
-        grid-template-columns: 1.1fr 0.8fr 0.65fr;
-        gap: 6px;
+    .section1-inputs{
+        gap:7px;
     }
 
-    .wpi-input-row input,
-    .wpi-input-row select {
-        padding-left: 6px;
-        padding-right: 6px;
-        font-size: 13px;
+    .section1-results{
+        gap:6px;
     }
 
-    .dpco-row {
-        grid-template-columns: 1fr 1fr;
-        gap: 7px;
+    .section2-inputs{
+        grid-template-columns:
+        1.25fr .75fr .65fr;
+        gap:5px;
     }
 
-    .trade-margin-row {
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 6px;
+    .section2-inputs input,
+    .section2-inputs select{
+        padding-left:5px;
+        padding-right:5px;
+        font-size:12px;
     }
 
-    .trade-result {
-        padding: 8px 4px;
+    .trade-results{
+        gap:5px;
     }
 
-    .trade-result .trade-title {
-        font-size: 13px;
+    .trade-box{
+        padding:8px 3px;
     }
 
-    .trade-result .trade-value {
-        font-size: 15px;
+    .trade-title{
+        font-size:12px;
     }
 
-    .gst-pair {
-        grid-template-columns: 1fr 1fr;
-        gap: 7px;
+    .trade-value{
+        font-size:15px;
     }
 
     input,
-    select {
-        height: 42px;
+    select{
+        height:41px;
     }
 
-    .short-result,
-    .pre-gst-field,
-    .post-gst-result {
-        width: 220px;
-    }
 }
 
+@media(max-width:380px){
 
-/* =====================================================
-   SMALL MOBILE
-===================================================== */
-
-@media (max-width: 380px) {
-
-    .wpi-input-row {
-        gap: 4px;
+    .section2-inputs{
+        gap:3px;
     }
 
-    .wpi-input-row input,
-    .wpi-input-row select {
-        font-size: 12px;
+    .section2-inputs input,
+    .section2-inputs select{
+        font-size:11px;
     }
 
-    .trade-result .trade-title {
-        font-size: 12px;
+    .trade-title{
+        font-size:11px;
     }
 
-    .trade-result .trade-value {
-        font-size: 14px;
+    .trade-value{
+        font-size:14px;
     }
 
-    .result-value {
-        font-size: 16px;
-    }
 }
 
 </style>
+
 </head>
 
 
 <body>
 
-<div class="container" id="calculatorScreen">
+
+<div class="container"
+id="calculatorScreen">
 
 
-<!-- =====================================================
+<!-- ======================================================
      HEADER
-===================================================== -->
+====================================================== -->
 
 <div class="main-header">
 
-    <h1>PRICE ANALYSIS</h1>
+<h1>PRICE ANALYSIS</h1>
 
 </div>
 
 
-<!-- =====================================================
+<!-- ======================================================
      CSV STATUS
-===================================================== -->
+====================================================== -->
 
-<div id="csvStatus" class="csv-status">
+<div
+id="csvStatus"
+class="csv-status">
 
-    Loading Pack Size and Year-WPI data...
+Loading CSV data...
 
 </div>
 
 
-<!-- =====================================================
+<!-- ======================================================
      GST
-===================================================== -->
+====================================================== -->
 
 <div class="gst-box">
 
-    <div class="gst-title">
-        GST %
-    </div>
+<div class="gst-title">
+Selected GST %
+</div>
 
-    <div class="gst-options">
+<div class="gst-options">
 
-        <button
-            type="button"
-            class="gst-option"
-            onclick="selectGST(0,this)">
-            0%
-        </button>
+<button
+class="gst-option"
+onclick="selectGST(0,this)">
+0%
+</button>
 
-        <button
-            type="button"
-            class="gst-option"
-            onclick="selectGST(5,this)">
-            5%
-        </button>
+<button
+class="gst-option"
+onclick="selectGST(5,this)">
+5%
+</button>
 
-        <button
-            type="button"
-            class="gst-option"
-            onclick="selectGST(12,this)">
-            12%
-        </button>
+<button
+class="gst-option"
+onclick="selectGST(12,this)">
+12%
+</button>
 
-        <button
-            type="button"
-            class="gst-option"
-            onclick="selectGST(18,this)">
-            18%
-        </button>
+<button
+class="gst-option"
+onclick="selectGST(18,this)">
+18%
+</button>
 
-        <button
-            type="button"
-            class="gst-option"
-            onclick="selectGST(28,this)">
-            28%
-        </button>
+<button
+class="gst-option"
+onclick="selectGST(28,this)">
+28%
+</button>
 
-    </div>
+</div>
 
-    <input
-        type="hidden"
-        id="gstRate"
-        value="0">
+<input
+type="hidden"
+id="gstRate"
+value="0">
 
 </div>
 
 
-<!-- =====================================================
+<!-- ======================================================
      SECTION 1
-===================================================== -->
+====================================================== -->
 
 <div class="section">
 
-    <div class="section-title">
-        SECTION-1 — MRP Calculation as per Ceiling Price
-    </div>
+<div class="section-title">
 
-    <div class="section-body">
+SECTION-1 — MRP as per Ceiling Price
 
-        <div class="form-row">
+</div>
 
-            <div class="field">
-
-                <label>
-                    Ceiling Price
-                </label>
-
-                <input
-                    type="number"
-                    id="ceilingPrice"
-                    placeholder="Enter Ceiling Price"
-                    step="0.01"
-                    oninput="calculateSection1()">
-
-            </div>
+<div class="section-body">
 
 
-            <div class="field">
-
-                <label>
-                    Pack Size
-                </label>
-
-                <select
-                    id="packSize"
-                    onchange="calculateSection1()">
-
-                    <option value="">
-                        Loading...
-                    </option>
-
-                </select>
-
-            </div>
-
-        </div>
+<div class="section1-inputs">
 
 
-        <div class="result-row">
+<div class="field">
 
-            <div class="result-box">
+<label>
+Ceiling Price
+</label>
 
-                <div class="result-label">
-                    Ceiling Price / Pack
-                </div>
-
-                <div
-                    class="result-value"
-                    id="ceilingPackResult">
-                    ₹ 0.00
-                </div>
-
-            </div>
-
-
-            <div class="result-box">
-
-                <div class="result-label">
-                    MRP as per Ceiling Price
-                </div>
-
-                <div
-                    class="result-value"
-                    id="mrpCPResult">
-                    ₹ 0.00
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
+<input
+type="number"
+id="ceilingPrice"
+placeholder="Enter Ceiling Price"
+step="0.01"
+oninput="calculateSection1()">
 
 </div>
 
 
-<!-- =====================================================
+<div class="field">
+
+<label>
+Pack Size
+</label>
+
+<select
+id="packSize"
+onchange="calculateSection1()">
+
+<option value="">
+Choose Pack Size
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div class="section1-results">
+
+
+<div class="result-box">
+
+<div class="result-label">
+Ceiling Price/Pack
+</div>
+
+<div
+class="result-value"
+id="ceilingPackResult">
+
+₹ 0.00
+
+</div>
+
+</div>
+
+
+<div class="result-box">
+
+<div class="result-label">
+MRP as per Ceiling Price
+</div>
+
+<div
+class="result-value"
+id="mrpCPResult">
+
+₹ 0.00
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ======================================================
      SECTION 2
-===================================================== -->
+====================================================== -->
 
 <div class="section">
 
-    <div class="section-title">
-        SECTION-2 — MRP Calculation as per WPI
-    </div>
+<div class="section-title">
 
-    <div class="section-body">
+SECTION-2 — MRP as per WPI
 
-        <div class="wpi-input-row">
+</div>
 
-
-            <!-- EXISTING MRP -->
-
-            <div class="field">
-
-                <label>
-                    Existing MRP
-                </label>
-
-                <input
-                    type="number"
-                    id="existingMRP"
-                    placeholder="Existing MRP"
-                    step="0.01"
-                    oninput="calculateSection2()">
-
-            </div>
+<div class="section-body">
 
 
-            <!-- YEAR -->
-
-            <div class="field">
-
-                <label>
-                    Year
-                </label>
-
-                <select
-                    id="wpiYear"
-                    onchange="yearChanged()">
-
-                    <option value="">
-                        Select Year
-                    </option>
-
-                </select>
-
-            </div>
+<div class="section2-inputs">
 
 
-            <!-- WPI -->
+<div class="field">
 
-            <div class="field">
+<label>
+Existing MRP
+</label>
 
-                <label>
-                    WPI %
-                </label>
-
-                <input
-                    type="text"
-                    id="wpiResultInput"
-                    value="0.00%"
-                    readonly
-                    class="wpi-input">
-
-            </div>
-
-        </div>
-
-
-        <div class="wpi-note">
-
-            WPI % will automatically be picked
-            from the selected Year.
-
-        </div>
-
-
-        <div class="result-box short-result">
-
-            <div class="result-label">
-                MRP as per WPI
-            </div>
-
-            <div
-                class="result-value"
-                id="mrpWPIResult">
-                ₹ 0.00
-            </div>
-
-        </div>
-
-    </div>
+<input
+type="number"
+id="existingMRP"
+placeholder="Existing MRP"
+step="0.01"
+oninput="calculateSection2()">
 
 </div>
 
 
-<!-- =====================================================
+<div class="field">
+
+<label>
+Year
+</label>
+
+<select
+id="wpiYear"
+onchange="yearChanged()">
+
+<option value="">
+Select Year
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+WPI%
+</label>
+
+<input
+type="text"
+id="wpiResultInput"
+class="wpi-input"
+value="0.00%"
+readonly>
+
+</div>
+
+</div>
+
+
+<div class="note">
+
+WPI% will automatically be displayed
+based on the selected Year.
+
+</div>
+
+
+<div class="result-box wpi-result">
+
+<div class="result-label">
+MRP as per WPI
+</div>
+
+<div
+class="result-value"
+id="mrpWPIResult">
+
+₹ 0.00
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ======================================================
      SECTION 3
-===================================================== -->
+====================================================== -->
 
 <div class="section">
 
-    <div class="section-title">
-        SECTION-3 — MRP Revision (Non-Scheduled Product)
-    </div>
+<div class="section-title">
 
-    <div class="section-body">
+SECTION-3 — MRP Revision
+(Non-Scheduled Product)
 
+</div>
 
-        <div class="dpco-row">
-
-
-            <div class="field">
-
-                <label>
-                    Per-Revised MRP
-                </label>
-
-                <input
-                    type="number"
-                    id="perRevisedMRP"
-                    placeholder="Enter Per-Revised MRP"
-                    step="0.01"
-                    oninput="calculateSection3()">
-
-            </div>
+<div class="section-body">
 
 
-            <div class="field">
+<div class="field section3-input">
 
-                <label>
-                    DPCO Permissible Limit
-                </label>
+<label>
+Per-Revised MRP
+</label>
 
-                <select
-                    id="dpcoLimit"
-                    onchange="calculateSection3()">
-
-                    <option value="">
-                        Choose Limit
-                    </option>
-
-                    <option value="10">
-                        10%
-                    </option>
-
-                    <option value="15">
-                        15%
-                    </option>
-
-                    <option value="20">
-                        20%
-                    </option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-
-        <div class="proposed-heading">
-
-            Proposed Revised MRP
-
-        </div>
-
-
-        <div class="result-box short-result">
-
-            <div class="result-label">
-                MRP
-            </div>
-
-            <div
-                class="result-value"
-                id="revisedMRPResult">
-                ₹ 0.00
-            </div>
-
-        </div>
-
-    </div>
+<input
+type="number"
+id="perRevisedMRP"
+placeholder="Enter Per-Revised MRP"
+step="0.01"
+oninput="calculateSection3()">
 
 </div>
 
 
-<!-- =====================================================
-     SECTION 4 - TRADE MARGIN
-===================================================== -->
+<div class="proposed-heading">
 
-<div class="section">
-
-    <div class="section-title">
-        SECTION-4 — Trade Margin
-    </div>
-
-    <div class="section-body">
-
-
-        <div class="field"
-             style="margin-bottom:12px;">
-
-            <label>
-                MRP
-            </label>
-
-            <input
-                type="number"
-                id="tradeMRP"
-                placeholder="Enter MRP"
-                step="0.01"
-                oninput="calculateTradeMargin()">
-
-        </div>
-
-
-        <div class="trade-margin-row">
-
-
-            <!-- MRP -->
-
-            <div class="trade-result">
-
-                <div class="trade-title">
-                    MRP
-                </div>
-
-                <div
-                    class="trade-value"
-                    id="tradeMRPResult">
-                    ₹ 0.00
-                </div>
-
-            </div>
-
-
-            <!-- PTR -->
-
-            <div class="trade-result">
-
-                <div class="trade-title">
-                    PTR
-                </div>
-
-                <div
-                    class="trade-value"
-                    id="ptrResult">
-                    ₹ 0.00
-                </div>
-
-            </div>
-
-
-            <!-- PTS -->
-
-            <div class="trade-result">
-
-                <div class="trade-title">
-                    PTS
-                </div>
-
-                <div
-                    class="trade-value"
-                    id="ptsResult">
-                    ₹ 0.00
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="wpi-note"
-             style="margin-top:12px;margin-bottom:0;">
-
-            PTR and PTS are calculated using the
-            GST % selected above.
-
-        </div>
-
-    </div>
+Proposed Revised MRP
 
 </div>
 
 
-<!-- =====================================================
+<div class="result-box proposed-result">
+
+<div class="result-label">
+MRP
+</div>
+
+<div
+class="result-value"
+id="revisedMRPResult">
+
+₹ 0.00
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ======================================================
+     SECTION 4
+====================================================== -->
+
+<div class="section">
+
+<div class="section-title">
+
+SECTION-4 — Trade Margin
+
+</div>
+
+<div class="section-body">
+
+
+<div class="field trade-input">
+
+<label>
+MRP
+</label>
+
+<input
+type="number"
+id="tradeMRP"
+placeholder="Enter MRP"
+step="0.01"
+oninput="calculateTradeMargin()">
+
+</div>
+
+
+<div class="trade-results">
+
+
+<div class="trade-box">
+
+<div class="trade-title">
+MRP
+</div>
+
+<div
+class="trade-value"
+id="tradeMRPResult">
+
+₹ 0.00
+
+</div>
+
+</div>
+
+
+<div class="trade-box">
+
+<div class="trade-title">
+PTR
+</div>
+
+<div
+class="trade-value"
+id="ptrResult">
+
+₹ 0.00
+
+</div>
+
+</div>
+
+
+<div class="trade-box">
+
+<div class="trade-title">
+PTS
+</div>
+
+<div
+class="trade-value"
+id="ptsResult">
+
+₹ 0.00
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div
+class="note"
+style="margin-top:10px;margin-bottom:0;">
+
+PTR and PTS are calculated
+based on the Selected GST % above.
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ======================================================
      SECTION 5
-===================================================== -->
+====================================================== -->
 
 <div class="section">
 
-    <div class="section-title">
-        SECTION-5 — GST Implementation
-        (w.e.f. 22.11.2025)
-    </div>
+<div class="section-title">
 
-    <div class="section-body">
+SECTION-5 — GST Implementation
+(w.e.f. 22.11.2025)
 
+</div>
 
-        <!-- PRE GST -->
-
-        <div class="field pre-gst-field">
-
-            <label>
-                Pre-GST MRP
-            </label>
-
-            <input
-                type="number"
-                id="preGstMRP"
-                placeholder="Pre-GST MRP"
-                step="0.01"
-                oninput="calculateSection5()">
-
-        </div>
+<div class="section-body">
 
 
-        <!-- OLD + NEW GST -->
+<div class="field short-field">
 
-        <div class="gst-pair">
+<label>
+Pre-GST MRP
+</label>
 
-
-            <div class="field">
-
-                <label>
-                    Old GST %
-                </label>
-
-                <select
-                    id="oldGST"
-                    onchange="calculateSection5()">
-
-                    <option value="">
-                        Choose Old GST
-                    </option>
-
-                    <option value="0">
-                        0%
-                    </option>
-
-                    <option value="5">
-                        5%
-                    </option>
-
-                    <option value="12">
-                        12%
-                    </option>
-
-                    <option value="18">
-                        18%
-                    </option>
-
-                    <option value="28">
-                        28%
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    New GST %
-                </label>
-
-                <select
-                    id="newGST"
-                    onchange="calculateSection5()">
-
-                    <option value="">
-                        Choose New GST
-                    </option>
-
-                    <option value="0">
-                        0%
-                    </option>
-
-                    <option value="5">
-                        5%
-                    </option>
-
-                    <option value="12">
-                        12%
-                    </option>
-
-                    <option value="18">
-                        18%
-                    </option>
-
-                    <option value="28">
-                        28%
-                    </option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-
-        <!-- MRP WITHOUT GST -->
-
-        <div class="field pre-gst-field">
-
-            <label>
-                MRP without GST
-            </label>
-
-            <input
-                type="text"
-                id="mrpWithoutGST"
-                readonly
-                value="₹ 0.00">
-
-        </div>
-
-
-        <!-- POST GST -->
-
-        <div class="result-box post-gst-result">
-
-            <div class="result-label">
-                Post-GST MRP
-            </div>
-
-            <div
-                class="result-value"
-                id="postGSTMRPResult">
-                ₹ 0.00
-            </div>
-
-        </div>
-
-    </div>
+<input
+type="number"
+id="preGstMRP"
+placeholder="Pre-GST MRP"
+step="0.01"
+oninput="calculateSection5()">
 
 </div>
 
 
-<!-- =====================================================
+<div class="gst-pair">
+
+
+<div class="field">
+
+<label>
+Old GST%
+</label>
+
+<select
+id="oldGST"
+onchange="calculateSection5()">
+
+<option value="">
+Choose Old GST%
+</option>
+
+<option value="0">
+0%
+</option>
+
+<option value="5">
+5%
+</option>
+
+<option value="12">
+12%
+</option>
+
+<option value="18">
+18%
+</option>
+
+<option value="28">
+28%
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+New GST%
+</label>
+
+<select
+id="newGST"
+onchange="calculateSection5()">
+
+<option value="">
+Choose New GST%
+</option>
+
+<option value="0">
+0%
+</option>
+
+<option value="5">
+5%
+</option>
+
+<option value="12">
+12%
+</option>
+
+<option value="18">
+18%
+</option>
+
+<option value="28">
+28%
+</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+
+<div class="field short-field">
+
+<label>
+MRP without GST
+</label>
+
+<input
+type="text"
+id="mrpWithoutGST"
+value="₹ 0.00"
+readonly>
+
+</div>
+
+
+<div class="result-box post-gst">
+
+<div class="result-label">
+Post-GST MRP
+</div>
+
+<div
+class="result-value"
+id="postGSTMRPResult">
+
+₹ 0.00
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- ======================================================
      BUTTONS
-===================================================== -->
+====================================================== -->
 
 <div class="button-row">
 
-    <button
-        type="button"
-        class="action-btn reset-btn"
-        onclick="resetCalculator()">
+<button
+class="action-btn reset-btn"
+onclick="resetCalculator()">
 
-        RESET
+RESET
 
-    </button>
+</button>
 
 
-    <button
-        type="button"
-        class="action-btn share-btn"
-        onclick="shareScreen()">
+<button
+class="action-btn share-btn"
+onclick="shareScreen()">
 
-        SHARE SCREEN
+SHARE SCREEN
 
-    </button>
+</button>
 
 </div>
 
 
 <div class="footer">
-    Price Analysis Calculator
+
+Price Analysis Calculator
+
 </div>
 
 
@@ -1142,9 +1125,9 @@ select:focus {
 
 <script>
 
-/* =====================================================
+/* =========================================================
    GLOBAL VARIABLES
-===================================================== */
+========================================================= */
 
 let selectedGST = 0;
 
@@ -1153,1465 +1136,1499 @@ let packSizes = [];
 let wpiMaster = {};
 
 
-/* =====================================================
-   CSV FILES
-===================================================== */
+/* =========================================================
+   CSV FILE NAMES
+========================================================= */
 
-const PACK_SIZE_CSV = "pack-size.csv";
+const PACK_SIZE_CSV =
+"pack-size.csv";
 
-const YEAR_WPI_CSV = "year-wpi.csv";
+const YEAR_WPI_CSV =
+"year-wpi.csv";
 
 
-/* =====================================================
+/* =========================================================
    PAGE LOAD
-===================================================== */
+========================================================= */
 
 document.addEventListener(
-    "DOMContentLoaded",
-    function() {
+"DOMContentLoaded",
+function(){
 
-        loadPackSizeCSV();
+loadPackSizeCSV();
 
-        loadYearWPICSV();
+loadYearWPICSV();
 
-        registerServiceWorker();
+registerServiceWorker();
 
-    }
+}
 );
 
 
-/* =====================================================
-   CSV LINE PARSER
-===================================================== */
+/* =========================================================
+   CSV PARSER
+========================================================= */
 
-function parseCSVLine(line) {
+function parseCSVLine(line){
 
-    const result = [];
+const result=[];
 
-    let current = "";
+let current="";
 
-    let insideQuotes = false;
-
-
-    for (
-        let i = 0;
-        i < line.length;
-        i++
-    ) {
-
-        const char = line[i];
+let insideQuotes=false;
 
 
-        if (char === '"') {
+for(
+let i=0;
+i<line.length;
+i++
+){
 
-            if (
-                insideQuotes &&
-                line[i + 1] === '"'
-            ) {
-
-                current += '"';
-
-                i++;
-
-            } else {
-
-                insideQuotes =
-                    !insideQuotes;
-
-            }
-
-        }
-
-        else if (
-            char === "," &&
-            !insideQuotes
-        ) {
-
-            result.push(
-                current.trim()
-            );
-
-            current = "";
-
-        }
-
-        else {
-
-            current += char;
-
-        }
-
-    }
+const char=line[i];
 
 
-    result.push(
-        current.trim()
-    );
+if(char==='"'){
 
+if(
+insideQuotes &&
+line[i+1]==='"'
+){
 
-    return result;
+current+='"';
+
+i++;
+
+}else{
+
+insideQuotes=
+!insideQuotes;
+
 }
 
+}
 
-/* =====================================================
-   LOAD PACK SIZE CSV
-===================================================== */
+else if(
+char==="," &&
+!insideQuotes
+){
 
-async function loadPackSizeCSV() {
+result.push(
+current.trim()
+);
 
-    try {
+current="";
 
-        const response =
-            await fetch(
-                PACK_SIZE_CSV +
-                "?v=" +
-                Date.now()
-            );
+}
 
+else{
 
-        if (!response.ok) {
+current+=char;
 
-            throw new Error(
-                "Pack Size CSV not found"
-            );
-
-        }
-
-
-        const text =
-            await response.text();
-
-
-        parsePackSizeCSV(text);
-
-        updateCSVStatus();
-
-    }
-
-    catch(error) {
-
-        console.error(error);
-
-        showCSVError(
-            "Pack Size CSV could not be loaded."
-        );
-
-    }
+}
 
 }
 
 
-/* =====================================================
-   PARSE PACK SIZE
-===================================================== */
-
-function parsePackSizeCSV(text) {
-
-    packSizes = [];
+result.push(
+current.trim()
+);
 
 
-    const lines =
-        text
-        .trim()
-        .split(/\r?\n/);
-
-
-    if (lines.length < 2) {
-
-        throw new Error(
-            "Pack Size CSV contains no data."
-        );
-
-    }
-
-
-    const headers =
-        parseCSVLine(lines[0])
-        .map(function(x) {
-
-            return x
-                .replace(/^\uFEFF/, "")
-                .trim()
-                .toLowerCase();
-
-        });
-
-
-    const packIndex =
-        headers.indexOf("pack size");
-
-
-    if (packIndex === -1) {
-
-        throw new Error(
-            "Pack Size column not found."
-        );
-
-    }
-
-
-    for (
-        let i = 1;
-        i < lines.length;
-        i++
-    ) {
-
-        if (!lines[i].trim()) {
-
-            continue;
-
-        }
-
-
-        const row =
-            parseCSVLine(lines[i]);
-
-
-        const pack =
-            row[packIndex]
-            ? row[packIndex].trim()
-            : "";
-
-
-        if (
-            pack &&
-            !packSizes.includes(pack)
-        ) {
-
-            packSizes.push(pack);
-
-        }
-
-    }
-
-
-    populatePackSizes();
+return result;
 
 }
 
 
-/* =====================================================
+/* =========================================================
+   PACK SIZE CSV
+========================================================= */
+
+async function loadPackSizeCSV(){
+
+try{
+
+const response=
+await fetch(
+PACK_SIZE_CSV+
+"?v="+
+Date.now()
+);
+
+
+if(!response.ok){
+
+throw new Error(
+"Pack Size CSV not found"
+);
+
+}
+
+
+const text=
+await response.text();
+
+
+parsePackSizeCSV(text);
+
+
+updateCSVStatus();
+
+}
+
+catch(error){
+
+console.error(error);
+
+showCSVError(
+"Pack Size CSV could not be loaded."
+);
+
+}
+
+}
+
+
+/* =========================================================
+   PARSE PACK SIZE CSV
+========================================================= */
+
+function parsePackSizeCSV(text){
+
+packSizes=[];
+
+
+const lines=
+text
+.trim()
+.split(/\r?\n/);
+
+
+if(lines.length<2){
+
+throw new Error(
+"No Pack Size data"
+);
+
+}
+
+
+const headers=
+parseCSVLine(lines[0])
+.map(function(x){
+
+return x
+.replace(/^\uFEFF/,"")
+.trim()
+.toLowerCase();
+
+});
+
+
+const packIndex=
+headers.indexOf(
+"pack size"
+);
+
+
+if(packIndex===-1){
+
+throw new Error(
+"Pack Size column not found"
+);
+
+}
+
+
+for(
+let i=1;
+i<lines.length;
+i++
+){
+
+if(!lines[i].trim())
+continue;
+
+
+const row=
+parseCSVLine(lines[i]);
+
+
+const pack=
+row[packIndex]
+?row[packIndex].trim()
+:"";
+
+
+if(
+pack &&
+!packSizes.includes(pack)
+){
+
+packSizes.push(pack);
+
+}
+
+}
+
+
+populatePackSizes();
+
+}
+
+
+/* =========================================================
    POPULATE PACK SIZE
-===================================================== */
+========================================================= */
 
-function populatePackSizes() {
+function populatePackSizes(){
 
-    const select =
-        document.getElementById(
-            "packSize"
-        );
-
-
-    select.innerHTML = "";
+const select=
+document.getElementById(
+"packSize"
+);
 
 
-    const first =
-        document.createElement(
-            "option"
-        );
+select.innerHTML="";
 
 
-    first.value = "";
+const first=
+document.createElement(
+"option"
+);
 
-    first.textContent =
-        "Choose Pack Size";
+first.value="";
 
+first.textContent=
+"Choose Pack Size";
 
-    select.appendChild(first);
-
-
-    packSizes.forEach(
-        function(pack) {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
+select.appendChild(first);
 
 
-            option.value = pack;
+packSizes.forEach(
+function(pack){
 
-            option.textContent = pack;
+const option=
+document.createElement(
+"option"
+);
 
+option.value=pack;
 
-            select.appendChild(option);
+option.textContent=pack;
 
-        }
-    );
+select.appendChild(option);
+
+}
+);
 
 }
 
 
-/* =====================================================
-   LOAD YEAR-WPI CSV
-===================================================== */
+/* =========================================================
+   YEAR WPI CSV
+========================================================= */
 
-async function loadYearWPICSV() {
+async function loadYearWPICSV(){
 
-    try {
+try{
 
-        const response =
-            await fetch(
-                YEAR_WPI_CSV +
-                "?v=" +
-                Date.now()
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Year-WPI CSV not found"
-            );
-
-        }
+const response=
+await fetch(
+YEAR_WPI_CSV+
+"?v="+
+Date.now()
+);
 
 
-        const text =
-            await response.text();
+if(!response.ok){
 
-
-        parseYearWPICSV(text);
-
-        updateCSVStatus();
-
-    }
-
-    catch(error) {
-
-        console.error(error);
-
-        showCSVError(
-            "Year-WPI CSV could not be loaded."
-        );
-
-    }
+throw new Error(
+"Year-WPI CSV not found"
+);
 
 }
 
 
-/* =====================================================
-   PARSE YEAR-WPI CSV
-===================================================== */
-
-function parseYearWPICSV(text) {
-
-    wpiMaster = {};
+const text=
+await response.text();
 
 
-    const cleanText =
-        text
-        .replace(/^\uFEFF/, "")
-        .trim();
+parseYearWPICSV(text);
 
 
-    const lines =
-        cleanText
-        .split(/\r?\n/);
+updateCSVStatus();
 
+}
 
-    if (lines.length < 2) {
+catch(error){
 
-        throw new Error(
-            "Year-WPI CSV contains no data."
-        );
+console.error(error);
 
-    }
+showCSVError(
+"Year-WPI CSV could not be loaded."
+);
 
-
-    const headers =
-        parseCSVLine(lines[0])
-        .map(function(x) {
-
-            return x
-                .replace(/^\uFEFF/, "")
-                .trim()
-                .toLowerCase();
-
-        });
-
-
-    const yearIndex =
-        headers.findIndex(
-            function(header) {
-
-                return (
-                    header === "year" ||
-                    header === "years"
-                );
-
-            }
-        );
-
-
-    const wpiIndex =
-        headers.findIndex(
-            function(header) {
-
-                return (
-                    header === "wpi" ||
-                    header === "wpi%" ||
-                    header === "wpi %"
-                );
-
-            }
-        );
-
-
-    if (yearIndex === -1) {
-
-        throw new Error(
-            "Year column not found in year-wpi.csv"
-        );
-
-    }
-
-
-    if (wpiIndex === -1) {
-
-        throw new Error(
-            "WPI column not found in year-wpi.csv"
-        );
-
-    }
-
-
-    for (
-        let i = 1;
-        i < lines.length;
-        i++
-    ) {
-
-        if (!lines[i].trim()) {
-
-            continue;
-
-        }
-
-
-        const row =
-            parseCSVLine(lines[i]);
-
-
-        if (
-            row.length <=
-            Math.max(yearIndex,wpiIndex)
-        ) {
-
-            continue;
-
-        }
-
-
-        const year =
-            String(
-                row[yearIndex]
-            )
-            .trim();
-
-
-        let wpiText =
-            String(
-                row[wpiIndex]
-            )
-            .trim();
-
-
-        wpiText =
-            wpiText.replace(
-                "%",
-                ""
-            );
-
-
-        const wpi =
-            parseFloat(
-                wpiText
-            );
-
-
-        if (
-            year &&
-            !isNaN(wpi)
-        ) {
-
-            wpiMaster[year] =
-                wpi;
-
-        }
-
-    }
-
-
-    populateYears();
+}
 
 }
 
 
-/* =====================================================
-   POPULATE YEAR DROPDOWN
-===================================================== */
+/* =========================================================
+   PARSE YEAR WPI
+========================================================= */
 
-function populateYears() {
+function parseYearWPICSV(text){
 
-    const select =
-        document.getElementById(
-            "wpiYear"
-        );
+wpiMaster={};
 
 
-    select.innerHTML = "";
+const cleanText=
+text
+.replace(/^\uFEFF/,"")
+.trim();
 
 
-    const first =
-        document.createElement(
-            "option"
-        );
+const lines=
+cleanText
+.split(/\r?\n/);
 
 
-    first.value = "";
+if(lines.length<2){
 
-    first.textContent =
-        "Select Year";
-
-
-    select.appendChild(first);
-
-
-    const years =
-        Object.keys(
-            wpiMaster
-        )
-        .sort(
-            function(a,b) {
-
-                return (
-                    Number(a) -
-                    Number(b)
-                );
-
-            }
-        );
-
-
-    years.forEach(
-        function(year) {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-
-            option.value = year;
-
-            option.textContent = year;
-
-
-            select.appendChild(option);
-
-        }
-    );
-
-
-    console.log(
-        "Years loaded:",
-        years
-    );
+throw new Error(
+"No Year-WPI data"
+);
 
 }
 
 
-/* =====================================================
-   YEAR CHANGE
-===================================================== */
+const headers=
+parseCSVLine(lines[0])
+.map(function(x){
 
-function yearChanged() {
+return x
+.replace(/^\uFEFF/,"")
+.trim()
+.toLowerCase();
 
-    const year =
-        document.getElementById(
-            "wpiYear"
-        ).value;
-
-
-    const wpi =
-        wpiMaster[year];
+});
 
 
-    const wpiField =
-        document.getElementById(
-            "wpiResultInput"
-        );
+const yearIndex=
+headers.findIndex(
+function(header){
+
+return(
+header==="year" ||
+header==="years"
+);
+
+}
+);
 
 
-    if (
-        year !== "" &&
-        typeof wpi !== "undefined"
-    ) {
+const wpiIndex=
+headers.findIndex(
+function(header){
 
-        wpiField.value =
-            Number(wpi)
-            .toFixed(2) +
-            "%";
+return(
+header==="wpi" ||
+header==="wpi%" ||
+header==="wpi %"
+);
 
-    }
-
-    else {
-
-        wpiField.value =
-            "0.00%";
-
-    }
+}
+);
 
 
-    calculateSection2();
+if(yearIndex===-1){
+
+throw new Error(
+"Year column not found"
+);
 
 }
 
 
-/* =====================================================
+if(wpiIndex===-1){
+
+throw new Error(
+"WPI column not found"
+);
+
+}
+
+
+for(
+let i=1;
+i<lines.length;
+i++
+){
+
+if(!lines[i].trim())
+continue;
+
+
+const row=
+parseCSVLine(lines[i]);
+
+
+const year=
+String(
+row[yearIndex] || ""
+).trim();
+
+
+let wpiText=
+String(
+row[wpiIndex] || ""
+).trim();
+
+
+wpiText=
+wpiText.replace(
+"%",""
+);
+
+
+const wpi=
+parseFloat(
+wpiText
+);
+
+
+if(
+year &&
+!isNaN(wpi)
+){
+
+wpiMaster[year]=wpi;
+
+}
+
+}
+
+
+populateYears();
+
+}
+
+
+/* =========================================================
+   POPULATE YEARS
+========================================================= */
+
+function populateYears(){
+
+const select=
+document.getElementById(
+"wpiYear"
+);
+
+
+select.innerHTML="";
+
+
+const first=
+document.createElement(
+"option"
+);
+
+first.value="";
+
+first.textContent=
+"Select Year";
+
+select.appendChild(first);
+
+
+const years=
+Object.keys(
+wpiMaster
+).sort(
+function(a,b){
+
+return(
+Number(a)-
+Number(b)
+);
+
+}
+);
+
+
+years.forEach(
+function(year){
+
+const option=
+document.createElement(
+"option"
+);
+
+option.value=year;
+
+option.textContent=year;
+
+select.appendChild(option);
+
+}
+);
+
+
+console.log(
+"Year list loaded:",
+years
+);
+
+}
+
+
+/* =========================================================
+   YEAR SELECT
+========================================================= */
+
+function yearChanged(){
+
+const year=
+document.getElementById(
+"wpiYear"
+).value;
+
+
+const wpi=
+wpiMaster[year];
+
+
+const wpiField=
+document.getElementById(
+"wpiResultInput"
+);
+
+
+if(
+year &&
+typeof wpi!=="undefined"
+){
+
+wpiField.value=
+Number(wpi)
+.toFixed(2)+
+"%";
+
+}else{
+
+wpiField.value=
+"0.00%";
+
+}
+
+
+calculateSection2();
+
+}
+
+
+/* =========================================================
    CSV STATUS
-===================================================== */
+========================================================= */
 
-function updateCSVStatus() {
+function updateCSVStatus(){
 
-    const packLoaded =
-        packSizes.length > 0;
-
-
-    const yearsLoaded =
-        Object.keys(
-            wpiMaster
-        ).length > 0;
+const packLoaded=
+packSizes.length>0;
 
 
-    const status =
-        document.getElementById(
-            "csvStatus"
-        );
+const yearLoaded=
+Object.keys(
+wpiMaster
+).length>0;
 
 
-    if (
-        packLoaded &&
-        yearsLoaded
-    ) {
+const status=
+document.getElementById(
+"csvStatus"
+);
 
-        status.textContent =
-            "Pack Size CSV and Year-WPI CSV loaded successfully.";
 
-        status.classList.remove(
-            "error"
-        );
+if(
+packLoaded &&
+yearLoaded
+){
 
-    }
+status.textContent=
+"Pack Size CSV and Year-WPI CSV loaded successfully.";
+
+status.classList.remove(
+"error"
+);
+
+}
 
 }
 
 
-function showCSVError(message) {
+function showCSVError(message){
 
-    const status =
-        document.getElementById(
-            "csvStatus"
-        );
+const status=
+document.getElementById(
+"csvStatus"
+);
 
+status.textContent=
+message;
 
-    status.textContent =
-        message;
-
-
-    status.classList.add(
-        "error"
-    );
+status.classList.add(
+"error"
+);
 
 }
 
 
-/* =====================================================
-   GST SELECTION
-===================================================== */
+/* =========================================================
+   GST
+========================================================= */
 
 function selectGST(
-    rate,
-    button
-) {
+rate,
+button
+){
 
-    selectedGST =
-        Number(rate);
-
-
-    document.getElementById(
-        "gstRate"
-    ).value =
-        rate;
+selectedGST=
+Number(rate);
 
 
-    document
-        .querySelectorAll(
-            ".gst-option"
-        )
-        .forEach(
-            function(btn) {
-
-                btn.classList.remove(
-                    "selected"
-                );
-
-            }
-        );
+document.getElementById(
+"gstRate"
+).value=
+rate;
 
 
-    button.classList.add(
-        "selected"
-    );
+document
+.querySelectorAll(
+".gst-option"
+)
+.forEach(
+function(btn){
+
+btn.classList.remove(
+"selected"
+);
+
+}
+);
 
 
-    calculateSection1();
+button.classList.add(
+"selected"
+);
 
-    calculateSection2();
 
-    calculateTradeMargin();
+calculateSection1();
+
+calculateSection2();
+
+calculateTradeMargin();
 
 }
 
 
-/* =====================================================
-   MONEY FORMAT
-===================================================== */
+/* =========================================================
+   MONEY
+========================================================= */
 
-function money(value) {
+function money(value){
 
-    if (
-        !isFinite(value)
-    ) {
+if(
+!isFinite(value)
+){
 
-        return "₹ 0.00";
-
-    }
-
-
-    return (
-        "₹ " +
-        Number(value)
-        .toLocaleString(
-            "en-IN",
-            {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }
-        )
-    );
+return"₹ 0.00";
 
 }
 
 
-/* =====================================================
+return(
+"₹ "+
+Number(value)
+.toLocaleString(
+"en-IN",
+{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+}
+)
+);
+
+}
+
+
+/* =========================================================
    PACK QUANTITY
-===================================================== */
+========================================================= */
 
 function getPackQuantity(
-    packText
-) {
+packText
+){
 
-    if (!packText) {
-
-        return 1;
-
-    }
+if(!packText)
+return 1;
 
 
-    const match =
-        packText.match(
-            /[\d]+(?:\.\d+)?/
-        );
+const match=
+packText.match(
+/[\d]+(?:\.\d+)?/
+);
 
 
-    if (!match) {
-
-        return 1;
-
-    }
+if(!match)
+return 1;
 
 
-    const quantity =
-        parseFloat(
-            match[0]
-        );
+const quantity=
+parseFloat(
+match[0]
+);
 
 
-    return isNaN(quantity)
-        ? 1
-        : quantity;
+return isNaN(quantity)
+?1
+:quantity;
 
 }
 
 
-/* =====================================================
+/* =========================================================
    SECTION 1
-===================================================== */
+========================================================= */
 
-function calculateSection1() {
+function calculateSection1(){
 
-    const ceilingPrice =
-        parseFloat(
-            document.getElementById(
-                "ceilingPrice"
-            ).value
-        ) || 0;
-
-
-    const packText =
-        document.getElementById(
-            "packSize"
-        ).value;
+const ceilingPrice=
+parseFloat(
+document.getElementById(
+"ceilingPrice"
+).value
+)||0;
 
 
-    const packQuantity =
-        getPackQuantity(
-            packText
-        );
+const packText=
+document.getElementById(
+"packSize"
+).value;
 
 
-    const gst =
-        selectedGST / 100;
+const quantity=
+getPackQuantity(
+packText
+);
 
 
-    const ceilingPack =
-        ceilingPrice *
-        packQuantity;
+const gst=
+selectedGST/100;
 
 
-    document.getElementById(
-        "ceilingPackResult"
-    ).textContent =
-        money(
-            ceilingPack
-        );
+/*
+   Ceiling Price/Pack
+*/
+
+const ceilingPack=
+ceilingPrice*
+quantity;
 
 
-    const mrp =
-        ceilingPack *
-        (1 + gst);
+/*
+   MRP as per Ceiling Price
+*/
+
+const mrp=
+ceilingPack*
+(1+gst);
 
 
-    document.getElementById(
-        "mrpCPResult"
-    ).textContent =
-        money(
-            mrp
-        );
+document.getElementById(
+"ceilingPackResult"
+).textContent=
+money(
+ceilingPack
+);
+
+
+document.getElementById(
+"mrpCPResult"
+).textContent=
+money(
+mrp
+);
 
 }
 
 
-/* =====================================================
+/* =========================================================
    SECTION 2
-===================================================== */
+========================================================= */
 
-function calculateSection2() {
+function calculateSection2(){
 
-    const existingMRP =
-        parseFloat(
-            document.getElementById(
-                "existingMRP"
-            ).value
-        ) || 0;
-
-
-    const year =
-        document.getElementById(
-            "wpiYear"
-        ).value;
+const existingMRP=
+parseFloat(
+document.getElementById(
+"existingMRP"
+).value
+)||0;
 
 
-    const wpi =
-        Number(
-            wpiMaster[year] || 0
-        );
+const year=
+document.getElementById(
+"wpiYear"
+).value;
 
 
-    const gst =
-        selectedGST / 100;
+const wpi=
+Number(
+wpiMaster[year]||0
+);
 
 
-    /*
-       Formula:
-
-       Existing MRP
-       ÷ (1 + GST)
-       × (1 + WPI)
-       × (1 + GST)
-    */
+const gst=
+selectedGST/100;
 
 
-    const preGST =
-        existingMRP /
-        (1 + gst);
+/*
+===========================================================
+MRP AS PER WPI
+
+Existing MRP
+÷ (1 + Selected GST%)
+× (1 + WPI%)
+× (1 + Selected GST%)
+===========================================================
+*/
+
+const result=
+(
+existingMRP/
+(1+gst)
+)*
+(
+1+wpi/100
+)*
+(
+1+gst
+);
 
 
-    const afterWPI =
-        preGST *
-        (1 + wpi / 100);
-
-
-    const finalMRP =
-        afterWPI *
-        (1 + gst);
-
-
-    document.getElementById(
-        "mrpWPIResult"
-    ).textContent =
-        money(
-            finalMRP
-        );
+document.getElementById(
+"mrpWPIResult"
+).textContent=
+money(
+result
+);
 
 }
 
 
-/* =====================================================
+/* =========================================================
    SECTION 3
-===================================================== */
+========================================================= */
 
-function calculateSection3() {
+function calculateSection3(){
 
-    const perRevisedMRP =
-        parseFloat(
-            document.getElementById(
-                "perRevisedMRP"
-            ).value
-        ) || 0;
-
-
-    const dpcoLimit =
-        parseFloat(
-            document.getElementById(
-                "dpcoLimit"
-            ).value
-        );
+const value=
+parseFloat(
+document.getElementById(
+"perRevisedMRP"
+).value
+)||0;
 
 
-    if (
-        !isFinite(dpcoLimit)
-    ) {
+/*
+   No Selected DPCO Permissible Limit
+   is used here.
 
-        document.getElementById(
-            "revisedMRPResult"
-        ).textContent =
-            "₹ 0.00";
+   Proposed Revised MRP follows
+   the entered Per-Revised MRP.
+*/
 
-        return;
-
-    }
-
-
-    const revisedMRP =
-        perRevisedMRP *
-        (
-            1 +
-            dpcoLimit / 100
-        );
-
-
-    document.getElementById(
-        "revisedMRPResult"
-    ).textContent =
-        money(
-            revisedMRP
-        );
+document.getElementById(
+"revisedMRPResult"
+).textContent=
+money(
+value
+);
 
 }
 
 
-/* =====================================================
-   SECTION 4 - TRADE MARGIN
-===================================================== */
+/* =========================================================
+   SECTION 4 TRADE MARGIN
+========================================================= */
 
-function calculateTradeMargin() {
+function calculateTradeMargin(){
 
-    const mrp =
-        parseFloat(
-            document.getElementById(
-                "tradeMRP"
-            ).value
-        ) || 0;
-
-
-    const gst =
-        selectedGST / 100;
+const mrp=
+parseFloat(
+document.getElementById(
+"tradeMRP"
+).value
+)||0;
 
 
-    /*
-       Trade Margin Formula:
-
-       GST-exclusive MRP
-       = MRP / (1 + GST)
-
-       PTR
-       = GST-exclusive MRP × 80%
-
-       PTS
-       = PTR × 90%
-    */
+const gst=
+selectedGST/100;
 
 
-    const mrpExGST =
-        mrp /
-        (1 + gst);
+/*
+===========================================================
+PTR
+
+MRP excluding GST
+× 80%
+
+PTS
+
+PTR × 90%
+===========================================================
+*/
+
+const mrpWithoutGST=
+mrp/
+(1+gst);
 
 
-    const ptr =
-        mrpExGST *
-        0.80;
+const ptr=
+mrpWithoutGST*
+0.80;
 
 
-    const pts =
-        ptr *
-        0.90;
+const pts=
+ptr*
+0.90;
 
 
-    document.getElementById(
-        "tradeMRPResult"
-    ).textContent =
-        money(
-            mrp
-        );
+document.getElementById(
+"tradeMRPResult"
+).textContent=
+money(
+mrp
+);
 
 
-    document.getElementById(
-        "ptrResult"
-    ).textContent =
-        money(
-            ptr
-        );
+document.getElementById(
+"ptrResult"
+).textContent=
+money(
+ptr
+);
 
 
-    document.getElementById(
-        "ptsResult"
-    ).textContent =
-        money(
-            pts
-        );
+document.getElementById(
+"ptsResult"
+).textContent=
+money(
+pts
+);
 
 }
 
 
-/* =====================================================
+/* =========================================================
    SECTION 5
-===================================================== */
+========================================================= */
 
-function calculateSection5() {
+function calculateSection5(){
 
-    const preGSTMRP =
-        parseFloat(
-            document.getElementById(
-                "preGstMRP"
-            ).value
-        ) || 0;
-
-
-    const oldGST =
-        parseFloat(
-            document.getElementById(
-                "oldGST"
-            ).value
-        );
+const preGSTMRP=
+parseFloat(
+document.getElementById(
+"preGstMRP"
+).value
+)||0;
 
 
-    const newGST =
-        parseFloat(
-            document.getElementById(
-                "newGST"
-            ).value
-        );
+const oldGST=
+parseFloat(
+document.getElementById(
+"oldGST"
+).value
+);
 
 
-    if (
-        !isFinite(oldGST) ||
-        !isFinite(newGST)
-    ) {
-
-        document.getElementById(
-            "mrpWithoutGST"
-        ).value =
-            "₹ 0.00";
+const newGST=
+parseFloat(
+document.getElementById(
+"newGST"
+).value
+);
 
 
-        document.getElementById(
-            "postGSTMRPResult"
-        ).textContent =
-            "₹ 0.00";
+if(
+!isFinite(oldGST)||
+!isFinite(newGST)
+){
+
+document.getElementById(
+"mrpWithoutGST"
+).value=
+"₹ 0.00";
 
 
-        return;
-
-    }
-
-
-    const mrpWithoutGST =
-        preGSTMRP /
-        (
-            1 +
-            oldGST / 100
-        );
+document.getElementById(
+"postGSTMRPResult"
+).textContent=
+"₹ 0.00";
 
 
-    document.getElementById(
-        "mrpWithoutGST"
-    ).value =
-        money(
-            mrpWithoutGST
-        );
-
-
-    const postGSTMRP =
-        mrpWithoutGST *
-        (
-            1 +
-            newGST / 100
-        );
-
-
-    document.getElementById(
-        "postGSTMRPResult"
-    ).textContent =
-        money(
-            postGSTMRP
-        );
+return;
 
 }
 
 
-/* =====================================================
+/*
+   Remove Old GST
+*/
+
+const withoutGST=
+preGSTMRP/
+(
+1+
+oldGST/100
+);
+
+
+document.getElementById(
+"mrpWithoutGST"
+).value=
+money(
+withoutGST
+);
+
+
+/*
+   Apply New GST
+*/
+
+const postGSTMRP=
+withoutGST*
+(
+1+
+newGST/100
+);
+
+
+document.getElementById(
+"postGSTMRPResult"
+).textContent=
+money(
+postGSTMRP
+);
+
+}
+
+
+/* =========================================================
    RESET
-===================================================== */
+========================================================= */
 
-function resetCalculator() {
+function resetCalculator(){
 
-    document
-        .querySelectorAll(
-            "input"
-        )
-        .forEach(
-            function(input) {
+document
+.querySelectorAll(
+"input"
+)
+.forEach(
+function(input){
 
-                if (
-                    input.type !==
-                    "hidden"
-                ) {
+if(
+input.type!=="hidden"
+){
 
-                    input.value = "";
+input.value="";
 
-                }
+}
 
-            }
-        );
-
-
-    document
-        .querySelectorAll(
-            "select"
-        )
-        .forEach(
-            function(select) {
-
-                select.selectedIndex =
-                    0;
-
-            }
-        );
+}
+);
 
 
-    selectedGST = 0;
+document
+.querySelectorAll(
+"select"
+)
+.forEach(
+function(select){
+
+select.selectedIndex=0;
+
+}
+);
 
 
-    document.getElementById(
-        "gstRate"
-    ).value = 0;
+selectedGST=0;
 
 
-    document
-        .querySelectorAll(
-            ".gst-option"
-        )
-        .forEach(
-            function(btn) {
-
-                btn.classList.remove(
-                    "selected"
-                );
-
-            }
-        );
+document.getElementById(
+"gstRate"
+).value=0;
 
 
-    document.getElementById(
-        "ceilingPackResult"
-    ).textContent =
-        "₹ 0.00";
+document
+.querySelectorAll(
+".gst-option"
+)
+.forEach(
+function(btn){
+
+btn.classList.remove(
+"selected"
+);
+
+}
+);
 
 
-    document.getElementById(
-        "mrpCPResult"
-    ).textContent =
-        "₹ 0.00";
+document.getElementById(
+"wpiResultInput"
+).value=
+"0.00%";
 
 
-    document.getElementById(
-        "wpiResultInput"
-    ).value =
-        "0.00%";
+document.getElementById(
+"ceilingPackResult"
+).textContent=
+"₹ 0.00";
 
 
-    document.getElementById(
-        "mrpWPIResult"
-    ).textContent =
-        "₹ 0.00";
+document.getElementById(
+"mrpCPResult"
+).textContent=
+"₹ 0.00";
 
 
-    document.getElementById(
-        "revisedMRPResult"
-    ).textContent =
-        "₹ 0.00";
+document.getElementById(
+"mrpWPIResult"
+).textContent=
+"₹ 0.00";
 
 
-    document.getElementById(
-        "tradeMRPResult"
-    ).textContent =
-        "₹ 0.00";
+document.getElementById(
+"revisedMRPResult"
+).textContent=
+"₹ 0.00";
 
 
-    document.getElementById(
-        "ptrResult"
-    ).textContent =
-        "₹ 0.00";
+document.getElementById(
+"tradeMRPResult"
+).textContent=
+"₹ 0.00";
 
 
-    document.getElementById(
-        "ptsResult"
-    ).textContent =
-        "₹ 0.00";
+document.getElementById(
+"ptrResult"
+).textContent=
+"₹ 0.00";
 
 
-    document.getElementById(
-        "mrpWithoutGST"
-    ).value =
-        "₹ 0.00";
+document.getElementById(
+"ptsResult"
+).textContent=
+"₹ 0.00";
 
 
-    document.getElementById(
-        "postGSTMRPResult"
-    ).textContent =
-        "₹ 0.00";
+document.getElementById(
+"mrpWithoutGST"
+).value=
+"₹ 0.00";
+
+
+document.getElementById(
+"postGSTMRPResult"
+).textContent=
+"₹ 0.00";
 
 }
 
 
-/* =====================================================
+/* =========================================================
    SHARE SCREEN
-===================================================== */
+========================================================= */
 
-async function shareScreen() {
+async function shareScreen(){
 
-    const shareText =
-
-        "PRICE ANALYSIS\n\n" +
-
-        "Ceiling Price / Pack: " +
-        document.getElementById(
-            "ceilingPackResult"
-        ).textContent +
-
-        "\nMRP as per Ceiling Price: " +
-        document.getElementById(
-            "mrpCPResult"
-        ).textContent +
-
-        "\nMRP as per WPI: " +
-        document.getElementById(
-            "mrpWPIResult"
-        ).textContent +
-
-        "\nProposed Revised MRP: " +
-        document.getElementById(
-            "revisedMRPResult"
-        ).textContent +
-
-        "\nTrade Margin:" +
-
-        "\nMRP: " +
-        document.getElementById(
-            "tradeMRPResult"
-        ).textContent +
-
-        "\nPTR: " +
-        document.getElementById(
-            "ptrResult"
-        ).textContent +
-
-        "\nPTS: " +
-        document.getElementById(
-            "ptsResult"
-        ).textContent +
-
-        "\nPost-GST MRP: " +
-        document.getElementById(
-            "postGSTMRPResult"
-        ).textContent;
+const gst=
+selectedGST+"%";
 
 
-    if (
-        navigator.share
-    ) {
-
-        try {
-
-            await navigator.share({
-
-                title:
-                    "Price Analysis",
-
-                text:
-                    shareText
-
-            });
-
-            return;
-
-        }
-
-        catch(error) {
-
-            if (
-                error.name ===
-                "AbortError"
-            ) {
-
-                return;
-
-            }
-
-        }
-
-    }
+const year=
+document.getElementById(
+"wpiYear"
+).value;
 
 
-    const popup =
-        window.open(
-            "",
-            "_blank"
-        );
+const wpi=
+document.getElementById(
+"wpiResultInput"
+).value;
 
 
-    if (!popup) {
+const text=
 
-        alert(
-            "Please allow pop-ups to share the screen."
-        );
+"PRICE ANALYSIS\n\n"+
 
-        return;
+"Selected GST: "+
+gst+
 
-    }
+"\n\nSECTION-1\n"+
+
+"Ceiling Price/Pack: "+
+document.getElementById(
+"ceilingPackResult"
+).textContent+
+
+"\nMRP as per Ceiling Price: "+
+document.getElementById(
+"mrpCPResult"
+).textContent+
+
+"\n\nSECTION-2\n"+
+
+"Year: "+
+year+
+
+"\nWPI: "+
+wpi+
+
+"\nMRP as per WPI: "+
+document.getElementById(
+"mrpWPIResult"
+).textContent+
+
+"\n\nSECTION-3\n"+
+
+"Proposed Revised MRP: "+
+document.getElementById(
+"revisedMRPResult"
+).textContent+
+
+"\n\nSECTION-4 — TRADE MARGIN\n"+
+
+"MRP: "+
+document.getElementById(
+"tradeMRPResult"
+).textContent+
+
+"\nPTR: "+
+document.getElementById(
+"ptrResult"
+).textContent+
+
+"\nPTS: "+
+document.getElementById(
+"ptsResult"
+).textContent+
+
+"\n\nSECTION-5 — GST IMPLEMENTATION\n"+
+
+"Pre-GST MRP: "+
+document.getElementById(
+"preGstMRP"
+).value+
+
+"\nOld GST: "+
+document.getElementById(
+"oldGST"
+).value+
+"%"+
+
+"\nNew GST: "+
+document.getElementById(
+"newGST"
+).value+
+"%"+
+
+"\nMRP without GST: "+
+document.getElementById(
+"mrpWithoutGST"
+).value+
+
+"\nPost-GST MRP: "+
+document.getElementById(
+"postGSTMRPResult"
+).textContent;
 
 
-    popup.document.write(
+/*
+   Mobile Share
+*/
 
-        "<html>" +
+if(
+navigator.share
+){
 
-        "<head>" +
+try{
 
-        "<title>Price Analysis</title>" +
+await navigator.share({
 
-        "<style>" +
+title:
+"Price Analysis",
 
-        "body{" +
-        "font-family:Cambria,Georgia,serif;" +
-        "padding:30px;" +
-        "}" +
+text:text
 
-        "h1{" +
-        "color:#064e4e;" +
-        "}" +
+});
 
-        "pre{" +
-        "font-family:Cambria,Georgia,serif;" +
-        "font-size:15px;" +
-        "white-space:pre-wrap;" +
-        "}" +
+return;
 
-        "</style>" +
+}
 
-        "</head>" +
+catch(error){
 
-        "<body>" +
+if(
+error.name===
+"AbortError"
+){
 
-        "<h1>PRICE ANALYSIS</h1>" +
+return;
 
-        "<pre>" +
+}
 
-        shareText +
-
-        "</pre>" +
-
-        "</body>" +
-
-        "</html>"
-
-    );
-
-
-    popup.document.close();
-
-    popup.focus();
-
-
-    setTimeout(
-        function() {
-
-            popup.print();
-
-        },
-        500
-    );
+}
 
 }
 
 
-/* =====================================================
+/*
+   Desktop / Browser
+*/
+
+const popup=
+window.open(
+"",
+"_blank"
+);
+
+
+if(!popup){
+
+alert(
+"Please allow pop-ups to share the screen."
+);
+
+return;
+
+}
+
+
+popup.document.write(
+
+`<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Price Analysis</title>
+
+<style>
+
+body{
+
+font-family:Cambria,
+Georgia,
+serif;
+
+padding:30px;
+
+color:#000;
+
+}
+
+h1{
+
+color:#064e4e;
+
+}
+
+pre{
+
+font-family:Cambria,
+Georgia,
+serif;
+
+font-size:15px;
+
+white-space:pre-wrap;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>PRICE ANALYSIS</h1>
+
+<pre>${text}</pre>
+
+</body>
+
+</html>`
+
+);
+
+
+popup.document.close();
+
+popup.focus();
+
+
+setTimeout(
+function(){
+
+popup.print();
+
+},
+500
+);
+
+}
+
+
+/* =========================================================
    SERVICE WORKER
-===================================================== */
+========================================================= */
 
-function registerServiceWorker() {
+function registerServiceWorker(){
 
-    if (
-        "serviceWorker" in navigator
-    ) {
+if(
+"serviceWorker"
+in navigator
+){
 
-        navigator.serviceWorker
-            .register(
-                "sw.js"
-            )
-            .then(
-                function() {
+navigator.serviceWorker
+.register(
+"sw.js"
+)
+.then(
+function(){
 
-                    console.log(
-                        "Service Worker registered"
-                    );
+console.log(
+"Service Worker registered"
+);
 
-                }
-            )
-            .catch(
-                function(error) {
+}
+)
+.catch(
+function(error){
 
-                    console.log(
-                        "Service Worker error:",
-                        error
-                    );
+console.log(
+"Service Worker error:",
+error
+);
 
-                }
-            );
+}
+);
 
-    }
+}
 
 }
 
