@@ -20,10 +20,11 @@
 
 <link rel="manifest" href="manifest.json">
 
+
 <style>
 
 /* =========================================================
-   BASIC
+   GLOBAL
 ========================================================= */
 
 *{
@@ -79,7 +80,7 @@ body{
     background:#fff;
     border:1px solid #064e4e;
     border-radius:7px;
-    padding:7px 10px;
+    padding:8px 10px;
     margin-bottom:12px;
     font-size:12px;
     text-align:center;
@@ -94,7 +95,7 @@ body{
 
 
 /* =========================================================
-   GST BOX
+   GST
 ========================================================= */
 
 .gst-box{
@@ -191,10 +192,6 @@ select:focus{
     border:2px solid #064e4e;
 }
 
-.field{
-    min-width:0;
-}
-
 
 /* =========================================================
    SECTION 1
@@ -212,6 +209,11 @@ select:focus{
     grid-template-columns:1fr 1fr;
     gap:10px;
 }
+
+
+/* =========================================================
+   RESULT BOX
+========================================================= */
 
 .result-box{
     background:#eef7f7;
@@ -466,26 +468,6 @@ select:focus{
     }
 }
 
-@media(max-width:380px){
-
-    .section2-inputs{
-        gap:3px;
-    }
-
-    .section2-inputs input,
-    .section2-inputs select{
-        font-size:11px;
-    }
-
-    .trade-title{
-        font-size:11px;
-    }
-
-    .trade-value{
-        font-size:14px;
-    }
-}
-
 </style>
 
 </head>
@@ -493,12 +475,12 @@ select:focus{
 
 <body>
 
-<div class="container" id="calculatorScreen">
+<div class="container">
 
 
-<!-- ======================================================
+<!-- =====================================================
      HEADER
-====================================================== -->
+===================================================== -->
 
 <div class="main-header">
 
@@ -507,21 +489,21 @@ select:focus{
 </div>
 
 
-<!-- ======================================================
+<!-- =====================================================
      CSV STATUS
-====================================================== -->
+===================================================== -->
 
 <div id="csvStatus"
      class="csv-status">
 
-Loading CSV data...
+Loading Pack Size and Year-WPI CSV...
 
 </div>
 
 
-<!-- ======================================================
-     GST SELECTION
-====================================================== -->
+<!-- =====================================================
+     GST
+===================================================== -->
 
 <div class="gst-box">
 
@@ -565,9 +547,9 @@ Selected GST %
 </div>
 
 
-<!-- ======================================================
+<!-- =====================================================
      SECTION 1
-====================================================== -->
+===================================================== -->
 
 <div class="section">
 
@@ -583,7 +565,7 @@ SECTION-1 — MRP Calculation as per Ceiling Price
 <div class="section1-inputs">
 
 
-<div class="field">
+<div>
 
 <label>
 Ceiling Price
@@ -598,7 +580,7 @@ Ceiling Price
 </div>
 
 
-<div class="field">
+<div>
 
 <label>
 Pack Size
@@ -608,7 +590,7 @@ Pack Size
         onchange="calculateSection1()">
 
 <option value="">
-Choose Pack Size
+Loading Pack Size...
 </option>
 
 </select>
@@ -661,9 +643,9 @@ MRP as per Ceiling Price
 </div>
 
 
-<!-- ======================================================
+<!-- =====================================================
      SECTION 2
-====================================================== -->
+===================================================== -->
 
 <div class="section">
 
@@ -679,7 +661,7 @@ SECTION-2 — MRP Calculation as per WPI
 <div class="section2-inputs">
 
 
-<div class="field">
+<div>
 
 <label>
 Existing MRP
@@ -694,7 +676,7 @@ Existing MRP
 </div>
 
 
-<div class="field">
+<div>
 
 <label>
 Year
@@ -704,7 +686,7 @@ Year
         onchange="yearChanged()">
 
 <option value="">
-Select Year
+Loading Year...
 </option>
 
 </select>
@@ -712,7 +694,7 @@ Select Year
 </div>
 
 
-<div class="field">
+<div>
 
 <label>
 WPI%
@@ -721,7 +703,7 @@ WPI%
 <input type="text"
        id="wpiResultInput"
        class="wpi-input"
-       value="0.00%"
+       value="0.0000%"
        readonly>
 
 </div>
@@ -732,8 +714,9 @@ WPI%
 
 <div class="note">
 
-WPI% will automatically be displayed
-based on the selected Year.
+WPI% is automatically picked from
+<b>year-wpi.csv</b> according to the selected Year.
+WPI is displayed and calculated up to <b>4 decimal places</b>.
 
 </div>
 
@@ -753,14 +736,15 @@ MRP as per WPI
 
 </div>
 
-</div>
 
 </div>
 
+</div>
 
-<!-- ======================================================
+
+<!-- =====================================================
      SECTION 3
-====================================================== -->
+===================================================== -->
 
 <div class="section">
 
@@ -776,7 +760,7 @@ SECTION-3 — MRP Revision (Non-Scheduled Product)
 <div class="section3-inputs">
 
 
-<div class="field">
+<div>
 
 <label>
 Per-Revised MRP
@@ -791,7 +775,7 @@ Per-Revised MRP
 </div>
 
 
-<div class="field">
+<div>
 
 <label>
 DPCO Permissible Limit
@@ -821,13 +805,12 @@ Select Limit
 
 </div>
 
+
 </div>
 
 
 <div class="proposed-heading">
-
 Proposed Revised MRP
-
 </div>
 
 
@@ -852,9 +835,9 @@ MRP
 </div>
 
 
-<!-- ======================================================
+<!-- =====================================================
      SECTION 4 — TRADE MARGIN
-====================================================== -->
+===================================================== -->
 
 <div class="section">
 
@@ -867,7 +850,7 @@ SECTION-4 — Trade Margin
 <div class="section-body">
 
 
-<div class="field trade-input">
+<div class="trade-input">
 
 <label>
 MRP
@@ -937,35 +920,34 @@ PTS
 
 
 <div class="note"
-     style="margin-top:10px;margin-bottom:0;">
+     style="margin-top:10px;margin-bottom:0">
 
-PTR and PTS are calculated based on
-the Selected GST % above.
-
-</div>
+PTR is truncated to 2 decimals.
+PTS is rounded to 2 decimals.
 
 </div>
 
 </div>
 
+</div>
 
-<!-- ======================================================
+
+<!-- =====================================================
      SECTION 5
-====================================================== -->
+===================================================== -->
 
 <div class="section">
 
 <div class="section-title">
 
 SECTION-5 — GST Implementation
-(w.e.f. 22.11.2025)
 
 </div>
 
 <div class="section-body">
 
 
-<div class="field short-field">
+<div class="short-field">
 
 <label>
 Pre-GST MRP
@@ -983,7 +965,7 @@ Pre-GST MRP
 <div class="gst-pair">
 
 
-<div class="field">
+<div>
 
 <label>
 Old GST%
@@ -1007,7 +989,7 @@ Choose Old GST%
 </div>
 
 
-<div class="field">
+<div>
 
 <label>
 New GST%
@@ -1034,7 +1016,7 @@ Choose New GST%
 </div>
 
 
-<div class="field short-field">
+<div class="short-field">
 
 <label>
 MRP without GST
@@ -1069,9 +1051,9 @@ Post-GST MRP
 </div>
 
 
-<!-- ======================================================
+<!-- =====================================================
      BUTTONS
-====================================================== -->
+===================================================== -->
 
 <div class="button-row">
 
@@ -1114,27 +1096,31 @@ let packSizes = [];
 
 let wpiMaster = {};
 
+let packCSVLoaded = false;
+
+let wpiCSVLoaded = false;
+
 
 /* =========================================================
-   CSV FILES
+   CSV FILE NAMES
 ========================================================= */
 
-const PACK_SIZE_CSV = "pack-size.csv";
+const PACK_SIZE_CSV =
+    "./pack-size.csv";
 
-const YEAR_WPI_CSV = "year-wpi.csv";
+const YEAR_WPI_CSV =
+    "./year-wpi.csv";
 
 
 /* =========================================================
-   PAGE LOAD
+   START APPLICATION
 ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
-    function(){
+    async function(){
 
-        loadPackSizeCSV();
-
-        loadYearWPICSV();
+        await loadAllCSV();
 
         registerServiceWorker();
 
@@ -1143,76 +1129,78 @@ document.addEventListener(
 
 
 /* =========================================================
-   CSV PARSER
+   LOAD BOTH CSV FILES
 ========================================================= */
 
-function parseCSVLine(line){
+async function loadAllCSV(){
 
-    const result = [];
-
-    let current = "";
-
-    let insideQuotes = false;
+    setStatus(
+        "Loading Pack Size and Year-WPI CSV..."
+    );
 
 
-    for(
-        let i = 0;
-        i < line.length;
-        i++
-    ){
+    await Promise.allSettled([
 
-        const char = line[i];
+        loadPackSizeCSV(),
+
+        loadYearWPICSV()
+
+    ]);
 
 
-        if(char === '"'){
+    updateCSVStatus();
 
-            if(
-                insideQuotes &&
-                line[i + 1] === '"'
-            ){
+}
 
-                current += '"';
 
-                i++;
+/* =========================================================
+   FETCH CSV
+========================================================= */
 
+async function fetchCSV(
+    fileName
+){
+
+    const response =
+        await fetch(
+            fileName +
+            "?v=" +
+            Date.now(),
+            {
+                cache:"no-store"
             }
-            else{
+        );
 
-                insideQuotes =
-                    !insideQuotes;
 
-            }
+    if(!response.ok){
 
-        }
-
-        else if(
-            char === "," &&
-            !insideQuotes
-        ){
-
-            result.push(
-                current.trim()
-            );
-
-            current = "";
-
-        }
-
-        else{
-
-            current += char;
-
-        }
+        throw new Error(
+            fileName +
+            " HTTP " +
+            response.status
+        );
 
     }
 
 
-    result.push(
-        current.trim()
-    );
+    const text =
+        await response.text();
 
 
-    return result;
+    if(
+        !text ||
+        !text.trim()
+    ){
+
+        throw new Error(
+            fileName +
+            " is empty."
+        );
+
+    }
+
+
+    return text;
 
 }
 
@@ -1225,39 +1213,30 @@ async function loadPackSizeCSV(){
 
     try{
 
-        const response =
-            await fetch(
-                PACK_SIZE_CSV +
-                "?v=" +
-                Date.now()
-            );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "Pack Size CSV not found"
-            );
-
-        }
-
-
         const text =
-            await response.text();
+            await fetchCSV(
+                PACK_SIZE_CSV
+            );
 
 
-        parsePackSizeCSV(text);
+        parsePackSizeCSV(
+            text
+        );
 
-        updateCSVStatus();
+
+        packCSVLoaded = true;
+
+        populatePackSizes();
 
     }
     catch(error){
 
-        console.error(error);
-
-        showCSVError(
-            "Pack Size CSV could not be loaded."
+        console.error(
+            "PACK SIZE CSV ERROR:",
+            error
         );
+
+        packCSVLoaded = false;
 
     }
 
@@ -1265,88 +1244,346 @@ async function loadPackSizeCSV(){
 
 
 /* =========================================================
-   PARSE PACK SIZE CSV
+   YEAR-WPI CSV
 ========================================================= */
 
-function parsePackSizeCSV(text){
+async function loadYearWPICSV(){
 
-    packSizes = [];
+    try{
+
+        const text =
+            await fetchCSV(
+                YEAR_WPI_CSV
+            );
 
 
-    const lines =
-        text
-        .trim()
-        .split(/\r?\n/);
-
-
-    if(lines.length < 2){
-
-        throw new Error(
-            "No Pack Size data"
+        parseYearWPICSV(
+            text
         );
+
+
+        wpiCSVLoaded = true;
+
+        populateYears();
+
+    }
+    catch(error){
+
+        console.error(
+            "YEAR-WPI CSV ERROR:",
+            error
+        );
+
+        wpiCSVLoaded = false;
 
     }
 
-
-    const headers =
-        parseCSVLine(lines[0])
-        .map(
-            x =>
-            x
-            .replace(/^\uFEFF/,"")
-            .trim()
-            .toLowerCase()
-        );
+}
 
 
-    const packIndex =
-        headers.indexOf(
-            "pack size"
-        );
+/* =========================================================
+   CSV LINE PARSER
+========================================================= */
 
+function parseCSVLine(
+    line
+){
 
-    if(packIndex === -1){
+    const result = [];
 
-        throw new Error(
-            "Pack Size column not found"
-        );
+    let value = "";
 
-    }
+    let quoted = false;
 
 
     for(
-        let i = 1;
-        i < lines.length;
+        let i=0;
+        i<line.length;
         i++
     ){
 
-        if(!lines[i].trim())
-            continue;
+        const char =
+            line[i];
 
 
-        const row =
-            parseCSVLine(lines[i]);
+        if(char === '"'){
 
+            if(
+                quoted &&
+                line[i+1] === '"'
+            ){
 
-        const pack =
-            row[packIndex]
-            ? row[packIndex].trim()
-            : "";
+                value += '"';
 
+                i++;
 
-        if(
-            pack &&
-            !packSizes.includes(pack)
+            }
+            else{
+
+                quoted =
+                    !quoted;
+
+            }
+
+        }
+        else if(
+            char === "," &&
+            !quoted
         ){
 
-            packSizes.push(pack);
+            result.push(
+                cleanCSVValue(
+                    value
+                )
+            );
+
+            value = "";
+
+        }
+        else{
+
+            value += char;
 
         }
 
     }
 
 
-    populatePackSizes();
+    result.push(
+        cleanCSVValue(
+            value
+        )
+    );
+
+
+    return result;
+
+}
+
+
+/* =========================================================
+   CLEAN CSV
+========================================================= */
+
+function cleanCSVValue(
+    value
+){
+
+    return String(
+        value || ""
+    )
+    .replace(
+        /^\uFEFF/,
+        ""
+    )
+    .trim()
+    .replace(
+        /^"(.*)"$/,
+        "$1"
+    )
+    .trim();
+
+}
+
+
+/* =========================================================
+   NORMALIZE HEADER
+========================================================= */
+
+function normalizeHeader(
+    value
+){
+
+    return String(
+        value || ""
+    )
+    .replace(
+        /^\uFEFF/,
+        ""
+    )
+    .trim()
+    .toLowerCase()
+    .replace(
+        /[\s_\-]+/g,
+        ""
+    )
+    .replace(
+        /%/g,
+        ""
+    );
+
+}
+
+
+/* =========================================================
+   FIND COLUMN
+========================================================= */
+
+function findColumn(
+    headers,
+    possibleNames
+){
+
+    const normalized =
+        headers.map(
+            normalizeHeader
+        );
+
+
+    for(
+        const name
+        of possibleNames
+    ){
+
+        const target =
+            normalizeHeader(
+                name
+            );
+
+
+        const index =
+            normalized.indexOf(
+                target
+            );
+
+
+        if(index !== -1){
+
+            return index;
+
+        }
+
+    }
+
+
+    return -1;
+
+}
+
+
+/* =========================================================
+   PARSE PACK SIZE
+========================================================= */
+
+function parsePackSizeCSV(
+    text
+){
+
+    packSizes = [];
+
+
+    const lines =
+        text
+        .replace(
+            /^\uFEFF/,
+            ""
+        )
+        .split(/\r?\n/)
+        .filter(
+            line =>
+            line.trim() !== ""
+        );
+
+
+    if(
+        lines.length < 1
+    ){
+
+        throw new Error(
+            "Pack Size CSV is empty."
+        );
+
+    }
+
+
+    const headers =
+        parseCSVLine(
+            lines[0]
+        );
+
+
+    let packIndex =
+        findColumn(
+            headers,
+            [
+                "Pack Size",
+                "PackSize",
+                "Pack_Size",
+                "Pack-Size",
+                "Pack"
+            ]
+        );
+
+
+    /*
+       If only one column exists,
+       automatically use it.
+    */
+
+    if(
+        packIndex === -1 &&
+        headers.length === 1
+    ){
+
+        packIndex = 0;
+
+    }
+
+
+    if(
+        packIndex === -1
+    ){
+
+        throw new Error(
+            "Pack Size column not found."
+        );
+
+    }
+
+
+    for(
+        let i=1;
+        i<lines.length;
+        i++
+    ){
+
+        const row =
+            parseCSVLine(
+                lines[i]
+            );
+
+
+        const pack =
+            cleanCSVValue(
+                row[packIndex]
+            );
+
+
+        if(
+            pack &&
+            !packSizes.includes(
+                pack
+            )
+        ){
+
+            packSizes.push(
+                pack
+            );
+
+        }
+
+    }
+
+
+    if(
+        packSizes.length === 0
+    ){
+
+        throw new Error(
+            "No Pack Size data found."
+        );
+
+    }
 
 }
 
@@ -1371,12 +1608,16 @@ function populatePackSizes(){
             "option"
         );
 
+
     first.value = "";
 
     first.textContent =
         "Choose Pack Size";
 
-    select.appendChild(first);
+
+    select.appendChild(
+        first
+    );
 
 
     packSizes.forEach(
@@ -1387,11 +1628,18 @@ function populatePackSizes(){
                     "option"
                 );
 
-            option.value = pack;
 
-            option.textContent = pack;
+            option.value =
+                pack;
 
-            select.appendChild(option);
+
+            option.textContent =
+                pack;
+
+
+            select.appendChild(
+                option
+            );
 
         }
     );
@@ -1400,159 +1648,135 @@ function populatePackSizes(){
 
 
 /* =========================================================
-   YEAR-WPI CSV
+   PARSE YEAR-WPI
 ========================================================= */
 
-async function loadYearWPICSV(){
-
-    try{
-
-        const response =
-            await fetch(
-                YEAR_WPI_CSV +
-                "?v=" +
-                Date.now()
-            );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "Year-WPI CSV not found"
-            );
-
-        }
-
-
-        const text =
-            await response.text();
-
-
-        parseYearWPICSV(text);
-
-        updateCSVStatus();
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        showCSVError(
-            "Year-WPI CSV could not be loaded."
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   PARSE YEAR-WPI CSV
-========================================================= */
-
-function parseYearWPICSV(text){
+function parseYearWPICSV(
+    text
+){
 
     wpiMaster = {};
 
 
-    const cleanText =
-        text
-        .replace(/^\uFEFF/,"")
-        .trim();
-
-
     const lines =
-        cleanText
-        .split(/\r?\n/);
+        text
+        .replace(
+            /^\uFEFF/,
+            ""
+        )
+        .split(/\r?\n/)
+        .filter(
+            line =>
+            line.trim() !== ""
+        );
 
 
-    if(lines.length < 2){
+    if(
+        lines.length < 1
+    ){
 
         throw new Error(
-            "No Year-WPI data"
+            "Year-WPI CSV is empty."
         );
 
     }
 
 
     const headers =
-        parseCSVLine(lines[0])
-        .map(
-            x =>
-            x
-            .replace(/^\uFEFF/,"")
-            .trim()
-            .toLowerCase()
+        parseCSVLine(
+            lines[0]
         );
 
 
     const yearIndex =
-        headers.findIndex(
-            header =>
-                header === "year" ||
-                header === "years"
+        findColumn(
+            headers,
+            [
+                "Year",
+                "Years",
+                "Financial Year",
+                "FinancialYear"
+            ]
         );
 
 
     const wpiIndex =
-        headers.findIndex(
-            header =>
-                header === "wpi" ||
-                header === "wpi%" ||
-                header === "wpi %"
+        findColumn(
+            headers,
+            [
+                "WPI",
+                "WPI%",
+                "WPI %",
+                "WPI Rate",
+                "WPIRate"
+            ]
         );
 
 
-    if(yearIndex === -1){
+    if(
+        yearIndex === -1
+    ){
 
         throw new Error(
-            "Year column not found"
+            "Year column not found."
         );
 
     }
 
 
-    if(wpiIndex === -1){
+    if(
+        wpiIndex === -1
+    ){
 
         throw new Error(
-            "WPI column not found"
+            "WPI column not found."
         );
 
     }
 
 
     for(
-        let i = 1;
-        i < lines.length;
+        let i=1;
+        i<lines.length;
         i++
     ){
 
-        if(!lines[i].trim())
-            continue;
-
-
         const row =
-            parseCSVLine(lines[i]);
+            parseCSVLine(
+                lines[i]
+            );
 
 
         const year =
-            String(
-                row[yearIndex] || ""
-            ).trim();
+            cleanCSVValue(
+                row[yearIndex]
+            );
 
 
         let wpiText =
-            String(
-                row[wpiIndex] || ""
-            ).trim();
-
-
-        wpiText =
-            wpiText.replace(
-                "%",
-                ""
+            cleanCSVValue(
+                row[wpiIndex]
             );
 
+
+        /*
+           Remove percentage symbol.
+        */
+
+        wpiText =
+            wpiText
+            .replace(
+                /%/g,
+                ""
+            )
+            .trim();
+
+
+        /*
+           IMPORTANT:
+           Keep the original decimal precision
+           for calculation.
+        */
 
         const wpi =
             parseFloat(
@@ -1565,14 +1789,26 @@ function parseYearWPICSV(text){
             !isNaN(wpi)
         ){
 
-            wpiMaster[year] = wpi;
+            wpiMaster[
+                year
+            ] = wpi;
 
         }
 
     }
 
 
-    populateYears();
+    if(
+        Object.keys(
+            wpiMaster
+        ).length === 0
+    ){
+
+        throw new Error(
+            "No Year/WPI records found."
+        );
+
+    }
 
 }
 
@@ -1597,22 +1833,51 @@ function populateYears(){
             "option"
         );
 
+
     first.value = "";
 
     first.textContent =
         "Select Year";
 
-    select.appendChild(first);
+
+    select.appendChild(
+        first
+    );
 
 
     const years =
         Object.keys(
             wpiMaster
-        ).sort(
-            (a,b) =>
-                Number(a) -
-                Number(b)
         );
+
+
+    years.sort(
+        function(a,b){
+
+            const na =
+                parseFloat(a);
+
+            const nb =
+                parseFloat(b);
+
+
+            if(
+                !isNaN(na) &&
+                !isNaN(nb)
+            ){
+
+                return na - nb;
+
+            }
+
+
+            return String(a)
+                .localeCompare(
+                    String(b)
+                );
+
+        }
+    );
 
 
     years.forEach(
@@ -1623,11 +1888,18 @@ function populateYears(){
                     "option"
                 );
 
-            option.value = year;
 
-            option.textContent = year;
+            option.value =
+                year;
 
-            select.appendChild(option);
+
+            option.textContent =
+                year;
+
+
+            select.appendChild(
+                option
+            );
 
         }
     );
@@ -1648,7 +1920,9 @@ function yearChanged(){
 
 
     const wpi =
-        wpiMaster[year];
+        wpiMaster[
+            year
+        ];
 
 
     const field =
@@ -1662,15 +1936,20 @@ function yearChanged(){
         typeof wpi !== "undefined"
     ){
 
+        /*
+           WPI DISPLAY:
+           4 decimal places
+        */
+
         field.value =
-            Number(wpi).toFixed(2) +
-            "%";
+            Number(wpi).toFixed(4)
+            + "%";
 
     }
     else{
 
         field.value =
-            "0.00%";
+            "0.0000%";
 
     }
 
@@ -1681,20 +1960,13 @@ function yearChanged(){
 
 
 /* =========================================================
-   CSV STATUS
+   STATUS
 ========================================================= */
 
-function updateCSVStatus(){
-
-    const packLoaded =
-        packSizes.length > 0;
-
-
-    const yearLoaded =
-        Object.keys(
-            wpiMaster
-        ).length > 0;
-
+function setStatus(
+    message,
+    isError=false
+){
 
     const status =
         document.getElementById(
@@ -1702,13 +1974,18 @@ function updateCSVStatus(){
         );
 
 
-    if(
-        packLoaded &&
-        yearLoaded
-    ){
+    status.textContent =
+        message;
 
-        status.textContent =
-            "Pack Size CSV and Year-WPI CSV loaded successfully.";
+
+    if(isError){
+
+        status.classList.add(
+            "error"
+        );
+
+    }
+    else{
 
         status.classList.remove(
             "error"
@@ -1719,19 +1996,61 @@ function updateCSVStatus(){
 }
 
 
-function showCSVError(message){
+function updateCSVStatus(){
 
-    const status =
-        document.getElementById(
-            "csvStatus"
+    if(
+        packCSVLoaded &&
+        wpiCSVLoaded
+    ){
+
+        setStatus(
+            "✓ Pack Size and Year-WPI data loaded successfully."
         );
 
+        return;
 
-    status.textContent = message;
+    }
 
-    status.classList.add(
-        "error"
-    );
+
+    if(
+        !packCSVLoaded &&
+        !wpiCSVLoaded
+    ){
+
+        setStatus(
+            "Both CSV files could not be loaded. Check filenames and location.",
+            true
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !packCSVLoaded
+    ){
+
+        setStatus(
+            "Year-WPI loaded, but Pack Size CSV could not be loaded. Check pack-size.csv.",
+            true
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !wpiCSVLoaded
+    ){
+
+        setStatus(
+            "Pack Size loaded, but Year-WPI CSV could not be loaded. Check year-wpi.csv.",
+            true
+        );
+
+    }
 
 }
 
@@ -1751,22 +2070,23 @@ function selectGST(
 
     document.getElementById(
         "gstRate"
-    ).value = rate;
+    ).value =
+        rate;
 
 
     document
-        .querySelectorAll(
-            ".gst-option"
-        )
-        .forEach(
-            function(btn){
+    .querySelectorAll(
+        ".gst-option"
+    )
+    .forEach(
+        function(btn){
 
-                btn.classList.remove(
-                    "selected"
-                );
+            btn.classList.remove(
+                "selected"
+            );
 
-            }
-        );
+        }
+    );
 
 
     button.classList.add(
@@ -1784,70 +2104,53 @@ function selectGST(
 
 
 /* =========================================================
-   TRUNCATE — IMPORTANT
-=========================================================
-
-   NO ROUNDING.
-
-   10.24569 -> 10.24
-   10.24999 -> 10.24
-   10.25678 -> 10.25
-
+   TRUNCATE TO 2 DECIMALS
 ========================================================= */
 
-function truncate2(value){
+function truncate2(
+    value
+){
 
-    if(!isFinite(value))
+    if(
+        !isFinite(value)
+    ){
+
         return 0;
+
+    }
 
 
     return Math.floor(
-        (Number(value) +
-         Number.EPSILON) *
-        100
+        (
+            Number(value) +
+            Number.EPSILON
+        ) * 100
     ) / 100;
 
 }
 
 
 /* =========================================================
-   MONEY DISPLAY
-
-   This does NOT round the calculated MRP.
+   MONEY
 ========================================================= */
 
-function money(value){
+function money(
+    value
+){
 
-    if(!isFinite(value)){
+    if(
+        !isFinite(value)
+    ){
 
         return "₹ 0.00";
 
     }
 
 
-    const truncated =
-        truncate2(value);
-
-
-    return (
-        "₹ " +
-        truncated.toFixed(2)
-    );
-
-}
-
-
-/* =========================================================
-   RAW NUMBER FOR INPUT
-========================================================= */
-
-function numberValue(value){
-
-    if(!isFinite(value))
-        return 0;
-
-
-    return truncate2(value);
+    return "₹ " +
+        truncate2(
+            value
+        ).toFixed(2);
 
 }
 
@@ -1860,18 +2163,43 @@ function getPackQuantity(
     packText
 ){
 
-    if(!packText)
+    if(!packText){
+
         return 1;
+
+    }
 
 
     const match =
-        packText.match(
-            /[\d]+(?:\.\d+)?/
+        String(
+            packText
+        ).match(
+            /\d+(?:\.\d+)/
         );
 
 
-    if(!match)
-        return 1;
+    if(!match){
+
+        const simpleMatch =
+            String(
+                packText
+            ).match(
+                /\d+/
+            );
+
+
+        if(!simpleMatch){
+
+            return 1;
+
+        }
+
+
+        return parseFloat(
+            simpleMatch[0]
+        );
+
+    }
 
 
     const quantity =
@@ -1917,24 +2245,21 @@ function calculateSection1(){
         selectedGST / 100;
 
 
-    /*
-       Previous logic:
-       Ceiling Price × Pack Size
-    */
-
     const ceilingPack =
         ceilingPrice *
         quantity;
 
 
-    /*
-       Apply GST
-    */
-
     const mrp =
         ceilingPack *
-        (1 + gst);
+        (
+            1 + gst
+        );
 
+
+    /*
+       NO ROUNDING
+    */
 
     document.getElementById(
         "ceilingPackResult"
@@ -1943,11 +2268,6 @@ function calculateSection1(){
             ceilingPack
         );
 
-
-    /*
-       IMPORTANT:
-       No rounding.
-    */
 
     document.getElementById(
         "mrpCPResult"
@@ -1979,9 +2299,20 @@ function calculateSection2(){
         ).value;
 
 
+    /*
+       IMPORTANT:
+       Get the actual WPI value from CSV.
+
+       Example:
+       4.2456 remains 4.2456
+       It is NOT converted to 4.25.
+    */
+
     const wpi =
         Number(
-            wpiMaster[year] || 0
+            wpiMaster[
+                year
+            ] || 0
         );
 
 
@@ -1990,30 +2321,36 @@ function calculateSection2(){
 
 
     /*
-    ========================================================
-    MRP AS PER WPI
+       Formula:
 
-    Existing MRP
-    ÷ (1 + Selected GST%)
-    × (1 + WPI%)
-    × (1 + Selected GST%)
-
-    NO ROUNDING
-    ========================================================
+       Existing MRP
+       ÷ (1 + Selected GST%)
+       × (1 + WPI%)
+       × (1 + Selected GST%)
     */
 
     const result =
         (
             existingMRP /
-            (1 + gst)
-        ) *
+            (
+                1 + gst
+            )
+        )
+        *
         (
-            1 + wpi / 100
-        ) *
+            1 +
+            wpi / 100
+        )
+        *
         (
             1 + gst
         );
 
+
+    /*
+       NO ROUNDING.
+       Result is truncated to 2 decimals.
+    */
 
     document.getElementById(
         "mrpWPIResult"
@@ -2051,12 +2388,9 @@ function calculateSection3(){
         perRevisedMRP;
 
 
-    /*
-       Previous logic:
-       Apply selected DPCO permissible limit.
-    */
-
-    if(!isNaN(limit)){
+    if(
+        !isNaN(limit)
+    ){
 
         revisedMRP =
             perRevisedMRP *
@@ -2069,8 +2403,7 @@ function calculateSection3(){
 
 
     /*
-       Proposed Revised MRP
-       No rounding.
+       NO ROUNDING
     */
 
     document.getElementById(
@@ -2102,12 +2435,14 @@ function calculateTradeMargin(){
 
 
     /*
-       MRP excluding GST
+       Remove GST
     */
 
     const mrpWithoutGST =
         mrp /
-        (1 + gst);
+        (
+            1 + gst
+        );
 
 
     /*
@@ -2136,26 +2471,42 @@ function calculateTradeMargin(){
         );
 
 
+    /*
+       PTR:
+       TRUNCATE
+
+       12.6459 → 12.64
+    */
+
     document.getElementById(
         "ptrResult"
     ).textContent =
-        money(
+        "₹ " +
+        truncate2(
             ptr
-        );
+        ).toFixed(2);
 
+
+    /*
+       PTS:
+       NORMAL ROUND
+
+       11.3764 → 11.38
+    */
 
     document.getElementById(
         "ptsResult"
     ).textContent =
-        money(
+        "₹ " +
+        Number(
             pts
-        );
+        ).toFixed(2);
 
 }
 
 
 /* =========================================================
-   SECTION 5
+   SECTION 5 — GST
 ========================================================= */
 
 function calculateSection5(){
@@ -2207,7 +2558,7 @@ function calculateSection5(){
 
 
     /*
-       Remove Old GST
+       Remove OLD GST
     */
 
     const withoutGST =
@@ -2227,7 +2578,7 @@ function calculateSection5(){
 
 
     /*
-       Apply New GST
+       Apply NEW GST
     */
 
     const postGSTMRP =
@@ -2239,8 +2590,7 @@ function calculateSection5(){
 
 
     /*
-       IMPORTANT:
-       No rounding.
+       NO ROUNDING
     */
 
     document.getElementById(
@@ -2260,36 +2610,36 @@ function calculateSection5(){
 function resetCalculator(){
 
     document
-        .querySelectorAll(
-            "input"
-        )
-        .forEach(
-            function(input){
+    .querySelectorAll(
+        "input"
+    )
+    .forEach(
+        function(input){
 
-                if(
-                    input.type !==
-                    "hidden"
-                ){
+            if(
+                input.type !==
+                "hidden"
+            ){
 
-                    input.value = "";
-
-                }
+                input.value = "";
 
             }
-        );
+
+        }
+    );
 
 
     document
-        .querySelectorAll(
-            "select"
-        )
-        .forEach(
-            function(select){
+    .querySelectorAll(
+        "select"
+    )
+    .forEach(
+        function(select){
 
-                select.selectedIndex = 0;
+            select.selectedIndex = 0;
 
-            }
-        );
+        }
+    );
 
 
     selectedGST = 0;
@@ -2301,24 +2651,24 @@ function resetCalculator(){
 
 
     document
-        .querySelectorAll(
-            ".gst-option"
-        )
-        .forEach(
-            function(btn){
+    .querySelectorAll(
+        ".gst-option"
+    )
+    .forEach(
+        function(button){
 
-                btn.classList.remove(
-                    "selected"
-                );
+            button.classList.remove(
+                "selected"
+            );
 
-            }
-        );
+        }
+    );
 
 
     document.getElementById(
         "wpiResultInput"
     ).value =
-        "0.00%";
+        "0.0000%";
 
 
     document.getElementById(
@@ -2383,36 +2733,15 @@ function resetCalculator(){
 
 async function shareScreen(){
 
-    const gst =
-        selectedGST + "%";
-
-
-    const year =
-        document.getElementById(
-            "wpiYear"
-        ).value;
-
-
-    const wpi =
-        document.getElementById(
-            "wpiResultInput"
-        ).value;
-
-
-    const dpco =
-        document.getElementById(
-            "dpcoLimit"
-        ).value;
-
-
     const text =
 
         "PRICE ANALYSIS\n\n" +
 
         "Selected GST: " +
-        gst +
+        selectedGST +
+        "%\n\n" +
 
-        "\n\nSECTION-1\n" +
+        "SECTION-1\n" +
 
         "Ceiling Price: " +
         document.getElementById(
@@ -2442,10 +2771,14 @@ async function shareScreen(){
         ).value +
 
         "\nYear: " +
-        year +
+        document.getElementById(
+            "wpiYear"
+        ).value +
 
         "\nWPI: " +
-        wpi +
+        document.getElementById(
+            "wpiResultInput"
+        ).value +
 
         "\nMRP as per WPI: " +
         document.getElementById(
@@ -2460,11 +2793,10 @@ async function shareScreen(){
         ).value +
 
         "\nDPCO Permissible Limit: " +
-        (
-            dpco
-            ? dpco + "%"
-            : ""
-        ) +
+        document.getElementById(
+            "dpcoLimit"
+        ).value +
+        "%" +
 
         "\nProposed Revised MRP: " +
         document.getElementById(
@@ -2518,10 +2850,6 @@ async function shareScreen(){
         ).textContent;
 
 
-    /*
-       Mobile
-    */
-
     if(
         navigator.share
     ){
@@ -2557,10 +2885,6 @@ async function shareScreen(){
     }
 
 
-    /*
-       Desktop fallback
-    */
-
     const popup =
         window.open(
             "",
@@ -2571,7 +2895,7 @@ async function shareScreen(){
     if(!popup){
 
         alert(
-            "Please allow pop-ups to share the screen."
+            "Please allow pop-ups."
         );
 
         return;
@@ -2580,54 +2904,36 @@ async function shareScreen(){
 
 
     popup.document.write(
-
-        `<!DOCTYPE html>
-
-        <html>
-
-        <head>
-
-        <title>Price Analysis</title>
-
-        <style>
-
-        body{
-            font-family:Cambria,Georgia,serif;
-            padding:30px;
-            color:#000;
-        }
-
-        h1{
-            color:#064e4e;
-        }
-
-        pre{
-            font-family:Cambria,Georgia,serif;
-            font-size:15px;
-            white-space:pre-wrap;
-        }
-
-        </style>
-
-        </head>
-
-        <body>
-
-        <h1>PRICE ANALYSIS</h1>
-
-        <pre>${text}</pre>
-
-        </body>
-
-        </html>`
-
+        "<html>" +
+        "<head>" +
+        "<title>Price Analysis</title>" +
+        "<style>" +
+        "body{font-family:Cambria,Georgia,serif;padding:30px;color:#000}" +
+        "h1{color:#064e4e}" +
+        "pre{font-family:Cambria,Georgia,serif;font-size:15px;white-space:pre-wrap}" +
+        "</style>" +
+        "</head>" +
+        "<body>" +
+        "<h1>PRICE ANALYSIS</h1>" +
+        "<pre>" +
+        text
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        ) +
+        "</pre>" +
+        "</body>" +
+        "</html>"
     );
 
 
     popup.document.close();
 
     popup.focus();
-
 
     setTimeout(
         function(){
@@ -2653,28 +2959,28 @@ function registerServiceWorker(){
     ){
 
         navigator.serviceWorker
-            .register(
-                "sw.js"
-            )
-            .then(
-                function(){
+        .register(
+            "./sw.js"
+        )
+        .then(
+            function(){
 
-                    console.log(
-                        "Service Worker registered"
-                    );
+                console.log(
+                    "Service Worker registered."
+                );
 
-                }
-            )
-            .catch(
-                function(error){
+            }
+        )
+        .catch(
+            function(error){
 
-                    console.log(
-                        "Service Worker error:",
-                        error
-                    );
+                console.log(
+                    "Service Worker error:",
+                    error
+                );
 
-                }
-            );
+            }
+        );
 
     }
 
