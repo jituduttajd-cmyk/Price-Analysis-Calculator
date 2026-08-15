@@ -18,7 +18,7 @@
 
 <title>PRICE ANALYSIS</title>
 
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="./manifest.json">
 
 <style>
 
@@ -79,8 +79,8 @@ body{
     background:#fff;
     border:1px solid #064e4e;
     border-radius:7px;
-    padding:9px 10px;
-    margin-bottom:10px;
+    padding:8px 10px;
+    margin-bottom:12px;
     font-size:12px;
     text-align:center;
     color:#064e4e;
@@ -90,55 +90,6 @@ body{
 .csv-status.error{
     color:#b00020;
     border-color:#b00020;
-}
-
-
-/* =========================================================
-   CSV FILE LOAD
-========================================================= */
-
-.csv-loader{
-    background:#fff;
-    border:1px solid #ccc;
-    border-radius:8px;
-    padding:10px;
-    margin-bottom:12px;
-}
-
-.csv-loader-title{
-    color:#064e4e;
-    font-weight:bold;
-    margin-bottom:8px;
-}
-
-.csv-load-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-}
-
-.csv-file-box{
-    border:1px solid #ccc;
-    border-radius:7px;
-    padding:8px;
-    background:#fafafa;
-}
-
-.csv-file-box label{
-    font-size:12px;
-    margin-bottom:5px;
-}
-
-.csv-file-box input[type="file"]{
-    height:auto;
-    padding:5px;
-    font-size:11px;
-}
-
-.csv-file-status{
-    font-size:11px;
-    margin-top:4px;
-    color:#555;
 }
 
 
@@ -509,10 +460,6 @@ select:focus{
         height:41px;
     }
 
-    .csv-load-row{
-        grid-template-columns:1fr;
-    }
-
 }
 
 
@@ -522,7 +469,6 @@ select:focus{
 
 @media print{
 
-    .csv-loader,
     .csv-status,
     .gst-box,
     .button-row{
@@ -568,68 +514,7 @@ select:focus{
 <div id="csvStatus"
      class="csv-status">
 
-Checking CSV files...
-
-</div>
-
-
-<!-- =====================================================
-     CSV FILE PICKER
-===================================================== -->
-
-<div class="csv-loader">
-
-<div class="csv-loader-title">
-CSV Data Files
-</div>
-
-
-<div class="csv-load-row">
-
-
-<div class="csv-file-box">
-
-<label>
-Pack Size CSV
-</label>
-
-<input type="file"
-       id="packCSVFile"
-       accept=".csv,text/csv"
-       onchange="handlePackCSVFile(this.files[0])">
-
-<div id="packCSVStatus"
-     class="csv-file-status">
-
-Automatic loading...
-
-</div>
-
-</div>
-
-
-<div class="csv-file-box">
-
-<label>
-Year-WPI CSV
-</label>
-
-<input type="file"
-       id="wpiCSVFile"
-       accept=".csv,text/csv"
-       onchange="handleWPICSVFile(this.files[0])">
-
-<div id="wpiCSVStatus"
-     class="csv-file-status">
-
-Automatic loading...
-
-</div>
-
-</div>
-
-
-</div>
+Connecting to Repository CSV files...
 
 </div>
 
@@ -1039,7 +924,9 @@ PTS
 <div class="note"
      style="margin-top:10px;margin-bottom:0">
 
-PTR and PTS are rounded to 2 decimal places.
+PTR is rounded to 2 decimals first.
+PTS is then calculated from the rounded PTR
+and rounded to 2 decimals.
 
 </div>
 
@@ -1218,8 +1105,26 @@ let wpiCSVLoaded = false;
 
 
 /* =========================================================
-   CSV FILE NAMES
+   REPOSITORY CSV PATH
 ========================================================= */
+
+/*
+   IMPORTANT:
+
+   These files must be in the SAME folder
+   as index.html in your Repository.
+
+   Example:
+
+   Repository
+   |
+   |-- index.html
+   |-- pack-size.csv
+   |-- year-wpi.csv
+   |-- manifest.json
+   |-- sw.js
+
+*/
 
 const PACK_SIZE_CSV =
     "./pack-size.csv";
@@ -1234,9 +1139,9 @@ const YEAR_WPI_CSV =
 
 document.addEventListener(
     "DOMContentLoaded",
-    async function(){
+    function(){
 
-        await loadAllCSV();
+        loadAllCSV();
 
         registerServiceWorker();
 
@@ -1245,23 +1150,44 @@ document.addEventListener(
 
 
 /* =========================================================
-   LOAD CSV
+   LOAD ALL CSV
 ========================================================= */
 
 async function loadAllCSV(){
 
     setStatus(
-        "Loading Pack Size and Year-WPI CSV..."
+        "Connecting to Repository CSV files..."
     );
 
 
-    await Promise.allSettled([
+    try{
 
-        loadPackSizeCSV(),
+        await loadPackSizeCSV();
 
-        loadYearWPICSV()
+    }
+    catch(error){
 
-    ]);
+        console.error(
+            "Pack Size CSV:",
+            error
+        );
+
+    }
+
+
+    try{
+
+        await loadYearWPICSV();
+
+    }
+    catch(error){
+
+        console.error(
+            "Year-WPI CSV:",
+            error
+        );
+
+    }
 
 
     updateCSVStatus();
@@ -1270,20 +1196,12 @@ async function loadAllCSV(){
 
 
 /* =========================================================
-   FETCH CSV
+   FETCH REPOSITORY CSV
 ========================================================= */
 
 async function fetchCSV(
     fileName
 ){
-
-    /*
-       fetch() is available on HTTP/HTTPS.
-
-       If index.html is opened directly using
-       file://, browser security can block it.
-       In that case use the file-picker buttons.
-    */
 
     const response =
         await fetch(
@@ -1299,9 +1217,11 @@ async function fetchCSV(
     if(!response.ok){
 
         throw new Error(
+            "Unable to load " +
             fileName +
-            " HTTP " +
-            response.status
+            " (" +
+            response.status +
+            ")"
         );
 
     }
@@ -1313,52 +1233,25 @@ async function fetchCSV(
 
 
 /* =========================================================
-   PACK CSV
+   PACK SIZE CSV
 ========================================================= */
 
 async function loadPackSizeCSV(){
 
-    try{
-
-        const text =
-            await fetchCSV(
-                PACK_SIZE_CSV
-            );
-
-
-        parsePackSizeCSV(
-            text
+    const text =
+        await fetchCSV(
+            PACK_SIZE_CSV
         );
 
 
-        packCSVLoaded = true;
-
-        populatePackSizes();
-
-        document.getElementById(
-            "packCSVStatus"
-        ).textContent =
-            "✓ Automatically loaded";
+    parsePackSizeCSV(
+        text
+    );
 
 
-    }
-    catch(error){
+    packCSVLoaded = true;
 
-        console.log(
-            "Pack Size automatic loading:",
-            error
-        );
-
-
-        document.getElementById(
-            "packCSVStatus"
-        ).textContent =
-            "Select file manually";
-
-
-        packCSVLoaded = false;
-
-    }
+    populatePackSizes();
 
 }
 
@@ -1369,213 +1262,20 @@ async function loadPackSizeCSV(){
 
 async function loadYearWPICSV(){
 
-    try{
-
-        const text =
-            await fetchCSV(
-                YEAR_WPI_CSV
-            );
-
-
-        parseYearWPICSV(
-            text
+    const text =
+        await fetchCSV(
+            YEAR_WPI_CSV
         );
 
 
-        wpiCSVLoaded = true;
-
-        populateYears();
-
-        document.getElementById(
-            "wpiCSVStatus"
-        ).textContent =
-            "✓ Automatically loaded";
-
-
-    }
-    catch(error){
-
-        console.log(
-            "Year-WPI automatic loading:",
-            error
-        );
-
-
-        document.getElementById(
-            "wpiCSVStatus"
-        ).textContent =
-            "Select file manually";
-
-
-        wpiCSVLoaded = false;
-
-    }
-
-}
-
-
-/* =========================================================
-   MANUAL PACK CSV
-========================================================= */
-
-function handlePackCSVFile(
-    file
-){
-
-    if(!file){
-
-        return;
-
-    }
-
-
-    const reader =
-        new FileReader();
-
-
-    reader.onload =
-        function(event){
-
-            try{
-
-                parsePackSizeCSV(
-                    event.target.result
-                );
-
-
-                packCSVLoaded = true;
-
-                populatePackSizes();
-
-
-                document.getElementById(
-                    "packCSVStatus"
-                ).textContent =
-                    "✓ " +
-                    packSizes.length +
-                    " Pack Size records loaded";
-
-
-                updateCSVStatus();
-
-            }
-            catch(error){
-
-                packCSVLoaded = false;
-
-
-                document.getElementById(
-                    "packCSVStatus"
-                ).textContent =
-                    "✕ " +
-                    error.message;
-
-
-                updateCSVStatus();
-
-            }
-
-        };
-
-
-    reader.onerror =
-        function(){
-
-            document.getElementById(
-                "packCSVStatus"
-            ).textContent =
-                "✕ Unable to read file";
-
-        };
-
-
-    reader.readAsText(
-        file
+    parseYearWPICSV(
+        text
     );
 
-}
 
+    wpiCSVLoaded = true;
 
-/* =========================================================
-   MANUAL YEAR WPI CSV
-========================================================= */
-
-function handleWPICSVFile(
-    file
-){
-
-    if(!file){
-
-        return;
-
-    }
-
-
-    const reader =
-        new FileReader();
-
-
-    reader.onload =
-        function(event){
-
-            try{
-
-                parseYearWPICSV(
-                    event.target.result
-                );
-
-
-                wpiCSVLoaded = true;
-
-                populateYears();
-
-
-                document.getElementById(
-                    "wpiCSVStatus"
-                ).textContent =
-                    "✓ " +
-                    Object.keys(
-                        wpiMaster
-                    ).length +
-                    " Year-WPI records loaded";
-
-
-                updateCSVStatus();
-
-            }
-            catch(error){
-
-                wpiCSVLoaded = false;
-
-
-                document.getElementById(
-                    "wpiCSVStatus"
-                ).textContent =
-                    "✕ " +
-                    error.message;
-
-
-                updateCSVStatus();
-
-            }
-
-        };
-
-
-    reader.onerror =
-        function(){
-
-            document.getElementById(
-                "wpiCSVStatus"
-            ).textContent =
-                "✕ Unable to read file";
-
-        };
-
-
-    reader.readAsText(
-        file
-    );
+    populateYears();
 
 }
 
@@ -1661,7 +1361,7 @@ function parseCSVLine(
 
 
 /* =========================================================
-   CLEAN CSV
+   CLEAN CSV VALUE
 ========================================================= */
 
 function cleanCSVValue(
@@ -1800,7 +1500,7 @@ function parsePackSizeCSV(
         );
 
 
-    let packIndex =
+    const packIndex =
         findColumn(
             headers,
             [
@@ -1811,16 +1511,6 @@ function parsePackSizeCSV(
                 "Pack"
             ]
         );
-
-
-    if(
-        packIndex === -1 &&
-        headers.length === 1
-    ){
-
-        packIndex = 0;
-
-    }
 
 
     if(
@@ -2096,7 +1786,7 @@ function parseYearWPICSV(
 
 
 /* =========================================================
-   POPULATE YEARS
+   POPULATE YEAR
 ========================================================= */
 
 function populateYears(){
@@ -2216,13 +1906,11 @@ function yearChanged(){
 
         const wpi =
             Number(
-                wpiMaster[year]
+                wpiMaster[
+                    year
+                ]
             );
 
-
-        /*
-           DISPLAY 4 DECIMAL PLACES
-        */
 
         field.value =
             wpi.toFixed(4) +
@@ -2243,7 +1931,7 @@ function yearChanged(){
 
 
 /* =========================================================
-   STATUS
+   CSV STATUS
 ========================================================= */
 
 function setStatus(
@@ -2287,45 +1975,39 @@ function updateCSVStatus(){
     ){
 
         setStatus(
-            "✓ Pack Size and Year-WPI data loaded successfully."
+            "✓ Pack Size and Year-WPI CSV connected successfully from Repository."
         );
 
-        return;
-
     }
-
-
-    if(
+    else if(
         !packCSVLoaded &&
         !wpiCSVLoaded
     ){
 
         setStatus(
-            "Select the two CSV files above if automatic loading is unavailable.",
+            "✕ Repository CSV files could not be loaded. Check file names and Repository location.",
             true
         );
 
-        return;
-
     }
-
-
-    if(!packCSVLoaded){
+    else if(
+        !packCSVLoaded
+    ){
 
         setStatus(
-            "✓ Year-WPI loaded | Pack Size CSV needs to be loaded.",
+            "✕ pack-size.csv could not be loaded from Repository.",
             true
         );
 
-        return;
+    }
+    else{
+
+        setStatus(
+            "✕ year-wpi.csv could not be loaded from Repository.",
+            true
+        );
 
     }
-
-
-    setStatus(
-        "✓ Pack Size loaded | Year-WPI CSV needs to be loaded.",
-        true
-    );
 
 }
 
@@ -2379,7 +2061,8 @@ function selectGST(
 
 
 /* =========================================================
-   TRUNCATE MRP
+   TRUNCATE TO 2 DECIMALS
+   USED FOR MRP
 ========================================================= */
 
 function truncate2(
@@ -2395,13 +2078,6 @@ function truncate2(
     }
 
 
-    /*
-       MRP values are TRUNCATED,
-       NOT rounded.
-
-       10.24569 -> 10.24
-    */
-
     return Math.trunc(
         Number(value) * 100
     ) / 100;
@@ -2410,7 +2086,8 @@ function truncate2(
 
 
 /* =========================================================
-   ROUND PRICE
+   ROUND TO 2 DECIMALS
+   USED FOR PTR / PTS
 ========================================================= */
 
 function round2(
@@ -2426,14 +2103,6 @@ function round2(
     }
 
 
-    /*
-       PTR / PTS are ROUNDED.
-
-       14.2171 -> 14.22
-       12.6459 -> 12.65
-       11.3764 -> 11.38
-    */
-
     return Math.round(
         (
             Number(value) +
@@ -2445,7 +2114,8 @@ function round2(
 
 
 /* =========================================================
-   MONEY — MRP
+   MRP DISPLAY
+   TRUNCATE
 ========================================================= */
 
 function money(
@@ -2461,7 +2131,8 @@ function money(
 
 
 /* =========================================================
-   MONEY — TRADE
+   TRADE PRICE DISPLAY
+   ROUND
 ========================================================= */
 
 function tradeMoney(
@@ -2490,17 +2161,6 @@ function getPackQuantity(
 
     }
 
-
-    /*
-       Examples:
-
-       1 Vial -> 1
-       10 Tablet -> 10
-       1X10 TAB -> 1
-
-       The first number is treated
-       as pack quantity.
-    */
 
     const match =
         String(
@@ -2610,19 +2270,6 @@ function calculateSection2(){
         ).value;
 
 
-    /*
-       IMPORTANT:
-       Actual WPI from CSV is used.
-
-       Example:
-       CSV = 4.2456
-
-       Calculation uses:
-       4.2456
-
-       NOT 4.25.
-    */
-
     const wpi =
         Number(
             wpiMaster[
@@ -2636,7 +2283,7 @@ function calculateSection2(){
 
 
     /*
-       User specified formula:
+       Formula:
 
        Existing MRP
        ÷ (1 + Selected GST%)
@@ -2661,11 +2308,6 @@ function calculateSection2(){
             1 + gst
         );
 
-
-    /*
-       MRP:
-       TRUNCATE
-    */
 
     document.getElementById(
         "mrpWPIResult"
@@ -2717,11 +2359,6 @@ function calculateSection3(){
     }
 
 
-    /*
-       MRP:
-       TRUNCATE
-    */
-
     document.getElementById(
         "revisedMRPResult"
     ).textContent =
@@ -2751,7 +2388,8 @@ function calculateTradeMargin(){
 
 
     /*
-       GST exclusive MRP
+       STEP 1
+       Remove GST from MRP
     */
 
     const mrpWithoutGST =
@@ -2762,30 +2400,66 @@ function calculateTradeMargin(){
 
 
     /*
-       PTR = 80% of GST-exclusive MRP
+       STEP 2
+       Calculate RAW PTR
     */
 
-    const ptr =
+    const rawPTR =
         mrpWithoutGST *
         0.80;
 
 
     /*
-       PTS = 90% of GST-exclusive PTR base
+       STEP 3
+       ROUND PTR FIRST
 
-       Equivalent to:
-       MRP/(1+GST) × 80% × 90%
+       Example:
+
+       Raw PTR = 14.2171
+
+       Rounded PTR = 14.22
     */
 
-    const pts =
-        mrpWithoutGST *
-        0.80 *
+    const roundedPTR =
+        round2(
+            rawPTR
+        );
+
+
+    /*
+       STEP 4
+       Calculate PTS using
+       ALREADY ROUNDED PTR
+
+       Example:
+
+       PTR = 14.22
+
+       14.22 × 90%
+       = 12.798
+    */
+
+    const rawPTS =
+        roundedPTR *
         0.90;
 
 
     /*
-       MRP displayed using MRP rule
-       = truncate
+       STEP 5
+       ROUND PTS
+
+       12.798 → 12.80
+    */
+
+    const roundedPTS =
+        round2(
+            rawPTS
+        );
+
+
+    /*
+       MRP continues to use
+       TRUNCATION rule
     */
 
     document.getElementById(
@@ -2797,33 +2471,27 @@ function calculateTradeMargin(){
 
 
     /*
-       PTR = ROUND
-
-       Example:
-       14.2171 -> 14.22
-       12.6459 -> 12.65
+       PTR = rounded
     */
 
     document.getElementById(
         "ptrResult"
     ).textContent =
         tradeMoney(
-            ptr
+            roundedPTR
         );
 
 
     /*
-       PTS = ROUND
-
-       Example:
-       11.3764 -> 11.38
+       PTS = calculated AFTER
+       PTR has been rounded
     */
 
     document.getElementById(
         "ptsResult"
     ).textContent =
         tradeMoney(
-            pts
+            roundedPTS
         );
 
 }
@@ -2893,11 +2561,6 @@ function calculateSection5(){
         );
 
 
-    /*
-       MRP without GST:
-       TRUNCATE
-    */
-
     document.getElementById(
         "mrpWithoutGST"
     ).value =
@@ -2917,11 +2580,6 @@ function calculateSection5(){
             newGST / 100
         );
 
-
-    /*
-       Post-GST MRP:
-       TRUNCATE
-    */
 
     document.getElementById(
         "postGSTMRPResult"
@@ -2948,9 +2606,7 @@ function resetCalculator(){
 
             if(
                 input.type !==
-                "hidden" &&
-                input.type !==
-                "file"
+                "hidden"
             ){
 
                 input.value = "";
