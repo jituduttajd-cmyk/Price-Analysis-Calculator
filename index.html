@@ -1178,6 +1178,7 @@ Price Analysis Calculator
 ========================================================= */
 
 let selectedGST = 0;
+let gstSelected = false;
 
 let packSizes = [];
 
@@ -2161,6 +2162,9 @@ function selectGST(
     button
 ){
 
+    /* Explicit GST selection, including valid 0%. */
+    gstSelected = true;
+
     selectedGST =
         Number(rate);
 
@@ -2257,6 +2261,14 @@ function round2(
    MRP DISPLAY
    TRUNCATE
 ========================================================= */
+
+function moneyPack(value){
+    return "₹ " + (
+        Math.round(
+            (value + Number.EPSILON) * 100
+        ) / 100
+    ).toFixed(2);
+}
 
 function money(
     value
@@ -2356,14 +2368,24 @@ function calculateSection1(){
         );
 
 
+    const ceilingPack =
+        ceilingPrice *
+        quantity;
+
+    /* VALIDATION ONLY:
+       MRP as per Ceiling Price requires GST selection.
+       Existing formula remains unchanged. */
+    if(!gstSelected){
+        document.getElementById(
+            "mrpCPResult"
+        ).textContent = "—";
+
+        calculateRecommendedNLEM();
+        return;
+    }
+
     const gst =
         selectedGST / 100;
-
-
-    const ceilingPack =
-    ceilingPrice *
-    quantity;
-
 
 
     const mrp =
@@ -2376,7 +2398,7 @@ function calculateSection1(){
     document.getElementById(
         "ceilingPackResult"
     ).textContent =
-        money(
+        moneyPack(
             ceilingPack
         );
 
@@ -2419,6 +2441,25 @@ function calculateSection2(){
                 year
             ] || 0
         );
+
+    /* VALIDATION ONLY:
+       MRP as per WPI requires GST selection AND Year/WPI selection.
+       Existing formula remains unchanged. */
+    if(
+        !gstSelected ||
+        year === "" ||
+        !Object.prototype.hasOwnProperty.call(
+            wpiMaster,
+            year
+        )
+    ){
+        document.getElementById(
+            "mrpWPIResult"
+        ).textContent = "—";
+
+        calculateRecommendedNLEM();
+        return;
+    }
 
 
     const gst =
@@ -2490,6 +2531,18 @@ function calculateRecommendedNLEM(){
         !wpiElement ||
         !recommendedElement
     ){
+        return;
+    }
+
+    /* VALIDATION ONLY:
+       Recommended MRP is shown only after BOTH
+       MRP as per Ceiling Price and MRP as per WPI
+       are available. Existing lowest-value logic remains unchanged. */
+    if(
+        ceilingElement.textContent.trim() === "—" ||
+        wpiElement.textContent.trim() === "—"
+    ){
+        recommendedElement.textContent = "—";
         return;
     }
 
@@ -2587,6 +2640,21 @@ function calculateSection3(){
 ========================================================= */
 
 function calculateTradeMargin(){
+
+    /* VALIDATION ONLY:
+       PTR and PTS require GST selection.
+       Existing PTR/PTS formulas remain unchanged. */
+    if(!gstSelected){
+        document.getElementById(
+            "ptrResult"
+        ).textContent = "—";
+
+        document.getElementById(
+            "ptsResult"
+        ).textContent = "—";
+
+        return;
+    }
 
     const mrp =
         parseFloat(
@@ -2844,6 +2912,7 @@ function resetCalculator(){
 
 
     selectedGST = 0;
+    gstSelected = false;
 
 
     document.getElementById(
@@ -2881,19 +2950,19 @@ function resetCalculator(){
     document.getElementById(
         "mrpCPResult"
     ).textContent =
-        "₹ 0.00";
+        "—";
 
 
     document.getElementById(
         "mrpWPIResult"
     ).textContent =
-        "₹ 0.00";
+        "—";
 
 
     document.getElementById(
         "recommendedNLEMResult"
     ).textContent =
-        "₹ 0.00";
+        "—";
 
 
     document.getElementById(
@@ -2911,13 +2980,13 @@ function resetCalculator(){
     document.getElementById(
         "ptrResult"
     ).textContent =
-        "₹ 0.00";
+        "—";
 
 
     document.getElementById(
         "ptsResult"
     ).textContent =
-        "₹ 0.00";
+        "—";
 
 
     document.getElementById(
