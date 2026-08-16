@@ -2570,7 +2570,14 @@ function calculateRecommendedNLEM(){
         recommendedMRP = wpiMRP;
     }
 
-    recommendedMRP = Math.trunc(recommendedMRP * 100) / 100;
+    /* Floating-point correction only:
+       keep the existing 2-decimal truncation logic, but prevent
+       values such as 68.35000000000001 / 68.34999999999999
+       from becoming 68.34. */
+    recommendedMRP =
+        Math.trunc(
+            (recommendedMRP + Number.EPSILON) * 100
+        ) / 100;
 
     recommendedElement.textContent =
         "₹ " + recommendedMRP.toFixed(2);
