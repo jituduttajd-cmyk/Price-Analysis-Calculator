@@ -2534,13 +2534,22 @@ function calculateRecommendedNLEM(){
         return;
     }
 
-    /* VALIDATION ONLY:
-       Recommended MRP is shown only after BOTH
-       MRP as per Ceiling Price and MRP as per WPI
-       are available. Existing lowest-value logic remains unchanged. */
+    /*
+       VALIDATION ONLY:
+       Compare the two MRP values ALREADY DISPLAYED
+       under their respective headings.
+
+       No existing MRP formula is changed.
+    */
+    const ceilingText =
+        ceilingElement.textContent.trim();
+
+    const wpiText =
+        wpiElement.textContent.trim();
+
     if(
-        ceilingElement.textContent.trim() === "—" ||
-        wpiElement.textContent.trim() === "—"
+        ceilingText === "—" ||
+        wpiText === "—"
     ){
         recommendedElement.textContent = "—";
         return;
@@ -2548,42 +2557,42 @@ function calculateRecommendedNLEM(){
 
     const ceilingMRP =
         parseFloat(
-            ceilingElement.textContent
-                .replace(/[₹,\s]/g, "")
-        ) || 0;
+            ceilingText.replace(
+                /[₹,\s]/g,
+                ""
+            )
+        );
 
     const wpiMRP =
         parseFloat(
-            wpiElement.textContent
-                .replace(/[₹,\s]/g, "")
-        ) || 0;
+            wpiText.replace(
+                /[₹,\s]/g,
+                ""
+            )
+        );
 
-    let recommendedMRP = 0;
-
-    if(ceilingMRP > 0 && wpiMRP > 0){
-        recommendedMRP = Math.min(ceilingMRP,wpiMRP);
-    }
-    else if(ceilingMRP > 0){
-        recommendedMRP = ceilingMRP;
-    }
-    else if(wpiMRP > 0){
-        recommendedMRP = wpiMRP;
+    if(
+        !Number.isFinite(ceilingMRP) ||
+        !Number.isFinite(wpiMRP)
+    ){
+        recommendedElement.textContent = "—";
+        return;
     }
 
-    /* Floating-point correction only:
-       keep the existing 2-decimal truncation logic, but prevent
-       values such as 68.35000000000001 / 68.34999999999999
-       from becoming 68.34. */
-    recommendedMRP =
-        Math.trunc(
-            (recommendedMRP + Number.EPSILON) * 100
-        ) / 100;
+    /*
+       Compare the TWO DISPLAYED values directly.
+       The minimum displayed MRP is shown as-is to 2 decimals.
+    */
+    const recommendedMRP =
+        Math.min(
+            ceilingMRP,
+            wpiMRP
+        );
 
     recommendedElement.textContent =
-        "₹ " + recommendedMRP.toFixed(2);
-
+        "₹ " +
+        recommendedMRP.toFixed(2);
 }
-
 
 /* =========================================================
    SECTION 3
