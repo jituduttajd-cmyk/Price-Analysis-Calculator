@@ -1,1 +1,2163 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="theme-color" content="#17365d"><meta name="description" content="Pharmaceutical Price Analysis Calculator"><title>PRICE ANALYSIS</title><link rel="manifest" href="./manifest.json"><style>
+*{box-sizing:border-box}
+html{font-size:14px}
+body{margin:0;background:#f6f8fb;color:#172033;font-family:Cambria,Georgia,serif}
+.container{width:100%;max-width:1100px;margin:auto;padding:18px}
+.main-header{background:#17365d;color:#fff;padding:20px 24px;border-radius:14px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 24px rgba(23,54,93,.14)}
+.main-header h1{margin:0;font-size:24px;letter-spacing:.8px}.header-sub{font-size:12px;opacity:.9;margin-top:4px}.header-mark{font-size:12px;border:1px solid rgba(255,255,255,.35);padding:7px 10px;border-radius:20px}
+.csv-status{display:none!important}
+.gst-box{background:#fff;border:1px solid #dbe3ee;border-radius:12px;padding:12px 14px;margin-bottom:16px;box-shadow:0 3px 12px rgba(30,50,80,.05)}
+.gst-title{font-size:12px;font-weight:bold;text-transform:uppercase;letter-spacing:.6px;color:#17365d;margin-bottom:8px}.gst-options{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.gst-option{height:38px;border:1px solid #c8d3e1;border-radius:8px;background:#fff;color:#172033;font:700 13px Cambria,Georgia,serif;cursor:pointer}.gst-option:hover{border-color:#2f75b5}.gst-option.selected{background:#17365d;color:#fff;border-color:#17365d}
+.analysis-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:16px;align-items:start}.workspace,.results{background:#fff;border:1px solid #dbe3ee;border-radius:14px;padding:18px;box-shadow:0 4px 16px rgba(30,50,80,.055)}
+.panel-title{font-size:15px;font-weight:bold;color:#17365d;margin:0 0 14px;padding-bottom:9px;border-bottom:2px solid #17365d}.panel-subtitle{font-size:11px;color:#6b7788;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px}
+.input-stack{display:grid;gap:12px}.field label{display:block;font-size:12px;font-weight:bold;margin-bottom:5px;color:#344054}.field input,.field select{width:100%;height:40px;padding:7px 9px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#172033;font:14px Cambria,Georgia,serif}.field input:focus,.field select:focus{outline:none;border:2px solid #2f75b5}.field .readonly{background:#f3f6fa;color:#17365d;font-weight:bold}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.result-stack{display:grid;gap:10px}.result-card{border:1px solid #d7e0eb;border-left:4px solid #17365d;border-radius:10px;padding:11px 13px;background:#f9fbfd}.result-card.highlight{background:#eef4fb;border-color:#b9cbe0;border-left-color:#2f75b5}.result-label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#667085;font-weight:bold}.result-value{font-size:20px;font-weight:bold;color:#17365d;margin-top:3px}.result-card.compact .result-value{font-size:17px}
+.recommended{margin:16px 0;background:#17365d;color:#fff;border-radius:14px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 22px rgba(23,54,93,.18)}.recommended-title{font-size:12px;font-weight:bold;letter-spacing:.7px;text-transform:uppercase}.recommended-value{font-size:25px;font-weight:bold}
+.trade-results{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.trade-box{background:#f9fbfd;border:1px solid #d7e0eb;border-top:3px solid #17365d;border-radius:10px;text-align:center;padding:12px 5px}.trade-title{font-size:11px;text-transform:uppercase;color:#667085;font-weight:bold}.trade-value{font-size:19px;font-weight:bold;color:#17365d;margin-top:4px}
+.note{background:#f8fafc;border:1px solid #e1e7ef;border-radius:8px;padding:8px 10px;font-size:11px;color:#667085;margin-top:10px}
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.module{background:#fff;border:1px solid #dbe3ee;border-radius:14px;padding:18px;box-shadow:0 4px 16px rgba(30,50,80,.055)}
+.action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.action-btn{height:43px;border:0;border-radius:9px;color:#fff;font:700 13px Cambria,Georgia,serif;cursor:pointer}.reset-btn{background:#6b7280}.share-btn{background:#17365d}.footer{text-align:center;color:#7b8491;padding:14px;font-size:11px}
+@media(max-width:760px){.container{padding:10px}.main-header{padding:16px}.main-header h1{font-size:20px}.header-mark{display:none}.analysis-grid,.bottom-grid{grid-template-columns:1fr}.three-col{grid-template-columns:1fr 1fr 1fr}.recommended{align-items:flex-start;gap:12px;flex-direction:column}.recommended-value{font-size:23px}}
+@media(max-width:480px){.gst-options{gap:4px}.gst-option{font-size:12px}.two-col{grid-template-columns:1fr}.trade-results{gap:5px}.trade-value{font-size:16px}.workspace,.results,.module{padding:13px}}
+@media print{.gst-box,.action-row,.csv-status{display:none!important}body{background:#fff}.workspace,.results,.module{box-shadow:none;break-inside:avoid}}
+</style></head><body>
+<div class="container">
+<header class="main-header"><div><h1>PRICE ANALYSIS</h1><div class="header-sub">Pharmaceutical Pricing &amp; Regulatory Analysis</div></div><div class="header-mark">PRICING TOOL</div></header>
+<div id="csvStatus" class="csv-status">Connecting to Repository CSV files...</div>
+<div class="gst-box"><div class="gst-title">Selected GST Rate</div><div class="gst-options">
+<button class="gst-option" onclick="selectGST(0,this)">0%</button><button class="gst-option" onclick="selectGST(5,this)">5%</button><button class="gst-option" onclick="selectGST(12,this)">12%</button><button class="gst-option" onclick="selectGST(18,this)">18%</button><button class="gst-option" onclick="selectGST(28,this)">28%</button></div><input type="hidden" id="gstRate" value="0"></div>
+<div class="analysis-grid">
+<section class="workspace"><h2 class="panel-title">Pricing Inputs</h2><div class="panel-subtitle">Base pricing information</div><div class="input-stack">
+<div class="field"><label>Ceiling Price / Unit</label><input type="number" id="ceilingPrice" placeholder="Enter Ceiling Price" step="0.00001" oninput="calculateSection1()"></div>
+<div class="field"><label>Pack Size</label><select id="packSize" onchange="calculateSection1()"><option value="">Choose Pack Size</option></select></div>
+<div class="field"><label>Existing MRP</label><input type="number" id="existingMRP" placeholder="Existing MRP" step="0.00001" oninput="calculateSection2()"></div>
+<div class="two-col"><div class="field"><label>WPI Year</label><select id="wpiYear" onchange="yearChanged()"><option value="">Select Year</option></select></div><div class="field"><label>WPI %</label><input type="text" id="wpiResultInput" class="readonly" value="0.0000%" readonly></div></div>
+</div></section>
+<section class="results"><h2 class="panel-title">Pricing Results</h2><div class="panel-subtitle">Calculated values</div><div class="result-stack">
+<div class="result-card"><div class="result-label">Ceiling Price / Pack</div><div class="result-value" id="ceilingPackResult">₹ 0.00</div></div>
+<div class="result-card highlight"><div class="result-label">MRP as per Ceiling Price</div><div class="result-value" id="mrpCPResult">₹ 0.00</div></div>
+<div class="result-card"><div class="result-label">MRP as per WPI</div><div class="result-value" id="mrpWPIResult">₹ 0.00</div></div>
+</div></section></div>
+<div class="recommended"><div><div class="recommended-title">Recommended MRP of NLEM Product</div><div style="font-size:11px;opacity:.8;margin-top:3px">Lower applicable MRP based on the existing calculation logic</div></div><div class="recommended-value" id="recommendedNLEMResult">₹ 0.00</div></div>
+<div class="bottom-grid">
+<section class="module"><h2 class="panel-title">Proposed Revised MRP</h2><div class="two-col"><div class="field"><label>Per-Revised MRP</label><input type="number" id="perRevisedMRP" placeholder="Enter Per-Revised MRP" step="0.00001" oninput="calculateSection3()"></div><div class="field"><label>DPCO Permissible Limit</label><input type="number" id="dpcoLimit" placeholder="Enter %" step="0.01" oninput="calculateSection3()"></div></div><div class="result-card highlight" style="margin-top:12px"><div class="result-label">Proposed Revised MRP</div><div class="result-value" id="revisedMRPResult">₹ 0.00</div></div></section>
+<section class="module"><h2 class="panel-title">Trade Margin</h2><div class="field"><label>MRP</label><input type="number" id="tradeMRP" placeholder="Enter MRP" step="0.00001" oninput="calculateTradeMargin()"></div><div class="trade-results" style="margin-top:12px"><div class="trade-box"><div class="trade-title">MRP</div><div class="trade-value" id="tradeMRPResult">₹ 0.00</div></div><div class="trade-box"><div class="trade-title">PTR</div><div class="trade-value" id="ptrResult">₹ 0.00</div></div><div class="trade-box"><div class="trade-title">PTS</div><div class="trade-value" id="ptsResult">₹ 0.00</div></div></div><div class="note">PTR is rounded to 2 decimals first. PTS is then calculated from the rounded PTR and rounded to 2 decimals.</div></section>
+</div>
+<section class="module" style="margin-top:16px"><h2 class="panel-title">GST Implementation</h2><div class="two-col"><div class="field"><label>Pre-GST MRP</label><input type="number" id="preGstMRP" placeholder="Pre-GST MRP" step="0.00001" oninput="calculateSection5()"></div><div class="field"><label>MRP without GST</label><input type="text" id="mrpWithoutGST" value="₹ 0.00" readonly class="readonly"></div></div><div class="two-col" style="margin-top:12px"><div class="field"><label>Old GST %</label><select id="oldGST" onchange="calculateSection5()"><option value="">Choose Old GST%</option><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18">18%</option><option value="28">28%</option></select></div><div class="field"><label>New GST %</label><select id="newGST" onchange="calculateSection5()"><option value="">Choose New GST%</option><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18">18%</option><option value="28">28%</option></select></div></div><div class="result-card highlight" style="margin-top:12px"><div class="result-label">Post-GST MRP</div><div class="result-value" id="postGSTMRPResult">₹ 0.00</div></div></section>
+<div class="action-row"><button class="action-btn reset-btn" onclick="resetCalculator()">RESET</button><button class="action-btn share-btn" onclick="shareScreen()">SHARE SCREEN</button></div><div class="footer">Price Analysis Calculator</div></div>
+<script>
 
+/* =========================================================
+   GLOBAL VARIABLES
+========================================================= */
+
+let selectedGST = 0;
+let gstSelected = false;
+
+let packSizes = [];
+
+let wpiMaster = {};
+
+let packCSVLoaded = false;
+
+let wpiCSVLoaded = false;
+
+
+/* =========================================================
+   REPOSITORY CSV PATH
+========================================================= */
+
+/*
+   IMPORTANT:
+
+   These files must be in the SAME folder
+   as index.html in your Repository.
+
+   Example:
+
+   Repository
+   |
+   |-- index.html
+   |-- pack-size.csv
+   |-- year-wpi.csv
+   |-- manifest.json
+   |-- sw.js
+
+*/
+
+/*
+   Repository CSV names.
+   The loader will automatically try the repository root first,
+   followed by common CSV/data folders and filename case variants.
+*/
+const PACK_SIZE_CSV_FILES = [
+    "./pack-size.csv",
+    "./Pack-Size.csv",
+    "./pack_size.csv",
+    "./pack size.csv",
+    "./CSV/pack-size.csv",
+    "./csv/pack-size.csv",
+    "./data/pack-size.csv",
+    "./Data/pack-size.csv"
+];
+
+const YEAR_WPI_CSV_FILES = [
+    "./year-wpi.csv",
+    "./Year-WPI.csv",
+    "./year_wpi.csv",
+    "./Year WPI.csv",
+    "./year wpi.csv",
+    "./CSV/year-wpi.csv",
+    "./csv/year-wpi.csv",
+    "./data/year-wpi.csv",
+    "./Data/year-wpi.csv"
+];
+
+
+/* =========================================================
+   START
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        loadAllCSV();
+
+        registerServiceWorker();
+
+    }
+);
+
+
+/* =========================================================
+   LOAD ALL CSV
+========================================================= */
+
+async function loadAllCSV(){
+
+    /* Load both repository files independently.
+       One failure must not stop the other file. */
+
+    const results = await Promise.allSettled([
+        loadPackSizeCSV(),
+        loadYearWPICSV()
+    ]);
+
+    results.forEach(function(result, index){
+
+        if(result.status === "rejected"){
+
+            console.error(
+                index === 0 ? "Pack Size CSV:" : "Year-WPI CSV:",
+                result.reason
+            );
+
+        }
+
+    });
+
+    /* Status remains hidden on the calculator screen. */
+    updateCSVStatus();
+
+}
+
+
+/* =========================================================
+   FETCH REPOSITORY CSV
+========================================================= */
+
+async function fetchCSV(
+    fileNames
+){
+
+    let lastError = null;
+
+    for(const fileName of fileNames){
+
+        try{
+
+            /* Resolve relative to the actual page URL.
+               This works correctly on GitHub Pages project sites. */
+            const url = new URL(
+                fileName,
+                document.baseURI
+            );
+
+            url.searchParams.set(
+                "v",
+                Date.now().toString()
+            );
+
+            const response = await fetch(
+                url.href,
+                {
+                    method: "GET",
+                    cache: "no-store",
+                    credentials: "same-origin"
+                }
+            );
+
+            if(!response.ok){
+                throw new Error(
+                    response.status + " " + response.statusText
+                );
+            }
+
+            const text = await response.text();
+
+            if(!text || !text.trim()){
+                throw new Error("CSV file is empty");
+            }
+
+            /* A missing file on some static hosts can return HTML
+               with status 200. Reject that instead of parsing it. */
+            const firstLine = text.trim().split(/\r?\n/)[0].toLowerCase();
+
+            if(
+                firstLine.indexOf("<!doctype html") === 0 ||
+                firstLine.indexOf("<html") === 0
+            ){
+                throw new Error("Received HTML instead of CSV");
+            }
+
+            return text;
+
+        }
+        catch(error){
+
+            lastError = error;
+            console.warn(
+                "CSV path failed:",
+                fileName,
+                error
+            );
+
+        }
+
+    }
+
+    throw new Error(
+        "CSV file could not be found. Tried: " +
+        fileNames.join(", ") +
+        ". Last error: " +
+        (lastError ? lastError.message : "Unknown error")
+    );
+
+}
+
+
+/* =========================================================
+   PACK SIZE CSV
+========================================================= */
+
+async function loadPackSizeCSV(){
+
+    const text =
+        await fetchCSV(
+            PACK_SIZE_CSV_FILES
+        );
+
+
+    parsePackSizeCSV(
+        text
+    );
+
+
+    packCSVLoaded = true;
+
+    populatePackSizes();
+
+}
+
+
+/* =========================================================
+   YEAR WPI CSV
+========================================================= */
+
+async function loadYearWPICSV(){
+
+    const text =
+        await fetchCSV(
+            YEAR_WPI_CSV_FILES
+        );
+
+
+    parseYearWPICSV(
+        text
+    );
+
+
+    wpiCSVLoaded = true;
+
+    populateYears();
+
+}
+
+
+/* =========================================================
+   CSV LINE PARSER
+========================================================= */
+
+function parseCSVLine(
+    line
+){
+
+    const result = [];
+
+    let value = "";
+
+    let quoted = false;
+
+
+    for(
+        let i = 0;
+        i < line.length;
+        i++
+    ){
+
+        const char =
+            line[i];
+
+
+        if(char === '"'){
+
+            if(
+                quoted &&
+                line[i + 1] === '"'
+            ){
+
+                value += '"';
+
+                i++;
+
+            }
+            else{
+
+                quoted =
+                    !quoted;
+
+            }
+
+        }
+        else if(
+            char === "," &&
+            !quoted
+        ){
+
+            result.push(
+                cleanCSVValue(
+                    value
+                )
+            );
+
+            value = "";
+
+        }
+        else{
+
+            value += char;
+
+        }
+
+    }
+
+
+    result.push(
+        cleanCSVValue(
+            value
+        )
+    );
+
+
+    return result;
+
+}
+
+
+/* =========================================================
+   CLEAN CSV VALUE
+========================================================= */
+
+function cleanCSVValue(
+    value
+){
+
+    return String(
+        value || ""
+    )
+    .replace(
+        /^\uFEFF/,
+        ""
+    )
+    .trim()
+    .replace(
+        /^"(.*)"$/,
+        "$1"
+    )
+    .trim();
+
+}
+
+
+/* =========================================================
+   NORMALIZE HEADER
+========================================================= */
+
+function normalizeHeader(
+    value
+){
+
+    return String(
+        value || ""
+    )
+    .replace(
+        /^\uFEFF/,
+        ""
+    )
+    .trim()
+    .toLowerCase()
+    .replace(
+        /[\s_\-]+/g,
+        ""
+    )
+    .replace(
+        /%/g,
+        ""
+    );
+
+}
+
+
+/* =========================================================
+   FIND COLUMN
+========================================================= */
+
+function findColumn(
+    headers,
+    possibleNames
+){
+
+    const normalized =
+        headers.map(
+            normalizeHeader
+        );
+
+
+    for(
+        const name of possibleNames
+    ){
+
+        const target =
+            normalizeHeader(
+                name
+            );
+
+
+        const index =
+            normalized.indexOf(
+                target
+            );
+
+
+        if(index !== -1){
+
+            return index;
+
+        }
+
+    }
+
+
+    return -1;
+
+}
+
+
+/* =========================================================
+   PACK SIZE PARSER
+========================================================= */
+
+function parsePackSizeCSV(
+    text
+){
+
+    packSizes = [];
+
+
+    const lines =
+        text
+        .replace(
+            /^\uFEFF/,
+            ""
+        )
+        .split(/\r?\n/)
+        .filter(
+            line =>
+            line.trim() !== ""
+        );
+
+
+    if(
+        lines.length < 2
+    ){
+
+        throw new Error(
+            "Pack Size CSV has no data."
+        );
+
+    }
+
+
+    const headers =
+        parseCSVLine(
+            lines[0]
+        );
+
+
+    const packIndex =
+        findColumn(
+            headers,
+            [
+                "Pack Size",
+                "PackSize",
+                "Pack_Size",
+                "Pack-Size",
+                "Pack"
+            ]
+        );
+
+
+    if(
+        packIndex === -1
+    ){
+
+        throw new Error(
+            "Pack Size column not found."
+        );
+
+    }
+
+
+    for(
+        let i = 1;
+        i < lines.length;
+        i++
+    ){
+
+        const row =
+            parseCSVLine(
+                lines[i]
+            );
+
+
+        const pack =
+            cleanCSVValue(
+                row[packIndex]
+            );
+
+
+        if(
+            pack &&
+            !packSizes.includes(
+                pack
+            )
+        ){
+
+            packSizes.push(
+                pack
+            );
+
+        }
+
+    }
+
+
+    if(
+        packSizes.length === 0
+    ){
+
+        throw new Error(
+            "No Pack Size records found."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   POPULATE PACK SIZE
+========================================================= */
+
+function populatePackSizes(){
+
+    const select =
+        document.getElementById(
+            "packSize"
+        );
+
+
+    select.innerHTML = "";
+
+
+    const first =
+        document.createElement(
+            "option"
+        );
+
+
+    first.value = "";
+
+    first.textContent =
+        "Choose Pack Size";
+
+
+    select.appendChild(
+        first
+    );
+
+
+    packSizes.forEach(
+        function(pack){
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                pack;
+
+            option.textContent =
+                pack;
+
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   YEAR WPI PARSER
+========================================================= */
+
+function parseYearWPICSV(
+    text
+){
+
+    wpiMaster = {};
+
+
+    const lines =
+        text
+        .replace(
+            /^\uFEFF/,
+            ""
+        )
+        .split(/\r?\n/)
+        .filter(
+            line =>
+            line.trim() !== ""
+        );
+
+
+    if(
+        lines.length < 2
+    ){
+
+        throw new Error(
+            "Year-WPI CSV has no data."
+        );
+
+    }
+
+
+    const headers =
+        parseCSVLine(
+            lines[0]
+        );
+
+
+    const yearIndex =
+        findColumn(
+            headers,
+            [
+                "Year",
+                "Years",
+                "Financial Year",
+                "FinancialYear"
+            ]
+        );
+
+
+    const wpiIndex =
+        findColumn(
+            headers,
+            [
+                "WPI",
+                "WPI%",
+                "WPI %",
+                "WPI Rate",
+                "WPIRate"
+            ]
+        );
+
+
+    if(
+        yearIndex === -1
+    ){
+
+        throw new Error(
+            "Year column not found."
+        );
+
+    }
+
+
+    if(
+        wpiIndex === -1
+    ){
+
+        throw new Error(
+            "WPI column not found."
+        );
+
+    }
+
+
+    for(
+        let i = 1;
+        i < lines.length;
+        i++
+    ){
+
+        const row =
+            parseCSVLine(
+                lines[i]
+            );
+
+
+        const year =
+            cleanCSVValue(
+                row[yearIndex]
+            );
+
+
+        let wpiText =
+            cleanCSVValue(
+                row[wpiIndex]
+            );
+
+
+        wpiText =
+            wpiText
+            .replace(
+                /%/g,
+                ""
+            )
+            .trim();
+
+
+        const wpi =
+            parseFloat(
+                wpiText
+            );
+
+
+        if(
+            year &&
+            !isNaN(wpi)
+        ){
+
+            wpiMaster[
+                year
+            ] = wpi;
+
+        }
+
+    }
+
+
+    if(
+        Object.keys(
+            wpiMaster
+        ).length === 0
+    ){
+
+        throw new Error(
+            "No Year-WPI records found."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   POPULATE YEAR
+========================================================= */
+
+function populateYears(){
+
+    const select =
+        document.getElementById(
+            "wpiYear"
+        );
+
+
+    select.innerHTML = "";
+
+
+    const first =
+        document.createElement(
+            "option"
+        );
+
+
+    first.value = "";
+
+    first.textContent =
+        "Select Year";
+
+
+    select.appendChild(
+        first
+    );
+
+
+    const years =
+        Object.keys(
+            wpiMaster
+        );
+
+
+    years.sort(
+        function(a,b){
+
+            const na =
+                parseFloat(a);
+
+            const nb =
+                parseFloat(b);
+
+
+            if(
+                !isNaN(na) &&
+                !isNaN(nb)
+            ){
+
+                return na - nb;
+
+            }
+
+
+            return String(a)
+                .localeCompare(
+                    String(b)
+                );
+
+        }
+    );
+
+
+    years.forEach(
+        function(year){
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                year;
+
+            option.textContent =
+                year;
+
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   YEAR CHANGE
+========================================================= */
+
+function yearChanged(){
+
+    const year =
+        document.getElementById(
+            "wpiYear"
+        ).value;
+
+
+    const field =
+        document.getElementById(
+            "wpiResultInput"
+        );
+
+
+    if(
+        year &&
+        Object.prototype.hasOwnProperty.call(
+            wpiMaster,
+            year
+        )
+    ){
+
+        const wpi =
+            Number(
+                wpiMaster[
+                    year
+                ]
+            );
+
+
+        field.value =
+            wpi.toFixed(4) +
+            "%";
+
+    }
+    else{
+
+        field.value =
+            "0.0000%";
+
+    }
+
+
+    calculateSection2();
+
+}
+
+
+/* =========================================================
+   CSV STATUS
+========================================================= */
+
+function setStatus(
+    message,
+    isError = false
+){
+
+    const status =
+        document.getElementById(
+            "csvStatus"
+        );
+
+
+    status.textContent =
+        message;
+
+
+    if(isError){
+
+        status.classList.add(
+            "error"
+        );
+
+    }
+    else{
+
+        status.classList.remove(
+            "error"
+        );
+
+    }
+
+}
+
+
+function updateCSVStatus(){
+
+    if(
+        packCSVLoaded &&
+        wpiCSVLoaded
+    ){
+
+        setStatus(
+            "✓ Pack Size and Year-WPI CSV connected successfully from Repository."
+        );
+
+    }
+    else if(
+        !packCSVLoaded &&
+        !wpiCSVLoaded
+    ){
+
+        setStatus(
+            "✕ Repository CSV files could not be loaded. Check file names and Repository location.",
+            true
+        );
+
+    }
+    else if(
+        !packCSVLoaded
+    ){
+
+        setStatus(
+            "✕ pack-size.csv could not be loaded from Repository.",
+            true
+        );
+
+    }
+    else{
+
+        setStatus(
+            "✕ year-wpi.csv could not be loaded from Repository.",
+            true
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   GST
+========================================================= */
+
+function selectGST(
+    rate,
+    button
+){
+
+    /* Explicit GST selection, including valid 0%. */
+    gstSelected = true;
+
+    selectedGST =
+        Number(rate);
+
+
+    document.getElementById(
+        "gstRate"
+    ).value =
+        rate;
+
+
+    document
+    .querySelectorAll(
+        ".gst-option"
+    )
+    .forEach(
+        function(btn){
+
+            btn.classList.remove(
+                "selected"
+            );
+
+        }
+    );
+
+
+    button.classList.add(
+        "selected"
+    );
+
+
+    calculateSection1();
+
+    calculateSection2();
+
+    calculateTradeMargin();
+
+}
+
+
+/* =========================================================
+   TRUNCATE TO 2 DECIMALS
+   USED FOR MRP
+========================================================= */
+
+function truncate2(
+    value
+){
+
+    if(
+        !isFinite(value)
+    ){
+
+        return 0;
+
+    }
+
+
+    return Math.trunc(
+        Number(value) * 100
+    ) / 100;
+
+}
+
+
+/* =========================================================
+   ROUND TO 2 DECIMALS
+   USED FOR PTR / PTS
+========================================================= */
+
+function round2(
+    value
+){
+
+    if(
+        !isFinite(value)
+    ){
+
+        return 0;
+
+    }
+
+
+    return Math.round(
+        (
+            Number(value) +
+            Number.EPSILON
+        ) * 100
+    ) / 100;
+
+}
+
+
+/* =========================================================
+   MRP DISPLAY
+   TRUNCATE
+========================================================= */
+
+function moneyPack(value){
+    return "₹ " + (
+        Math.round(
+            (value + Number.EPSILON) * 100
+        ) / 100
+    ).toFixed(2);
+}
+
+function money(
+    value
+){
+
+    return "₹ " +
+        truncate2(
+            value
+        ).toFixed(2);
+
+}
+
+
+/* =========================================================
+   TRADE PRICE DISPLAY
+   ROUND
+========================================================= */
+
+function tradeMoney(
+    value
+){
+
+    return "₹ " +
+        round2(
+            value
+        ).toFixed(2);
+
+}
+
+
+/* =========================================================
+   PACK QUANTITY
+========================================================= */
+
+function getPackQuantity(
+    packText
+){
+
+    if(!packText){
+
+        return 1;
+
+    }
+
+
+    const match =
+        String(
+            packText
+        ).match(
+            /\d+(?:\.\d+)?/
+        );
+
+
+    if(!match){
+
+        return 1;
+
+    }
+
+
+    const quantity =
+        parseFloat(
+            match[0]
+        );
+
+
+    return isNaN(quantity)
+        ? 1
+        : quantity;
+
+}
+
+
+/* =========================================================
+   SECTION 1
+========================================================= */
+
+function calculateSection1(){
+
+    const ceilingPrice =
+        parseFloat(
+            document.getElementById(
+                "ceilingPrice"
+            ).value
+        ) || 0;
+
+
+    const packText =
+        document.getElementById(
+            "packSize"
+        ).value;
+
+
+    const quantity =
+        getPackQuantity(
+            packText
+        );
+
+
+    const ceilingPack =
+        ceilingPrice *
+        quantity;
+
+    /* VALIDATION ONLY:
+       MRP as per Ceiling Price requires GST selection.
+       Existing formula remains unchanged. */
+    if(!gstSelected){
+        document.getElementById(
+            "mrpCPResult"
+        ).textContent = "—";
+
+        calculateRecommendedNLEM();
+        return;
+    }
+
+    const gst =
+        selectedGST / 100;
+
+
+    const mrp =
+        ceilingPack *
+        (
+            1 + gst
+        );
+
+
+    document.getElementById(
+        "ceilingPackResult"
+    ).textContent =
+        moneyPack(
+            ceilingPack
+        );
+
+
+    document.getElementById(
+        "mrpCPResult"
+    ).textContent =
+        money(
+            mrp
+        );
+    calculateRecommendedNLEM();
+
+}
+
+
+
+/* =========================================================
+   SECTION 2 — WPI
+========================================================= */
+
+function calculateSection2(){
+
+    const existingMRP =
+        parseFloat(
+            document.getElementById(
+                "existingMRP"
+            ).value
+        ) || 0;
+
+
+    const year =
+        document.getElementById(
+            "wpiYear"
+        ).value;
+
+
+    const wpi =
+        Number(
+            wpiMaster[
+                year
+            ] || 0
+        );
+
+    /* VALIDATION ONLY:
+       MRP as per WPI requires GST selection AND Year/WPI selection.
+       Existing formula remains unchanged. */
+    if(
+        !gstSelected ||
+        year === "" ||
+        !Object.prototype.hasOwnProperty.call(
+            wpiMaster,
+            year
+        )
+    ){
+        document.getElementById(
+            "mrpWPIResult"
+        ).textContent = "—";
+
+        calculateRecommendedNLEM();
+        return;
+    }
+
+
+    const gst =
+        selectedGST / 100;
+
+
+    /*
+       Formula:
+
+       Existing MRP
+       ÷ (1 + Selected GST%)
+       × (1 + WPI%)
+       × (1 + Selected GST%)
+    */
+
+    const result =
+        (
+            existingMRP /
+            (
+                1 + gst
+            )
+        )
+        *
+        (
+            1 +
+            wpi / 100
+        )
+        *
+        (
+            1 + gst
+        );
+
+
+    document.getElementById(
+        "mrpWPIResult"
+    ).textContent =
+        money(
+            result
+        );
+    calculateRecommendedNLEM();
+
+}
+
+
+
+/* =========================================================
+   RECOMMENDED MRP OF NLEM PRODUCT — NEW FUNCTION
+========================================================= */
+
+function calculateRecommendedNLEM(){
+
+    const ceilingElement =
+        document.getElementById(
+            "mrpCPResult"
+        );
+
+    const wpiElement =
+        document.getElementById(
+            "mrpWPIResult"
+        );
+
+    const recommendedElement =
+        document.getElementById(
+            "recommendedNLEMResult"
+        );
+
+    if(
+        !ceilingElement ||
+        !wpiElement ||
+        !recommendedElement
+    ){
+        return;
+    }
+
+    /*
+       VALIDATION ONLY:
+       Compare the two MRP values ALREADY DISPLAYED
+       under their respective headings.
+
+       No existing MRP formula is changed.
+    */
+    const ceilingText =
+        ceilingElement.textContent.trim();
+
+    const wpiText =
+        wpiElement.textContent.trim();
+
+    if(
+        ceilingText === "—" ||
+        wpiText === "—"
+    ){
+        recommendedElement.textContent = "—";
+        return;
+    }
+
+    const ceilingMRP =
+        parseFloat(
+            ceilingText.replace(
+                /[₹,\s]/g,
+                ""
+            )
+        );
+
+    const wpiMRP =
+        parseFloat(
+            wpiText.replace(
+                /[₹,\s]/g,
+                ""
+            )
+        );
+
+    if(
+        !Number.isFinite(ceilingMRP) ||
+        !Number.isFinite(wpiMRP)
+    ){
+        recommendedElement.textContent = "—";
+        return;
+    }
+
+    /*
+       Compare the TWO DISPLAYED values directly.
+       The minimum displayed MRP is shown as-is to 2 decimals.
+    */
+    const recommendedMRP =
+        Math.min(
+            ceilingMRP,
+            wpiMRP
+        );
+
+    recommendedElement.textContent =
+        "₹ " +
+        recommendedMRP.toFixed(2);
+}
+
+/* =========================================================
+   SECTION 3
+========================================================= */
+
+function calculateSection3(){
+
+    const perRevisedMRP =
+        parseFloat(
+            document.getElementById(
+                "perRevisedMRP"
+            ).value
+        ) || 0;
+
+
+    const dpcoLimit =
+        parseFloat(
+            document.getElementById(
+                "dpcoLimit"
+            ).value
+        );
+
+
+    /* Proposed Revised MRP is calculated/displayed only after
+       DPCO Permissible Limit is entered. */
+    if(
+        isNaN(dpcoLimit) ||
+        document.getElementById("dpcoLimit").value.trim() === ""
+    ){
+
+        document.getElementById(
+            "revisedMRPResult"
+        ).textContent =
+            "₹ 0.00";
+
+        return;
+
+    }
+
+
+    const revisedMRP =
+        perRevisedMRP *
+        (
+            1 +
+            dpcoLimit / 100
+        );
+
+
+    document.getElementById(
+        "revisedMRPResult"
+    ).textContent =
+        money(
+            revisedMRP
+        );
+
+}
+
+
+/* =========================================================
+   SECTION 4 — TRADE MARGIN
+========================================================= */
+
+function calculateTradeMargin(){
+
+    /* VALIDATION ONLY:
+       PTR and PTS require GST selection.
+       Existing PTR/PTS formulas remain unchanged. */
+    if(!gstSelected){
+        document.getElementById(
+            "ptrResult"
+        ).textContent = "—";
+
+        document.getElementById(
+            "ptsResult"
+        ).textContent = "—";
+
+        return;
+    }
+
+    const mrp =
+        parseFloat(
+            document.getElementById(
+                "tradeMRP"
+            ).value
+        ) || 0;
+
+
+    const gst =
+        selectedGST / 100;
+
+
+    /*
+       STEP 1
+       Remove GST from MRP
+    */
+
+    const mrpWithoutGST =
+        mrp /
+        (
+            1 + gst
+        );
+
+
+    /*
+       STEP 2
+       Calculate RAW PTR
+    */
+
+    const rawPTR =
+        mrpWithoutGST *
+        0.80;
+
+
+    /*
+       STEP 3
+       ROUND PTR FIRST
+
+       Example:
+
+       Raw PTR = 14.2171
+
+       Rounded PTR = 14.22
+    */
+
+    const roundedPTR =
+        round2(
+            rawPTR
+        );
+
+
+    /*
+       STEP 4
+       Calculate PTS using
+       ALREADY ROUNDED PTR
+
+       Example:
+
+       PTR = 14.22
+
+       14.22 × 90%
+       = 12.798
+    */
+
+    const rawPTS =
+        roundedPTR *
+        0.90;
+
+
+    /*
+       STEP 5
+       ROUND PTS
+
+       12.798 → 12.80
+    */
+
+    const roundedPTS =
+        round2(
+            rawPTS
+        );
+
+
+    /*
+       MRP continues to use
+       TRUNCATION rule
+    */
+
+    document.getElementById(
+        "tradeMRPResult"
+    ).textContent =
+        money(
+            mrp
+        );
+
+
+    /*
+       PTR = rounded
+    */
+
+    document.getElementById(
+        "ptrResult"
+    ).textContent =
+        tradeMoney(
+            roundedPTR
+        );
+
+
+    /*
+       PTS = calculated AFTER
+       PTR has been rounded
+    */
+
+    document.getElementById(
+        "ptsResult"
+    ).textContent =
+        tradeMoney(
+            roundedPTS
+        );
+
+}
+
+
+/* =========================================================
+   SECTION 5 — GST
+========================================================= */
+
+function calculateSection5(){
+
+    const preGSTMRP =
+        parseFloat(
+            document.getElementById(
+                "preGstMRP"
+            ).value
+        ) || 0;
+
+
+    const oldGST =
+        parseFloat(
+            document.getElementById(
+                "oldGST"
+            ).value
+        );
+
+
+    const newGST =
+        parseFloat(
+            document.getElementById(
+                "newGST"
+            ).value
+        );
+
+
+    if(
+        !isFinite(oldGST) ||
+        !isFinite(newGST)
+    ){
+
+        document.getElementById(
+            "mrpWithoutGST"
+        ).value =
+            "₹ 0.00";
+
+
+        document.getElementById(
+            "postGSTMRPResult"
+        ).textContent =
+            "₹ 0.00";
+
+
+        return;
+
+    }
+
+
+    /*
+       Remove OLD GST
+    */
+
+    const withoutGST =
+        preGSTMRP /
+        (
+            1 +
+            oldGST / 100
+        );
+
+
+    document.getElementById(
+        "mrpWithoutGST"
+    ).value =
+        money(
+            withoutGST
+        );
+
+
+    /*
+       Apply NEW GST
+    */
+
+    const postGSTMRP =
+        withoutGST *
+        (
+            1 +
+            newGST / 100
+        );
+
+
+    document.getElementById(
+        "postGSTMRPResult"
+    ).textContent =
+        money(
+            postGSTMRP
+        );
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetCalculator(){
+
+    document
+    .querySelectorAll(
+        "input"
+    )
+    .forEach(
+        function(input){
+
+            if(
+                input.type !==
+                "hidden"
+            ){
+
+                input.value = "";
+
+            }
+
+        }
+    );
+
+
+    document
+    .querySelectorAll(
+        "select"
+    )
+    .forEach(
+        function(select){
+
+            select.selectedIndex = 0;
+
+        }
+    );
+
+
+    selectedGST = 0;
+    gstSelected = false;
+
+
+    document.getElementById(
+        "gstRate"
+    ).value = 0;
+
+
+    document
+    .querySelectorAll(
+        ".gst-option"
+    )
+    .forEach(
+        function(button){
+
+            button.classList.remove(
+                "selected"
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "wpiResultInput"
+    ).value =
+        "0.0000%";
+
+
+    document.getElementById(
+        "ceilingPackResult"
+    ).textContent =
+        "₹ 0.00";
+
+
+    document.getElementById(
+        "mrpCPResult"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "mrpWPIResult"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "recommendedNLEMResult"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "revisedMRPResult"
+    ).textContent =
+        "₹ 0.00";
+
+
+    document.getElementById(
+        "tradeMRPResult"
+    ).textContent =
+        "₹ 0.00";
+
+
+    document.getElementById(
+        "ptrResult"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "ptsResult"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "mrpWithoutGST"
+    ).value =
+        "₹ 0.00";
+
+
+    document.getElementById(
+        "postGSTMRPResult"
+    ).textContent =
+        "₹ 0.00";
+
+}
+
+
+/* =========================================================
+   SHARE SCREEN
+========================================================= */
+
+async function shareScreen(){
+
+    const text =
+
+        "PRICE ANALYSIS\n\n" +
+
+        "Selected GST: " +
+        selectedGST +
+        "%\n\n" +
+
+        "SECTION-1\n" +
+
+        "Ceiling Price: " +
+        document.getElementById(
+            "ceilingPrice"
+        ).value +
+
+        "\nPack Size: " +
+        document.getElementById(
+            "packSize"
+        ).value +
+
+        "\nCeiling Price/Pack: " +
+        document.getElementById(
+            "ceilingPackResult"
+        ).textContent +
+
+        "\nMRP as per Ceiling Price: " +
+        document.getElementById(
+            "mrpCPResult"
+        ).textContent +
+
+        "\n\nSECTION-2\n" +
+
+        "Existing MRP: " +
+        document.getElementById(
+            "existingMRP"
+        ).value +
+
+        "\nYear: " +
+        document.getElementById(
+            "wpiYear"
+        ).value +
+
+        "\nWPI: " +
+        document.getElementById(
+            "wpiResultInput"
+        ).value +
+
+        "\nMRP as per WPI: " +
+        document.getElementById(
+            "mrpWPIResult"
+        ).textContent +
+
+        "\nRecommended MRP of NLEM Product: " +
+        document.getElementById(
+            "recommendedNLEMResult"
+        ).textContent +
+
+        "\n\nSECTION-3\n" +
+
+        "Per-Revised MRP: " +
+        document.getElementById(
+            "perRevisedMRP"
+        ).value +
+
+        "\nDPCO Permissible Limit: " +
+        document.getElementById(
+            "dpcoLimit"
+        ).value +
+        "%" +
+
+        "\nProposed Revised MRP: " +
+        document.getElementById(
+            "revisedMRPResult"
+        ).textContent +
+
+        "\n\nSECTION-4 — TRADE MARGIN\n" +
+
+        "MRP: " +
+        document.getElementById(
+            "tradeMRPResult"
+        ).textContent +
+
+        "\nPTR: " +
+        document.getElementById(
+            "ptrResult"
+        ).textContent +
+
+        "\nPTS: " +
+        document.getElementById(
+            "ptsResult"
+        ).textContent +
+
+        "\n\nSECTION-5 — GST IMPLEMENTATION\n" +
+
+        "Pre-GST MRP: " +
+        document.getElementById(
+            "preGstMRP"
+        ).value +
+
+        "\nOld GST: " +
+        document.getElementById(
+            "oldGST"
+        ).value +
+        "%" +
+
+        "\nNew GST: " +
+        document.getElementById(
+            "newGST"
+        ).value +
+        "%" +
+
+        "\nMRP without GST: " +
+        document.getElementById(
+            "mrpWithoutGST"
+        ).value +
+
+        "\nPost-GST MRP: " +
+        document.getElementById(
+            "postGSTMRPResult"
+        ).textContent;
+
+
+    if(
+        navigator.share
+    ){
+
+        try{
+
+            await navigator.share({
+
+                title:
+                    "Price Analysis",
+
+                text:
+                    text
+
+            });
+
+            return;
+
+        }
+        catch(error){
+
+            if(
+                error.name ===
+                "AbortError"
+            ){
+
+                return;
+
+            }
+
+        }
+
+    }
+
+
+    const popup =
+        window.open(
+            "",
+            "_blank"
+        );
+
+
+    if(!popup){
+
+        alert(
+            "Please allow pop-ups."
+        );
+
+        return;
+
+    }
+
+
+    popup.document.write(
+        "<html>" +
+        "<head>" +
+        "<title>Price Analysis</title>" +
+        "<style>" +
+        "body{font-family:Cambria,Georgia,serif;padding:30px;color:#000}" +
+        "h1{color:#064e4e}" +
+        "pre{font-family:Cambria,Georgia,serif;font-size:15px;white-space:pre-wrap}" +
+        "</style>" +
+        "</head>" +
+        "<body>" +
+        "<h1>PRICE ANALYSIS</h1>" +
+        "<pre>" +
+        text
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        ) +
+        "</pre>" +
+        "</body>" +
+        "</html>"
+    );
+
+
+    popup.document.close();
+
+    popup.focus();
+
+
+    setTimeout(
+        function(){
+
+            popup.print();
+
+        },
+        500
+    );
+
+}
+
+
+/* =========================================================
+   SERVICE WORKER
+========================================================= */
+
+function registerServiceWorker(){
+
+    if(
+        "serviceWorker" in
+        navigator
+    ){
+
+        navigator.serviceWorker
+        .register(
+            "./sw.js"
+        )
+        .then(
+            function(){
+
+                console.log(
+                    "Service Worker registered."
+                );
+
+            }
+        )
+        .catch(
+            function(error){
+
+                console.log(
+                    "Service Worker error:",
+                    error
+                );
+
+            }
+        );
+
+    }
+
+}
+
+</script></body></html>
